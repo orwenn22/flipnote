@@ -18,7 +18,7 @@ CheckBox::CheckBox(PopupMenu* popupmenu, int x, int y, bool* target, std::string
     m_target = target;
 
     if(!label.empty())
-        popupmenu->AddItem(new Label(popupmenu, x+20, y, label));
+        popupmenu->AddWidget(new Label(popupmenu, x+20, y, label));
 }
 
 void CheckBox::Update() {

@@ -51,17 +51,17 @@ void EditorBrushButton::Update() {
         if(g_runstate->leftclick) {
             PopupMenu* pm = new PopupMenu(m_x - 10, m_y, -319, 200);
 
-            pm->AddItem(new PopupMenuTop(pm, 98));
+            pm->AddWidget(new PopupMenuTop(pm, 98));
 
             //Add button for all brushes
             for(int i = 0; i < GetBrushCount(); i++) {
-                pm->AddItem(new BrushButton(pm, m_editor, i, 10 + (26+4)*(i%10), 10+ (26+4)*(i/10)));
+                pm->AddWidget(new BrushButton(pm, m_editor, i, 10 + (26+4)*(i%10), 10+ (26+4)*(i/10)));
             }
-            pm->AddItem(new CheckBox(pm, 10, 75, &(m_editor->m_invertpaint), "Invert brush"));
+            pm->AddWidget(new CheckBox(pm, 10, 75, &(m_editor->m_invertpaint), "Invert brush"));
 
 
             for(int i = 0; i < 8; i++) {
-                pm->AddItem(new BrushSizeButton(pm, m_editor, i*2, 10 + (32+4)*i, 130));
+                pm->AddWidget(new BrushSizeButton(pm, m_editor, i*2, 10 + (32+4)*i, 130));
             }
 
             m_editor->OpenPopupMenu(pm);

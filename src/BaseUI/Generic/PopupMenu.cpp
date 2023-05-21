@@ -30,7 +30,7 @@ PopupMenu::PopupMenu(int originx, int originy, int width, int height) {
 }
 
 PopupMenu::~PopupMenu() {
-    for(Widget* i : m_items) {
+    for(Widget* i : m_widgets) {
         delete i;
     }
     
@@ -43,7 +43,7 @@ PopupMenu::~PopupMenu() {
 void PopupMenu::Update() {
     UpdateAnimation();
     
-    for(int i = m_items.size()-1; i >= 0; i--) m_items[i]->Update();
+    for(int i = m_widgets.size()-1; i >= 0; i--) m_widgets[i]->Update();
 
     if(IsMouseOvering()) g_runstate->mouseused = true;
 
@@ -56,7 +56,7 @@ void PopupMenu::Update() {
     SDL_RenderClear(g_runstate->renderer);
     
     //Draw the menu's children
-    for(Widget* i : m_items) i->Render();
+    for(Widget* i : m_widgets) i->Render();
 
     //Draw back to the window
     SDL_SetRenderTarget(g_runstate->renderer, NULL);
@@ -152,8 +152,8 @@ bool PopupMenu::IsMouseOvering() {
          && g_runstate->mousey >= m_animationtoplefty && g_runstate->mousey < m_animationbottomrighty);
 }
 
-void PopupMenu::AddItem(Widget* item) {
-    if(item != NULL) m_items.push_back(item);
+void PopupMenu::AddWidget(Widget* item) {
+    if(item != NULL) m_widgets.push_back(item);
 }
 
 void PopupMenu::SetupContent() {

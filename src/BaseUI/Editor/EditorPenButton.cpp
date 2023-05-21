@@ -29,13 +29,13 @@ void EditorPenButton::Update() {
         
         if(g_runstate->leftclick) {
             PopupMenu* pm = new PopupMenu(m_x - 10, m_y, -305, 100);
-            pm->AddItem(new PopupMenuTop(pm, 50));
-            pm->AddItem(new PenMenuAligner(pm, this));
+            pm->AddWidget(new PopupMenuTop(pm, 50));
+            pm->AddWidget(new PenMenuAligner(pm, this));
             int itemwidth;
             SDL_QueryTexture(g_ressources->txtr_smallpenbutton, NULL, NULL, &itemwidth, NULL);
 
             for(int i = 0; i < 8; i++) {    //TODO : 8 color hardcoded
-                pm->AddItem(new ColorButton(pm, m_editor, i, 10 + i*(itemwidth+3), 10));
+                pm->AddWidget(new ColorButton(pm, m_editor, i, 10 + i*(itemwidth+3), 10));
             }
             
             m_editor->OpenPopupMenu(pm);
