@@ -12,7 +12,7 @@ static TilesetRectData topoverlaytiles = {
     18, 19, 20
 };
 
-PopupMenuTop::PopupMenuTop(PopupMenu* popupmenu, int width) : PopupMenuItem(popupmenu) {
+PopupMenuTop::PopupMenuTop(PopupMenu* popupmenu, int width) : Widget(popupmenu) {
     m_w = width;
 }
 

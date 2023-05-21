@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-ColorButton::ColorButton(PopupMenu* popupmenu, FlipnoteEditor* editor, int index, int x, int y) : PopupMenuItem(popupmenu) {
+ColorButton::ColorButton(PopupMenu* popupmenu, FlipnoteEditor* editor, int index, int x, int y) : Widget(popupmenu) {
     m_editor = editor;
     m_index = index;
 

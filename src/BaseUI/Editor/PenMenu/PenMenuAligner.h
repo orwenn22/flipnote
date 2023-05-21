@@ -1,12 +1,12 @@
 #ifndef PENMENUALIGNER_H
 #define PENMENUALIGNER_H
 
-#include "../../Generic/PopupMenuItem.h"
+#include "../../Generic/Widget.h"
 
 class EditorPenButton;
 
 //This object is used to place the popupmenu at the left of the pen button
-class PenMenuAligner : public PopupMenuItem {
+class PenMenuAligner : public Widget {
     public:
     PenMenuAligner(PopupMenu* popupmenu, EditorPenButton* penbutton);
 

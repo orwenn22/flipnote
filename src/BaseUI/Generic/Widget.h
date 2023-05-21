@@ -1,12 +1,12 @@
-#ifndef POPUPMENUITEM_H
-#define POPUPMENUITEM_H
+#ifndef WIDGET_H
+#define WIDGET_H
 
 class PopupMenu;
 
-class PopupMenuItem {
+class Widget {
     public:
-    PopupMenuItem(PopupMenu* popupmenu);
-    virtual ~PopupMenuItem();
+    Widget(PopupMenu* popupmenu);
+    virtual ~Widget();
     virtual void Update()=0;
     virtual void Render()=0;
 

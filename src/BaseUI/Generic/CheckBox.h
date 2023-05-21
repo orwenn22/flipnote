@@ -3,9 +3,9 @@
 
 #include <string>
 
-#include "PopupMenuItem.h"
+#include "Widget.h"
 
-class CheckBox : public PopupMenuItem {
+class CheckBox : public Widget {
     public:
     CheckBox(PopupMenu* popupmenu, int x, int y, bool* target, std::string label = "");
 

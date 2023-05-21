@@ -3,7 +3,7 @@
 
 #include <vector>
 
-class PopupMenuItem;
+class Widget;
 
 struct SDL_Renderer;
 struct SDL_Texture;
@@ -38,7 +38,7 @@ class PopupMenu {
     //Check if the mouse is overring the popup menu.
     bool IsMouseOvering();
 
-    void AddItem(PopupMenuItem* item);
+    void AddItem(Widget* item);
 
     private:
     void SetupContent();
@@ -80,7 +80,7 @@ class PopupMenu {
 
     SDL_Texture* m_content;
 
-    std::vector<PopupMenuItem*> m_items;
+    std::vector<Widget*> m_items;
 };
 
 #endif

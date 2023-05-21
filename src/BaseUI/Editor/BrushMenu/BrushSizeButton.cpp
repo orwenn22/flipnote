@@ -9,7 +9,7 @@
 #include "../../Generic/PopupMenu.h"
 #include "../FlipnoteEditor.h"
 
-BrushSizeButton::BrushSizeButton(PopupMenu* popupmenu, FlipnoteEditor* editor, int brushsize, int x, int y) : PopupMenuItem(popupmenu) {
+BrushSizeButton::BrushSizeButton(PopupMenu* popupmenu, FlipnoteEditor* editor, int brushsize, int x, int y) : Widget(popupmenu) {
     m_x = x;
     m_y = y;
     m_w = 32;

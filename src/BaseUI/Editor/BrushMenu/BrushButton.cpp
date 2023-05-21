@@ -8,7 +8,7 @@
 #include "../../Generic/PopupMenu.h"
 #include "../FlipnoteEditor.h"
 
-BrushButton::BrushButton(PopupMenu* popupmenu, FlipnoteEditor* editor, int brushindex, int x, int y) : PopupMenuItem(popupmenu) {
+BrushButton::BrushButton(PopupMenu* popupmenu, FlipnoteEditor* editor, int brushindex, int x, int y) : Widget(popupmenu) {
     m_editor = editor;
     m_brushindex = brushindex;
     m_x = x;

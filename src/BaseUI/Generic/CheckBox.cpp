@@ -9,7 +9,7 @@
 #include "PopupMenu.h"
 
 
-CheckBox::CheckBox(PopupMenu* popupmenu, int x, int y, bool* target, std::string label) : PopupMenuItem(popupmenu) {
+CheckBox::CheckBox(PopupMenu* popupmenu, int x, int y, bool* target, std::string label) : Widget(popupmenu) {
     m_x = x;
     m_y = y;
     m_w = 16;

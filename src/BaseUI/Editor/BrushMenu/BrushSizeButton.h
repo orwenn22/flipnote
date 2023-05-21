@@ -1,12 +1,12 @@
 #ifndef BRUSHSIZEBUTTON_H
 #define BRUSHSIZEBUTTON_H
 
-#include "../../Generic/PopupMenuItem.h"
+#include "../../Generic/Widget.h"
 
 class FlipnoteEditor;
 struct SDL_Texture;
 
-class BrushSizeButton : public PopupMenuItem {
+class BrushSizeButton : public Widget {
     public:
     BrushSizeButton(PopupMenu* popupmenu, FlipnoteEditor* editor, int brushsize, int x, int y);
     ~BrushSizeButton();

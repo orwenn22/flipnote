@@ -1,13 +1,13 @@
 #ifndef BRUSHBUTTON_H
 #define BRUSHBUTTON_H
 
-#include "../../Generic/PopupMenuItem.h"
+#include "../../Generic/Widget.h"
 
 class FlipnoteEditor;
 
 struct SDL_Texture;
 
-class BrushButton : public PopupMenuItem {
+class BrushButton : public Widget {
     public:
     BrushButton(PopupMenu* popupmenu, FlipnoteEditor* editor, int brushindex, int x, int y);
     virtual ~BrushButton();

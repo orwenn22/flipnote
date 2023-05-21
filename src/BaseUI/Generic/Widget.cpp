@@ -1,10 +1,10 @@
-#include "PopupMenuItem.h"
+#include "Widget.h"
 
 #include "../../Core/RunState.h"
 #include "../../Globals.h"
 #include "PopupMenu.h"
 
-PopupMenuItem::PopupMenuItem(PopupMenu* popupmenu) {
+Widget::Widget(PopupMenu* popupmenu) {
     m_popupmenu = popupmenu; 
     m_x = 0;
     m_y = 0;
@@ -12,9 +12,9 @@ PopupMenuItem::PopupMenuItem(PopupMenu* popupmenu) {
     m_h = 0;
 }
 
-PopupMenuItem::~PopupMenuItem() {}
+Widget::~Widget() {}
 
-bool PopupMenuItem::IsOvered() {
+bool Widget::IsOvered() {
     //Get mouse pos in popup menu
     int mousex, mousey;
     m_popupmenu->GetRelativeMousePos(&mousex, &mousey);

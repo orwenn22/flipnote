@@ -37,10 +37,10 @@ add_executable(Flipnote
     src/BaseUI/Generic/Background.cpp 
     src/BaseUI/Generic/CheckBox.cpp 
     src/BaseUI/Generic/Label.cpp 
-    src/BaseUI/Generic/PopupMenuItem.cpp
     src/BaseUI/Generic/PopupMenuTop.cpp
     src/BaseUI/Generic/PopupMenu.cpp
     src/BaseUI/Generic/TopBar.cpp
+    src/BaseUI/Generic/Widget.cpp
     src/Core/Ressources.cpp 
     src/Core/RunState.cpp 
     src/Core/Flipnote/Flipnote.cpp

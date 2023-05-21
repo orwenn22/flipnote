@@ -7,7 +7,7 @@
 #include "../../Core/RunState.h"
 #include "../../Globals.h"
 
-Label::Label(PopupMenu* popupmenu, int x, int y, std::string text) : PopupMenuItem(popupmenu) {
+Label::Label(PopupMenu* popupmenu, int x, int y, std::string text) : Widget(popupmenu) {
     m_x = x;
     m_y = y;
 

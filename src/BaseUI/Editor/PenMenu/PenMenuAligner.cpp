@@ -3,7 +3,7 @@
 #include "../../Generic/PopupMenu.h"
 #include "../EditorPenButton.h"
 
-PenMenuAligner::PenMenuAligner(PopupMenu* popupmenu, EditorPenButton* penbutton) : PopupMenuItem(popupmenu) {
+PenMenuAligner::PenMenuAligner(PopupMenu* popupmenu, EditorPenButton* penbutton) : Widget(popupmenu) {
     m_penbutton = penbutton;
 }
 

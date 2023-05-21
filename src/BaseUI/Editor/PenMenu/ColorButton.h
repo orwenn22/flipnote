@@ -1,11 +1,11 @@
 #ifndef COLORBUTTON_H
 #define COLORBUTTON_H
 
-#include "../../Generic/PopupMenuItem.h"
+#include "../../Generic/Widget.h"
 
 class FlipnoteEditor;
 
-class ColorButton : public PopupMenuItem {
+class ColorButton : public Widget {
     public:
     //index is the color to switch to when the button is clicked
     ColorButton(PopupMenu* popupmenu, FlipnoteEditor* editor, int index, int x, int y);

@@ -1,9 +1,9 @@
 #ifndef POPUPMENUTOP_H
 #define POPUPMENUTOP_H
 
-#include "PopupMenuItem.h"
+#include "Widget.h"
 
-class PopupMenuTop : public PopupMenuItem {
+class PopupMenuTop : public Widget {
     public:
     PopupMenuTop(PopupMenu* popupmenu, int width);
 

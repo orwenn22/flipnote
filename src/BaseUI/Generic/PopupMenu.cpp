@@ -6,7 +6,7 @@
 #include "../../Core/RunState.h"
 #include "../../Core/Tileset.h"
 #include "../../Globals.h"
-#include "PopupMenuItem.h"
+#include "Widget.h"
 
 #include <stdio.h>
 
@@ -30,7 +30,7 @@ PopupMenu::PopupMenu(int originx, int originy, int width, int height) {
 }
 
 PopupMenu::~PopupMenu() {
-    for(PopupMenuItem* i : m_items) {
+    for(Widget* i : m_items) {
         delete i;
     }
     
@@ -43,7 +43,6 @@ PopupMenu::~PopupMenu() {
 void PopupMenu::Update() {
     UpdateAnimation();
     
-    //for(PopupMenuItem* i : m_items) i->Update();
     for(int i = m_items.size()-1; i >= 0; i--) m_items[i]->Update();
 
     if(IsMouseOvering()) g_runstate->mouseused = true;
@@ -57,7 +56,7 @@ void PopupMenu::Update() {
     SDL_RenderClear(g_runstate->renderer);
     
     //Draw the menu's children
-    for(PopupMenuItem* i : m_items) i->Render();
+    for(Widget* i : m_items) i->Render();
 
     //Draw back to the window
     SDL_SetRenderTarget(g_runstate->renderer, NULL);
@@ -153,7 +152,7 @@ bool PopupMenu::IsMouseOvering() {
          && g_runstate->mousey >= m_animationtoplefty && g_runstate->mousey < m_animationbottomrighty);
 }
 
-void PopupMenu::AddItem(PopupMenuItem* item) {
+void PopupMenu::AddItem(Widget* item) {
     if(item != NULL) m_items.push_back(item);
 }
 

@@ -1,8 +1,6 @@
 #ifndef EDITORBRUSHBUTTON_H
 #define EDITORBRUSHBUTTON_H
 
-#include "../Generic/PopupMenuItem.h"
-
 class FlipnoteEditor;
 struct SDL_Texture;
 
