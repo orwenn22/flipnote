@@ -3,12 +3,12 @@
 #include "../../Generic/PopupMenu.h"
 #include "../EditorPenButton.h"
 
-PenMenuAligner::PenMenuAligner(PopupMenu* popupmenu, EditorPenButton* penbutton) : Widget(popupmenu) {
+PenMenuAligner::PenMenuAligner(WidgetContainer* container, EditorPenButton* penbutton) : Widget(container) {
     m_penbutton = penbutton;
 }
 
 void PenMenuAligner::Update() {
-    m_popupmenu->SetX(m_penbutton->GetX() - 10);
+    ((PopupMenu*)(m_container))->SetX(m_penbutton->GetX() - 10);
 }
 
 void PenMenuAligner::Render() {}

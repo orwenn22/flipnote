@@ -7,7 +7,7 @@
 
 class CheckBox : public Widget {
     public:
-    CheckBox(PopupMenu* popupmenu, int x, int y, bool* target, std::string label = "");
+    CheckBox(WidgetContainer* container, int x, int y, bool* target, std::string label = "");
 
     void Update();
     void Render();

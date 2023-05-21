@@ -2,10 +2,10 @@
 
 #include "../../Core/RunState.h"
 #include "../../Globals.h"
-#include "PopupMenu.h"
+#include "WidgetContainer.h"
 
-Widget::Widget(PopupMenu* popupmenu) {
-    m_popupmenu = popupmenu; 
+Widget::Widget(WidgetContainer* container) {
+    m_container = container; 
     m_x = 0;
     m_y = 0;
     m_w = 0;
@@ -17,7 +17,7 @@ Widget::~Widget() {}
 bool Widget::IsOvered() {
     //Get mouse pos in popup menu
     int mousex, mousey;
-    m_popupmenu->GetRelativeMousePos(&mousex, &mousey);
+    m_container->GetRelativeMousePos(&mousex, &mousey);
 
     //Check if mouse is overring
     return (mousex >= m_x && mousex < m_x+m_w 

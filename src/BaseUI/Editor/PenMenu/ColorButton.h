@@ -8,7 +8,7 @@ class FlipnoteEditor;
 class ColorButton : public Widget {
     public:
     //index is the color to switch to when the button is clicked
-    ColorButton(PopupMenu* popupmenu, FlipnoteEditor* editor, int index, int x, int y);
+    ColorButton(WidgetContainer* container, FlipnoteEditor* editor, int index, int x, int y);
 
     void Update();
     void Render();

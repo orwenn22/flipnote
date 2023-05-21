@@ -5,7 +5,7 @@
 
 class PopupMenuTop : public Widget {
     public:
-    PopupMenuTop(PopupMenu* popupmenu, int width);
+    PopupMenuTop(WidgetContainer* container, int width);
 
     void Update();
     void Render();

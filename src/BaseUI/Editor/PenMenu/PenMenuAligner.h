@@ -8,7 +8,7 @@ class EditorPenButton;
 //This object is used to place the popupmenu at the left of the pen button
 class PenMenuAligner : public Widget {
     public:
-    PenMenuAligner(PopupMenu* popupmenu, EditorPenButton* penbutton);
+    PenMenuAligner(WidgetContainer* container, EditorPenButton* penbutton);
 
     void Update();
     void Render();

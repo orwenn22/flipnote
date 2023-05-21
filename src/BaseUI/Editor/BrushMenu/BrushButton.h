@@ -9,7 +9,7 @@ struct SDL_Texture;
 
 class BrushButton : public Widget {
     public:
-    BrushButton(PopupMenu* popupmenu, FlipnoteEditor* editor, int brushindex, int x, int y);
+    BrushButton(WidgetContainer* container, FlipnoteEditor* editor, int brushindex, int x, int y);
     virtual ~BrushButton();
 
     void Update();

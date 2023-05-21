@@ -6,10 +6,10 @@
 #include "../../Core/RunState.h"
 #include "../../Globals.h"
 #include "Label.h"
-#include "PopupMenu.h"
+#include "WidgetContainer.h"
 
 
-CheckBox::CheckBox(PopupMenu* popupmenu, int x, int y, bool* target, std::string label) : Widget(popupmenu) {
+CheckBox::CheckBox(WidgetContainer* container, int x, int y, bool* target, std::string label) : Widget(container) {
     m_x = x;
     m_y = y;
     m_w = 16;
@@ -18,12 +18,12 @@ CheckBox::CheckBox(PopupMenu* popupmenu, int x, int y, bool* target, std::string
     m_target = target;
 
     if(!label.empty())
-        popupmenu->AddWidget(new Label(popupmenu, x+20, y, label));
+        container->AddWidget(new Label(container, x+20, y, label));
 }
 
 void CheckBox::Update() {
     //This is for when the menu is not fully deployed (the animation is not over)
-    if(!m_popupmenu->IsMouseOvering()) return;
+    if(!m_container->IsMouseOvering()) return;
 
     if(g_runstate->mouseused) return;
 

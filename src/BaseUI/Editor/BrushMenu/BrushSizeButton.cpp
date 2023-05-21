@@ -6,10 +6,10 @@
 #include "../../../Core/Ressources.h"
 #include "../../../Core/RunState.h"
 #include "../../../Globals.h"
-#include "../../Generic/PopupMenu.h"
+#include "../../Generic/WidgetContainer.h"
 #include "../FlipnoteEditor.h"
 
-BrushSizeButton::BrushSizeButton(PopupMenu* popupmenu, FlipnoteEditor* editor, int brushsize, int x, int y) : Widget(popupmenu) {
+BrushSizeButton::BrushSizeButton(WidgetContainer* container, FlipnoteEditor* editor, int brushsize, int x, int y) : Widget(container) {
     m_x = x;
     m_y = y;
     m_w = 32;
@@ -30,7 +30,7 @@ BrushSizeButton::~BrushSizeButton() {
 
 void BrushSizeButton::Update() {
     //This is for when the menu is not fully deployed (the animation is not over)
-    if(!m_popupmenu->IsMouseOvering()) return;
+    if(!m_container->IsMouseOvering()) return;
     if(g_runstate->mouseused) return;
 
     if(IsOvered() && g_runstate->leftclick) {

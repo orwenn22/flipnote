@@ -1,11 +1,11 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
-class PopupMenu;
+class WidgetContainer;
 
 class Widget {
     public:
-    Widget(PopupMenu* popupmenu);
+    Widget(WidgetContainer* container);
     virtual ~Widget();
     virtual void Update()=0;
     virtual void Render()=0;
@@ -13,7 +13,7 @@ class Widget {
     bool IsOvered();
 
     protected:
-    PopupMenu* m_popupmenu;
+    WidgetContainer* m_container;
     int m_x;
     int m_y;
     int m_w;

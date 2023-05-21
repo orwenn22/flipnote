@@ -9,7 +9,7 @@ struct SDL_Texture;
 
 class Label : public Widget {
     public:
-    Label(PopupMenu* popupmenu, int x, int y, std::string text);
+    Label(WidgetContainer* container, int x, int y, std::string text);
     ~Label();
 
     void Update();

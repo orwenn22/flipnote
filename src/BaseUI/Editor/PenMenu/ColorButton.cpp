@@ -6,12 +6,12 @@
 #include "../../../Core/Flipnote/FlipnoteFrame.h"
 #include "../../../Core/Ressources.h"
 #include "../../../Core/RunState.h"
-#include "../../Generic/PopupMenu.h"
+#include "../../Generic/WidgetContainer.h"
 #include "../FlipnoteEditor.h"
 
 #include <stdio.h>
 
-ColorButton::ColorButton(PopupMenu* popupmenu, FlipnoteEditor* editor, int index, int x, int y) : Widget(popupmenu) {
+ColorButton::ColorButton(WidgetContainer* container, FlipnoteEditor* editor, int index, int x, int y) : Widget(container) {
     m_editor = editor;
     m_index = index;
 
@@ -22,7 +22,7 @@ ColorButton::ColorButton(PopupMenu* popupmenu, FlipnoteEditor* editor, int index
 
 void ColorButton::Update() {
     //This is for when the menu is not fully deployed (the animation is not over)
-    if(!m_popupmenu->IsMouseOvering()) return;
+    if(!m_container->IsMouseOvering()) return;
 
     ////Get mouse pos in popup menu
     //int mousex, mousey;

@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 
-PopupMenu::PopupMenu(int originx, int originy, int width, int height) {
+PopupMenu::PopupMenu(int originx, int originy, int width, int height) : WidgetContainer() {
     m_content = NULL;
     m_originx = originx;
     m_originy = originy;
@@ -30,10 +30,6 @@ PopupMenu::PopupMenu(int originx, int originy, int width, int height) {
 }
 
 PopupMenu::~PopupMenu() {
-    for(Widget* i : m_widgets) {
-        delete i;
-    }
-    
     if(m_content != NULL) {
         SDL_DestroyTexture(m_content);
         m_content = NULL;
@@ -43,7 +39,7 @@ PopupMenu::~PopupMenu() {
 void PopupMenu::Update() {
     UpdateAnimation();
     
-    for(int i = m_widgets.size()-1; i >= 0; i--) m_widgets[i]->Update();
+    UpdateWidgets();
 
     if(IsMouseOvering()) g_runstate->mouseused = true;
 
@@ -56,7 +52,7 @@ void PopupMenu::Update() {
     SDL_RenderClear(g_runstate->renderer);
     
     //Draw the menu's children
-    for(Widget* i : m_widgets) i->Render();
+    RenderWidgets();
 
     //Draw back to the window
     SDL_SetRenderTarget(g_runstate->renderer, NULL);
@@ -125,9 +121,9 @@ void PopupMenu::SetHeight(int h) {
 }
 
 
-void PopupMenu::GetAbsoluteSize(int* x, int* y) {
-    *x = GetAbsoluteWidth();
-    *y = GetAbsoluteHeight();
+void PopupMenu::GetAbsoluteSize(int* w, int* h) {
+    *w = GetAbsoluteWidth();
+    *h = GetAbsoluteHeight();
 }
 
 int PopupMenu::GetAbsoluteWidth() {
@@ -150,10 +146,6 @@ bool PopupMenu::IsMouseOvering() {
     //     && g_runstate->mousey >= m_toplefty && g_runstate->mousey < m_bottomrighty);
     return (g_runstate->mousex >= m_animationtopleftx && g_runstate->mousex < m_animationbottomrightx
          && g_runstate->mousey >= m_animationtoplefty && g_runstate->mousey < m_animationbottomrighty);
-}
-
-void PopupMenu::AddWidget(Widget* item) {
-    if(item != NULL) m_widgets.push_back(item);
 }
 
 void PopupMenu::SetupContent() {

@@ -12,12 +12,12 @@ static TilesetRectData topoverlaytiles = {
     18, 19, 20
 };
 
-PopupMenuTop::PopupMenuTop(PopupMenu* popupmenu, int width) : Widget(popupmenu) {
+PopupMenuTop::PopupMenuTop(WidgetContainer* container, int width) : Widget(container) {
     m_w = width;
 }
 
 void PopupMenuTop::Update() {}
 
 void PopupMenuTop::Render() {
-    g_ressources->tileset_popupmenu->DrawRectangle(g_runstate->renderer, 0, 0, m_popupmenu->GetAbsoluteWidth(), m_w, &topoverlaytiles);
+    g_ressources->tileset_popupmenu->DrawRectangle(g_runstate->renderer, 0, 0, m_container->GetAbsoluteWidth(), m_w, &topoverlaytiles);
 }

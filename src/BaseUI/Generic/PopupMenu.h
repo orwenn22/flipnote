@@ -3,15 +3,17 @@
 
 #include <vector>
 
+#include "WidgetContainer.h"
+
 class Widget;
 
 struct SDL_Renderer;
 struct SDL_Texture;
 
-class PopupMenu {
+class PopupMenu : public WidgetContainer {
     public:
     PopupMenu(int originx, int originy, int width, int height);
-    ~PopupMenu();
+    virtual ~PopupMenu();
 
     void Update();
     void Render(SDL_Renderer* renderer);
@@ -28,7 +30,7 @@ class PopupMenu {
 
     //Get the distance between the opposite borders (not m_width or m_height)
     //Intended to be used by the menu's items
-    void GetAbsoluteSize(int* x, int* y);
+    void GetAbsoluteSize(int* w, int* h);
     int GetAbsoluteWidth();
     int GetAbsoluteHeight();
 
@@ -38,7 +40,6 @@ class PopupMenu {
     //Check if the mouse is overring the popup menu.
     bool IsMouseOvering();
 
-    void AddWidget(Widget* item);
 
     private:
     void SetupContent();
@@ -78,9 +79,8 @@ class PopupMenu {
     int m_animationbottomrightx;
     int m_animationbottomrighty;
 
+    //This is on this texture that the content of the menu is drawn.
     SDL_Texture* m_content;
-
-    std::vector<Widget*> m_widgets;
 };
 
 #endif
