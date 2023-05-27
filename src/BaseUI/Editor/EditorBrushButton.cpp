@@ -13,11 +13,15 @@
 #include "BrushMenu/BrushButton.h"
 #include "BrushMenu/BrushSizeButton.h"
 #include "FlipnoteEditor.h"
+#include "Menu/MenuAligner.h"
 
-EditorBrushButton::EditorBrushButton(FlipnoteEditor* editor) {
+EditorBrushButton::EditorBrushButton(FlipnoteEditor* editor) : EditorButton(editor) {
     m_editor = editor;
     m_w = 48;
     m_h = 48;
+    m_xoffset = m_w+10;
+    m_yoffset = 95;
+    m_allignment = ButtonAllign::ButtonAllign_Left;
     UpdatePos();
 
     m_displayedbrushkind = -1;
@@ -25,16 +29,35 @@ EditorBrushButton::EditorBrushButton(FlipnoteEditor* editor) {
     m_displayedbrushinverted = false;
 
     m_texture = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, 32, 32);
+
+
+    m_callback = [&](EditorButton* b) -> void {
+        PopupMenu* pm = new PopupMenu(m_x - 10, m_y, -319, 200);
+
+        pm->AddWidget(new PopupMenuTop(pm, 98));
+        pm->AddWidget(new MenuAligner(pm, this));
+
+        //Add button for all brushes
+        for(int i = 0; i < GetBrushCount(); i++) {
+            pm->AddWidget(new BrushButton(pm, m_editor, i, 10 + (26+4)*(i%10), 10+ (26+4)*(i/10)));
+        }
+        pm->AddWidget(new CheckBox(pm, 10, 75, &(m_editor->m_invertpaint), "Invert brush"));
+
+
+        for(int i = 0; i < 8; i++) {
+            pm->AddWidget(new BrushSizeButton(pm, m_editor, i*2, 10 + (32+4)*i, 130));
+        }
+
+        m_editor->OpenPopupMenu(pm);
+    };
 }
 
 EditorBrushButton::~EditorBrushButton() {
     SDL_DestroyTexture(m_texture);
 }
 
-void EditorBrushButton::Update() {
-    //update the button's position if the window got resized
-    UpdatePos();
 
+void EditorBrushButton::Update() {
     //check if brush settings were modified
     if(m_displayedbrushkind != m_editor->GetCurrentBrush()
     || m_displayedbrushsize != m_editor->GetBrushSize()
@@ -42,31 +65,11 @@ void EditorBrushButton::Update() {
         UpdateTexture();
     }
 
-    if(g_runstate->mouseused) return;
+    //Update pos, check for click, etc...
+    this->EditorButton::Update();
 
-    if(g_runstate->mousex >= m_x && g_runstate->mousex < m_x+m_w
-    && g_runstate->mousey >= m_y && g_runstate->mousey < m_y+m_h) {
-        g_runstate->mouseused = true;
-        
-        if(g_runstate->leftclick) {
-            PopupMenu* pm = new PopupMenu(m_x - 10, m_y, -319, 200);
-
-            pm->AddWidget(new PopupMenuTop(pm, 98));
-
-            //Add button for all brushes
-            for(int i = 0; i < GetBrushCount(); i++) {
-                pm->AddWidget(new BrushButton(pm, m_editor, i, 10 + (26+4)*(i%10), 10+ (26+4)*(i/10)));
-            }
-            pm->AddWidget(new CheckBox(pm, 10, 75, &(m_editor->m_invertpaint), "Invert brush"));
-
-
-            for(int i = 0; i < 8; i++) {
-                pm->AddWidget(new BrushSizeButton(pm, m_editor, i*2, 10 + (32+4)*i, 130));
-            }
-
-            m_editor->OpenPopupMenu(pm);
-        }
-    }
+    //uncomment this if we need to do something else after that :
+    //if(g_runstate->mouseused) return;
 }
 
 void EditorBrushButton::Render() {
@@ -76,14 +79,6 @@ void EditorBrushButton::Render() {
     SDL_RenderTexture(g_runstate->renderer, m_texture, NULL, &texturedest);
 }
 
-
-int EditorBrushButton::GetX() { return m_x; }
-
-void EditorBrushButton::UpdatePos() {
-    //Top tight of window.
-    m_x = g_runstate->winwidth-m_w-10;
-    m_y = 95;
-}
 
 
 void EditorBrushButton::UpdateTexture() {

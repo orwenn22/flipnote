@@ -9,39 +9,32 @@
 #include "../Generic/PopupMenuTop.h"
 #include "../Generic/PopupMenu.h"
 #include "FlipnoteEditor.h"
+#include "Menu/MenuAligner.h"
 #include "PenMenu/ColorButton.h"
-#include "PenMenu/PenMenuAligner.h"
 
-EditorPenButton::EditorPenButton(FlipnoteEditor* editor) {
-    m_editor = editor;
+EditorPenButton::EditorPenButton(FlipnoteEditor* editor) : EditorButton(editor) {
     SDL_QueryTexture(g_ressources->txtr_penbutton, NULL, NULL, &m_w, &m_h);
+    m_xoffset = m_w + 10;
+    m_yoffset = 40;
+    m_allignment = ButtonAllign::ButtonAllign_Left;
     UpdatePos();
-}
 
-void EditorPenButton::Update() {
-    UpdatePos();
 
-    if(g_runstate->mouseused) return;
+    m_callback = [&](EditorButton*) -> void {
+        PopupMenu* pm = new PopupMenu(m_x - 10, m_y, -305, 100);
+        pm->AddWidget(new PopupMenuTop(pm, 50));
+        pm->AddWidget(new MenuAligner(pm, this));
+        int itemwidth;
+        SDL_QueryTexture(g_ressources->txtr_smallpenbutton, NULL, NULL, &itemwidth, NULL);
 
-    if(g_runstate->mousex >= m_x && g_runstate->mousex < m_x+m_w
-    && g_runstate->mousey >= m_y && g_runstate->mousey < m_y+m_h) {
-        g_runstate->mouseused = true;
-        
-        if(g_runstate->leftclick) {
-            PopupMenu* pm = new PopupMenu(m_x - 10, m_y, -305, 100);
-            pm->AddWidget(new PopupMenuTop(pm, 50));
-            pm->AddWidget(new PenMenuAligner(pm, this));
-            int itemwidth;
-            SDL_QueryTexture(g_ressources->txtr_smallpenbutton, NULL, NULL, &itemwidth, NULL);
-
-            for(int i = 0; i < 8; i++) {    //TODO : 8 color hardcoded
-                pm->AddWidget(new ColorButton(pm, m_editor, i, 10 + i*(itemwidth+3), 10));
-            }
-            
-            m_editor->OpenPopupMenu(pm);
+        for(int i = 0; i < 8; i++) {    //TODO : 8 color hardcoded
+            pm->AddWidget(new ColorButton(pm, m_editor, i, 10 + i*(itemwidth+3), 10));
         }
-    }
+            
+        m_editor->OpenPopupMenu(pm);
+    };
 }
+
 
 void EditorPenButton::Render() {
     //Custom color based on the one selected
@@ -54,13 +47,4 @@ void EditorPenButton::Render() {
     
     //Restore colors
     SDL_SetTextureColorMod(g_ressources->txtr_penbutton, 255, 255, 255);
-}
-
-
-int EditorPenButton::GetX() { return m_x; }
-
-void EditorPenButton::UpdatePos() {
-    //Top tight of window.
-    m_x = g_runstate->winwidth-m_w-10;
-    m_y = 40;
 }

@@ -1,31 +1,22 @@
 #ifndef EDITORBRUSHBUTTON_H
 #define EDITORBRUSHBUTTON_H
 
+#include "EditorButton.h"
+
 class FlipnoteEditor;
 struct SDL_Texture;
 
-class EditorBrushButton  {
+class EditorBrushButton : public EditorButton {
     public:
     EditorBrushButton(FlipnoteEditor* editor);
-    ~EditorBrushButton();
+    virtual ~EditorBrushButton();
 
-    void Update();
-    void Render();
-
-    int GetX(); //Necessary for BrushMenuAligner (not presentyet)
+    void Update() override;
+    void Render() override;
 
     private:
-    void UpdatePos();   //Put the button at the right edge of the window
-
     //When the brush's settings are modified, we need to update the preview of the button too.
     void UpdateTexture();
-
-    FlipnoteEditor* m_editor;
-
-    int m_x;
-    int m_y;
-    int m_w;
-    int m_h;
 
     SDL_Texture* m_texture;
     int m_displayedbrushsize;
