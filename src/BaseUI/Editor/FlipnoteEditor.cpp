@@ -10,6 +10,7 @@
 #include "../../Core/Utils.h"
 #include "../../Globals.h"
 #include "../Generic/PopupMenu.h"
+#include "../Generic/WinWidgetContainer.h"
 #include "EditorBrushButton.h"
 #include "EditorPenButton.h"
 #include "FlipnoteDisplay.h"
@@ -77,15 +78,16 @@ FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
     m_brushsize = 10;
 
     m_display = new FlipnoteDisplay(renderer, this);
-    m_penbutton = new EditorPenButton(this);
-    m_brushbutton = new EditorBrushButton(this);
+
+    m_editorbuttons = new WinWidgetContainer();
+    m_editorbuttons->AddWidget(new EditorPenButton(m_editorbuttons, this));
+    m_editorbuttons->AddWidget(new EditorBrushButton(m_editorbuttons, this));
     m_popupmenu = NULL;
 }
 
 FlipnoteEditor::~FlipnoteEditor() {
     ClosePopupMenu();
-    delete m_brushbutton;
-    delete m_penbutton;
+    delete m_editorbuttons;
     delete m_display;
 }
 
@@ -105,8 +107,7 @@ void FlipnoteEditor::Update(SDL_Renderer* renderer) {
             g_runstate->mouseused = true;
         }
     }
-    m_penbutton->Update();
-    m_brushbutton->Update();
+    m_editorbuttons->Update();
     m_display->Update();
 
     //Draw to the canvas if the user is drawing
@@ -115,8 +116,7 @@ void FlipnoteEditor::Update(SDL_Renderer* renderer) {
 
 void FlipnoteEditor::Render(SDL_Renderer* renderer) {
     m_display->Render(renderer);
-    m_brushbutton->Render();
-    m_penbutton->Render();
+    m_editorbuttons->Render();
     if(m_popupmenu != NULL) m_popupmenu->Render(renderer);
 }
 

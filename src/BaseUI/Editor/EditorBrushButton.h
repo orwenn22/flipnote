@@ -8,7 +8,7 @@ struct SDL_Texture;
 
 class EditorBrushButton : public EditorButton {
     public:
-    EditorBrushButton(FlipnoteEditor* editor);
+    EditorBrushButton(WidgetContainer* container, FlipnoteEditor* editor);
     virtual ~EditorBrushButton();
 
     void Update() override;

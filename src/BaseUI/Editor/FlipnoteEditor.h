@@ -9,6 +9,7 @@ class Flipnote;
 class FlipnoteDisplay;
 class FlipnoteFrame;
 class PopupMenu;
+class WinWidgetContainer;
 
 struct SDL_Surface;
 struct SDL_Renderer;
@@ -63,8 +64,10 @@ class FlipnoteEditor {
     Flipnote* m_flipnote;
     FlipnoteDisplay* m_display;
     PopupMenu* m_popupmenu;
-    EditorPenButton* m_penbutton;
-    EditorBrushButton* m_brushbutton;
+    
+    //Contains all the buttons of the "overlay" (color, brush...)
+    WinWidgetContainer* m_editorbuttons;
+    
 
     //The current page of the flipnote being edited
     int m_page;

@@ -11,12 +11,10 @@
 
 #include <stdio.h>
 
-ColorButton::ColorButton(WidgetContainer* container, FlipnoteEditor* editor, int index, int x, int y) : Widget(container) {
+ColorButton::ColorButton(WidgetContainer* container, FlipnoteEditor* editor, int index, int x, int y) : Widget(container, x, y) {
     m_editor = editor;
     m_index = index;
 
-    m_x = x;
-    m_y = y;
     SDL_QueryTexture(g_ressources->txtr_smallpenbutton, NULL, NULL, &m_w, &m_h);
 }
 
@@ -39,12 +37,15 @@ void ColorButton::Update() {
 }
 
 void ColorButton::Render() {
+    float x = (float)GetX();
+    float y = (float)GetY();
+
     //Custom color based on the index
     SDL_Color c = m_editor->CurrentFrame()->GetColor(m_index);
     SDL_SetTextureColorMod(g_ressources->txtr_smallpenbutton, c.r, c.g, c.b);
 
     //Draw pen button on screen
-    SDL_FRect dest = {(float)m_x, (float)m_y, (float)m_w, (float)m_h};
+    SDL_FRect dest = {x, y, (float)m_w, (float)m_h};
     SDL_RenderTexture(g_runstate->renderer, g_ressources->txtr_smallpenbutton, NULL, &dest);
     
     //Restore colors

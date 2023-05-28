@@ -9,12 +9,7 @@
 #include "WidgetContainer.h"
 
 
-CheckBox::CheckBox(WidgetContainer* container, int x, int y, bool* target, std::string label) : Widget(container) {
-    m_x = x;
-    m_y = y;
-    m_w = 16;
-    m_h = 16;
-
+CheckBox::CheckBox(WidgetContainer* container, int x, int y, bool* target, std::string label) : Widget(container, x, y, 16, 16) {
     m_target = target;
 
     if(!label.empty())
@@ -33,7 +28,7 @@ void CheckBox::Update() {
 }
 
 void CheckBox::Render() {
-    SDL_FRect dest = {(float)m_x, (float)m_y, (float)m_w, (float)m_h};
+    SDL_FRect dest = {(float)GetX(), (float)GetY(), (float)m_w, (float)m_h};
     SDL_Color *orange = g_ressources->col_orange;
 
     if(*m_target) {

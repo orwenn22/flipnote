@@ -9,9 +9,7 @@
 #include "../../Generic/WidgetContainer.h"
 #include "../FlipnoteEditor.h"
 
-BrushSizeButton::BrushSizeButton(WidgetContainer* container, FlipnoteEditor* editor, int brushsize, int x, int y) : Widget(container) {
-    m_x = x;
-    m_y = y;
+BrushSizeButton::BrushSizeButton(WidgetContainer* container, FlipnoteEditor* editor, int brushsize, int x, int y) : Widget(container, x, y) {
     m_w = 32;
     m_h = 32;
 
@@ -39,12 +37,14 @@ void BrushSizeButton::Update() {
 }
 
 void BrushSizeButton::Render() {
-    SDL_FRect dest = {(float)m_x, (float)m_y, (float)m_w, (float)m_h};
+    float x = (float)GetX();
+    float y = (float)GetY();
+    SDL_FRect dest = {x, y, (float)m_w, (float)m_h};
     SDL_RenderTexture(g_runstate->renderer, m_texture, NULL, &dest);
 
 
     if(m_editor->GetBrushSize() == m_brushsize) {
-        dest = {(float)m_x-2, (float)m_y-2, (float)m_w+4, (float)m_h+4};
+        dest = {x-2, y-2, (float)m_w+4, (float)m_h+4};
         SDL_RenderRect(g_runstate->renderer, &dest);
     }
 }

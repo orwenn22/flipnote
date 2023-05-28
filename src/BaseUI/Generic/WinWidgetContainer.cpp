@@ -15,6 +15,9 @@ void WinWidgetContainer::Render() {
     RenderWidgets();
 }
 
+int WinWidgetContainer::GetX() { return 0; }
+int WinWidgetContainer::GetY() { return 0; }
+
 void WinWidgetContainer::GetAbsoluteSize(int* w, int* h) {
     *w = GetAbsoluteWidth();
     *h = GetAbsoluteHeight();

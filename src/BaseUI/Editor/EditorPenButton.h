@@ -6,7 +6,7 @@
 
 class EditorPenButton : public EditorButton {
     public:
-    EditorPenButton(FlipnoteEditor* editor);
+    EditorPenButton(WidgetContainer* container, FlipnoteEditor* editor);
 
     void Render() override;
 };

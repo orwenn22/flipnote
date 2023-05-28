@@ -8,11 +8,10 @@
 #include "../../Generic/WidgetContainer.h"
 #include "../FlipnoteEditor.h"
 
-BrushButton::BrushButton(WidgetContainer* container, FlipnoteEditor* editor, int brushindex, int x, int y) : Widget(container) {
+BrushButton::BrushButton(WidgetContainer* container, FlipnoteEditor* editor, int brushindex, int x, int y) : Widget(container, x, y) {
     m_editor = editor;
     m_brushindex = brushindex;
-    m_x = x;
-    m_y = y;
+    
     m_w = 26;
     m_h = 26;
     m_displayedbrushinverted = false;
@@ -43,11 +42,14 @@ void BrushButton::Update() {
 }
 
 void BrushButton::Render() {
-    SDL_FRect dest = {(float)m_x, (float)m_y, 26, 26};
+    float x = (float)GetX();
+    float y = (float)GetY();
+
+    SDL_FRect dest = {x, y, 26, 26};
     SDL_RenderTexture(g_runstate->renderer, m_brushtexture, NULL, &dest);
 
     if(m_brushindex == m_editor->GetCurrentBrush()) {
-        dest = {(float)m_x-2, (float)m_y-2, 26+4, 26+4};
+        dest = {x-2, y-2, 26+4, 26+4};
         SDL_Color* orange = g_ressources->col_orange;
         SDL_SetRenderDrawColor(g_runstate->renderer, orange->r, orange->g, orange->b, 255);
         SDL_RenderRect(g_runstate->renderer, &dest);

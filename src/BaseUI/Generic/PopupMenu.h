@@ -12,7 +12,7 @@ struct SDL_Texture;
 
 class PopupMenu : public WidgetContainer {
     public:
-    PopupMenu(int originx, int originy, int width, int height);
+    PopupMenu(int originx, int originy, int width, int height, WidgetContainer* parrent = NULL);
     virtual ~PopupMenu();
 
     void Update();
@@ -22,6 +22,9 @@ class PopupMenu : public WidgetContainer {
     void SetPosition(int x, int y);
     void SetX(int x);
     void SetY(int y);
+
+    int GetX();
+    int GetY();
 
     //Methods to set the (absolute) size of the popup menu. Will call CalculateEdgesPos and SetupContent.
     void SetSize(int w, int h);

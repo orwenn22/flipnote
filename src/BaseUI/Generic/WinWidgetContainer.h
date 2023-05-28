@@ -5,13 +5,16 @@
 
 //This container is meant to give the illusion that
 //the window itself is a widget container.
-//(basicly it is the root container)
+//(basicly it is the root container, so it can't have a parrent)
 class WinWidgetContainer : public WidgetContainer {
     public:
     WinWidgetContainer();
 
     virtual void Update();
     virtual void Render();
+
+    int GetX();
+    int GetY();
 
     void GetAbsoluteSize(int* w, int* h);
     int GetAbsoluteWidth();

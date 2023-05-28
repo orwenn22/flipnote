@@ -4,12 +4,14 @@
 #include "../../Globals.h"
 #include "WidgetContainer.h"
 
-Widget::Widget(WidgetContainer* container) {
+Widget::Widget(WidgetContainer* container, int x, int y, int w, int h, WidgetAllign allignment) {
     m_container = container; 
-    m_x = 0;
-    m_y = 0;
-    m_w = 0;
-    m_h = 0;
+    m_xoffset = x;
+    m_yoffset = y;
+    m_w = w;
+    m_h = h;
+    m_allignment = allignment;
+    UpdatePos();
 }
 
 Widget::~Widget() {}
@@ -22,4 +24,45 @@ bool Widget::IsOvered() {
     //Check if mouse is overring
     return (mousex >= m_x && mousex < m_x+m_w 
          && mousey >= m_y && mousey < m_y+m_h);
+}
+
+int Widget::GetX() { return m_x; }
+int Widget::GetY() { return m_y; }
+
+void Widget::GetPos(int* x, int* y) {
+    *x = m_x;
+    *y = m_y;
+}
+
+
+int Widget::GetAbsoluteX() { return GetX() + m_container->GetAbsoluteX(); }
+int Widget::GetAbsoluteY() { return GetY() + m_container->GetAbsoluteY(); }
+
+void Widget::GetAbsolutePosition(int* x, int* y) {
+    *x = GetAbsoluteX();
+    *y = GetAbsoluteY();
+}
+
+
+
+void Widget::UpdatePos() {
+    if(m_allignment == WidgetAllign::WidgetAllign_None) {
+        m_x = m_xoffset;
+        m_y = m_yoffset;
+        return;
+    }
+
+    if((m_allignment & WidgetAllign::WidgetAllign_Left) != 0) {
+        m_x = m_container->GetAbsoluteWidth() - m_xoffset - m_w;
+    }
+    else {
+        m_x = m_xoffset;
+    }
+
+    if((m_allignment & WidgetAllign::WidgetAllign_Bottom) != 0) {
+        m_y = m_container->GetAbsoluteHeight() - m_yoffset - m_h;
+    }
+    else {
+        m_y = m_yoffset;
+    }
 }

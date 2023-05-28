@@ -15,15 +15,9 @@
 #include "FlipnoteEditor.h"
 #include "Menu/MenuAligner.h"
 
-EditorBrushButton::EditorBrushButton(FlipnoteEditor* editor) : EditorButton(editor) {
-    m_editor = editor;
-    m_w = 48;
-    m_h = 48;
-    m_xoffset = m_w+10;
-    m_yoffset = 95;
-    m_allignment = ButtonAllign::ButtonAllign_Left;
-    UpdatePos();
-
+EditorBrushButton::EditorBrushButton(WidgetContainer* container, FlipnoteEditor* editor) 
+: EditorButton(container, editor, 10, 95, 48, 48, WidgetAllign::WidgetAllign_Left) {
+    
     m_displayedbrushkind = -1;
     m_displayedbrushsize = -1;
     m_displayedbrushinverted = false;
@@ -32,7 +26,7 @@ EditorBrushButton::EditorBrushButton(FlipnoteEditor* editor) : EditorButton(edit
 
 
     m_callback = [&](EditorButton* b) -> void {
-        PopupMenu* pm = new PopupMenu(m_x - 10, m_y, -319, 200);
+        PopupMenu* pm = new PopupMenu(GetX() - 10, GetY(), -319, 200);
 
         pm->AddWidget(new PopupMenuTop(pm, 98));
         pm->AddWidget(new MenuAligner(pm, this));
@@ -73,9 +67,12 @@ void EditorBrushButton::Update() {
 }
 
 void EditorBrushButton::Render() {
-    g_ressources->tileset_popupmenu->DrawRectangle(g_runstate->renderer, m_x, m_y, m_x+m_w, m_y+m_h, g_ressources->rectdata_popupmenu);
+    float x = (float)GetX();
+    float y = (float)GetY();
 
-    SDL_FRect texturedest = {(float)m_x+8, (float)m_y+8, 32.0f, 32.0f};
+    g_ressources->tileset_popupmenu->DrawRectangle(g_runstate->renderer, x, y, x+m_w, y+m_h, g_ressources->rectdata_popupmenu);
+
+    SDL_FRect texturedest = {x+8, y+8, 32.0f, 32.0f};
     SDL_RenderTexture(g_runstate->renderer, m_texture, NULL, &texturedest);
 }
 

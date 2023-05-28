@@ -12,16 +12,14 @@
 #include "Menu/MenuAligner.h"
 #include "PenMenu/ColorButton.h"
 
-EditorPenButton::EditorPenButton(FlipnoteEditor* editor) : EditorButton(editor) {
+EditorPenButton::EditorPenButton(WidgetContainer* container, FlipnoteEditor* editor) : EditorButton(container, editor, 10, 40) {
     SDL_QueryTexture(g_ressources->txtr_penbutton, NULL, NULL, &m_w, &m_h);
-    m_xoffset = m_w + 10;
-    m_yoffset = 40;
-    m_allignment = ButtonAllign::ButtonAllign_Left;
+    m_allignment = WidgetAllign::WidgetAllign_Left;
     UpdatePos();
 
 
     m_callback = [&](EditorButton*) -> void {
-        PopupMenu* pm = new PopupMenu(m_x - 10, m_y, -305, 100);
+        PopupMenu* pm = new PopupMenu(GetX() - 10, GetY(), -305, 100);
         pm->AddWidget(new PopupMenuTop(pm, 50));
         pm->AddWidget(new MenuAligner(pm, this));
         int itemwidth;
@@ -37,12 +35,15 @@ EditorPenButton::EditorPenButton(FlipnoteEditor* editor) : EditorButton(editor) 
 
 
 void EditorPenButton::Render() {
+    float x = (float)GetX();
+    float y = (float)GetY();
+
     //Custom color based on the one selected
     SDL_Color c = m_editor->CurrentFrame()->GetColor(m_editor->GetCurrentColorIndex());
     SDL_SetTextureColorMod(g_ressources->txtr_penbutton, c.r, c.g, c.b);
 
     //Draw pen button on screen
-    SDL_FRect dest = {(float)m_x, (float)m_y, (float)m_w, (float)m_h};
+    SDL_FRect dest = {x, y, (float)m_w, (float)m_h};
     SDL_RenderTexture(g_runstate->renderer, g_ressources->txtr_penbutton, NULL, &dest);
     
     //Restore colors

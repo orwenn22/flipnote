@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 
-PopupMenu::PopupMenu(int originx, int originy, int width, int height) : WidgetContainer() {
+PopupMenu::PopupMenu(int originx, int originy, int width, int height, WidgetContainer* parrent) : WidgetContainer(parrent) {
     m_content = NULL;
     m_originx = originx;
     m_originy = originy;
@@ -102,6 +102,10 @@ void PopupMenu::SetY(int y) {
     m_animationtoplefty += yoffset;
     m_animationbottomrighty += yoffset;
 }
+
+int PopupMenu::GetX() { return m_animationtopleftx; }
+int PopupMenu::GetY() { return m_animationtoplefty; }
+
 
 void PopupMenu::SetSize(int w, int h) {
     m_width = w;
