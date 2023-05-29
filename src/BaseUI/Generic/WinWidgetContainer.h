@@ -17,8 +17,8 @@ class WinWidgetContainer : public WidgetContainer {
     int GetContainerY();
 
     void GetAbsoluteSize(int* w, int* h);
-    int GetAbsoluteWidth();
-    int GetAbsoluteHeight();
+    int GetContainerWidth();
+    int GetContainerHeight();
 
     bool IsMouseOvering();
 

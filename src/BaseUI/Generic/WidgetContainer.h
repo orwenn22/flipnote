@@ -21,8 +21,8 @@ class WidgetContainer {
     virtual int GetContainerY() = 0;
 
     //Intended to be used by the container's widgets
-    virtual int GetAbsoluteWidth() = 0;
-    virtual int GetAbsoluteHeight() = 0;
+    virtual int GetContainerWidth() = 0;
+    virtual int GetContainerHeight() = 0;
     void GetAbsoluteSize(int* w, int* h);
 
 

@@ -60,10 +60,10 @@ void ChildContainer::Render() {
 }
 
 
-int ChildContainer::GetAbsoluteWidth() {
+int ChildContainer::GetContainerWidth() {
     return m_w;
 }
-int ChildContainer::GetAbsoluteHeight() {
+int ChildContainer::GetContainerHeight() {
     return m_h;
 }
 

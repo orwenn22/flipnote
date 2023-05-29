@@ -30,8 +30,8 @@ class ChildContainer : public WidgetContainer, public Widget {
 
 
     //Intended to be used by the container's widget
-    int GetAbsoluteWidth();
-    int GetAbsoluteHeight();
+    int GetContainerWidth();
+    int GetContainerHeight();
 
     //Check if the mouse is overring the container (aka the widget).
     //Just use Widget::IsOvered

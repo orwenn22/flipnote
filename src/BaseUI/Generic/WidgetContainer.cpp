@@ -28,6 +28,6 @@ void WidgetContainer::AddWidget(Widget* widget) {
 }
 
 void WidgetContainer::GetAbsoluteSize(int* w, int* h) {
-    *w = GetAbsoluteWidth();
-    *h = GetAbsoluteHeight();
+    *w = GetContainerWidth();
+    *h = GetContainerHeight();
 }

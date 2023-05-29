@@ -19,5 +19,5 @@ PopupMenuTop::PopupMenuTop(WidgetContainer* container, int width) : Widget(conta
 void PopupMenuTop::Update() {}
 
 void PopupMenuTop::Render() {
-    g_ressources->tileset_popupmenu->DrawRectangle(g_runstate->renderer, 0, 0, m_container->GetAbsoluteWidth(), m_w, &topoverlaytiles);
+    g_ressources->tileset_popupmenu->DrawRectangle(g_runstate->renderer, 0, 0, m_container->GetContainerWidth(), m_w, &topoverlaytiles);
 }

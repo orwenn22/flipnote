@@ -127,11 +127,11 @@ void PopupMenu::SetHeight(int h) {
 }
 
 
-int PopupMenu::GetAbsoluteWidth() {
+int PopupMenu::GetContainerWidth() {
     return m_bottomrightx - m_topleftx;
 }
 
-int PopupMenu::GetAbsoluteHeight() {
+int PopupMenu::GetContainerHeight() {
     return m_bottomrighty - m_toplefty;
 }
 
@@ -152,7 +152,7 @@ bool PopupMenu::IsMouseOvering() {
 
 void PopupMenu::SetupContent() {
     if(m_content != NULL) SDL_DestroyTexture(m_content);
-    m_content = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, GetAbsoluteWidth(), GetAbsoluteHeight());
+    m_content = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, GetContainerWidth(), GetContainerHeight());
     SDL_SetTextureBlendMode(m_content, SDL_BLENDMODE_BLEND); //To make it transparent somehow ?
 }
 

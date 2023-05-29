@@ -19,13 +19,13 @@ int WinWidgetContainer::GetContainerX() { return 0; }
 int WinWidgetContainer::GetContainerY() { return 0; }
 
 void WinWidgetContainer::GetAbsoluteSize(int* w, int* h) {
-    *w = GetAbsoluteWidth();
-    *h = GetAbsoluteHeight();
+    *w = GetContainerWidth();
+    *h = GetContainerHeight();
 }
-int WinWidgetContainer::GetAbsoluteWidth() {
+int WinWidgetContainer::GetContainerWidth() {
     return g_runstate->winwidth;
 }
-int WinWidgetContainer::GetAbsoluteHeight() {
+int WinWidgetContainer::GetContainerHeight() {
     return g_runstate->winheight;
 }
 

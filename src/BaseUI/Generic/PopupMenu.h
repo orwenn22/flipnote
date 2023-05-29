@@ -35,8 +35,8 @@ class PopupMenu : public WidgetContainer {
 
     //Get the distance between the opposite borders (not m_width or m_height)
     //Intended to be used by the menu's items
-    int GetAbsoluteWidth();
-    int GetAbsoluteHeight();
+    int GetContainerWidth();
+    int GetContainerHeight();
 
     //Get the relative mouse position from the top left of the popup menu.
     void GetRelativeMousePos(int* x, int* y);

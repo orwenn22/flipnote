@@ -53,14 +53,14 @@ void Widget::UpdatePos() {
     }
 
     if((m_allignment & WidgetAllign::WidgetAllign_Left) != 0) {
-        m_x = m_container->GetAbsoluteWidth() - m_xoffset - m_w;
+        m_x = m_container->GetContainerWidth() - m_xoffset - m_w;
     }
     else {
         m_x = m_xoffset;
     }
 
     if((m_allignment & WidgetAllign::WidgetAllign_Bottom) != 0) {
-        m_y = m_container->GetAbsoluteHeight() - m_yoffset - m_h;
+        m_y = m_container->GetContainerHeight() - m_yoffset - m_h;
     }
     else {
         m_y = m_yoffset;
