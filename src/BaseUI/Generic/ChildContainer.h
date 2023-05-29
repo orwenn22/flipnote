@@ -6,6 +6,7 @@
 
 struct SDL_Texture;
 
+//It's basicly a WidgetContainer inside a Widget
 class ChildContainer : public WidgetContainer, public Widget {
     public:
     ChildContainer(

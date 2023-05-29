@@ -35,8 +35,19 @@ void Widget::GetPos(int* x, int* y) {
 }
 
 
-int Widget::GetAbsoluteX() { return GetX() + m_container->GetContainerX(); }
-int Widget::GetAbsoluteY() { return GetY() + m_container->GetContainerY(); }
+int Widget::GetAbsoluteX() { 
+    //return GetX() + m_container->GetContainerX();
+    int x = GetX();
+    if(m_container != NULL) x += m_container->GetContainerX();
+    return x;
+    
+}
+int Widget::GetAbsoluteY() { 
+    //return GetY() + m_container->GetContainerY();
+    int y = GetY();
+    if(m_container != NULL) y += m_container->GetContainerY();
+    return y;
+}
 
 void Widget::GetAbsolutePosition(int* x, int* y) {
     *x = GetAbsoluteX();

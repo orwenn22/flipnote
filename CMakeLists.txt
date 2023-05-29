@@ -37,6 +37,7 @@ add_executable(Flipnote
     src/BaseUI/Editor/PenMenu/ColorButton.cpp
     src/BaseUI/Generic/Background.cpp 
     src/BaseUI/Generic/CheckBox.cpp 
+    src/BaseUI/Generic/ChildContainer.cpp 
     src/BaseUI/Generic/Label.cpp 
     src/BaseUI/Generic/PopupMenuTop.cpp
     src/BaseUI/Generic/PopupMenu.cpp
