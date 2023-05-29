@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 
-PopupMenu::PopupMenu(int originx, int originy, int width, int height, WidgetContainer* parrent) : WidgetContainer(parrent) {
+PopupMenu::PopupMenu(int originx, int originy, int width, int height) : WidgetContainer() {
     m_content = NULL;
     m_originx = originx;
     m_originy = originy;
@@ -43,6 +43,8 @@ void PopupMenu::Update() {
 
     if(IsMouseOvering()) g_runstate->mouseused = true;
 
+    //Save previous rendertarget
+    SDL_Texture* previousrendertarget = SDL_GetRenderTarget(g_runstate->renderer);
 
     //Draw to the texture of the menu (the content)
     SDL_SetRenderTarget(g_runstate->renderer, m_content);
@@ -54,8 +56,8 @@ void PopupMenu::Update() {
     //Draw the menu's children
     RenderWidgets();
 
-    //Draw back to the window
-    SDL_SetRenderTarget(g_runstate->renderer, NULL);
+    //Draw back to the previous rendertarget
+    SDL_SetRenderTarget(g_runstate->renderer, previousrendertarget);
 }
 
 void PopupMenu::Render(SDL_Renderer* renderer) {
@@ -103,8 +105,8 @@ void PopupMenu::SetY(int y) {
     m_animationbottomrighty += yoffset;
 }
 
-int PopupMenu::GetX() { return m_animationtopleftx; }
-int PopupMenu::GetY() { return m_animationtoplefty; }
+int PopupMenu::GetContainerX() { return m_animationtopleftx; }
+int PopupMenu::GetContainerY() { return m_animationtoplefty; }
 
 
 void PopupMenu::SetSize(int w, int h) {
@@ -125,11 +127,6 @@ void PopupMenu::SetHeight(int h) {
 }
 
 
-void PopupMenu::GetAbsoluteSize(int* w, int* h) {
-    *w = GetAbsoluteWidth();
-    *h = GetAbsoluteHeight();
-}
-
 int PopupMenu::GetAbsoluteWidth() {
     return m_bottomrightx - m_topleftx;
 }
@@ -148,6 +145,7 @@ void PopupMenu::GetRelativeMousePos(int* x, int* y) {
 bool PopupMenu::IsMouseOvering() {
     //return (g_runstate->mousex >= m_topleftx && g_runstate->mousex < m_bottomrightx
     //     && g_runstate->mousey >= m_toplefty && g_runstate->mousey < m_bottomrighty);
+
     return (g_runstate->mousex >= m_animationtopleftx && g_runstate->mousex < m_animationbottomrightx
          && g_runstate->mousey >= m_animationtoplefty && g_runstate->mousey < m_animationbottomrighty);
 }

@@ -8,27 +8,22 @@ class Widget;
 
 class WidgetContainer {
     public:
-    WidgetContainer(WidgetContainer* parrent = NULL);
+    WidgetContainer();
     virtual ~WidgetContainer();
 
 
     //Add a widget to the container
     void AddWidget(Widget* widget);
 
-    //Get the position of the top of the container on the parrent container (if there is any)
-    virtual int GetX() = 0;
-    virtual int GetY() = 0;
-    void GetPosition(int* x, int* y);
 
     //Get the position of the top left of the container on the window
-    int GetAbsoluteX();
-    int GetAbsoluteY();
-    void GetAbsolutePosition(int* x, int* y);
+    virtual int GetContainerX() = 0;
+    virtual int GetContainerY() = 0;
 
-    //Intended to be used by the container's widget
-    virtual void GetAbsoluteSize(int* w, int* h) = 0;
+    //Intended to be used by the container's widgets
     virtual int GetAbsoluteWidth() = 0;
     virtual int GetAbsoluteHeight() = 0;
+    void GetAbsoluteSize(int* w, int* h);
 
 
     //Check if the mouse is overring the container.
@@ -41,8 +36,6 @@ class WidgetContainer {
     protected:      //need to be used in subclasses
     void UpdateWidgets();
     void RenderWidgets();
-
-    WidgetContainer* m_parrent;
 
     private:
     std::vector<Widget*> m_widgets;

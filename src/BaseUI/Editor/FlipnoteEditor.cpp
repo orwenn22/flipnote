@@ -15,6 +15,8 @@
 #include "EditorPenButton.h"
 #include "FlipnoteDisplay.h"
 
+//#include "../Generic/ChildContainer.h"
+//#include "../Generic/CheckBox.h"
 
 static const PaintCondition brushes[] = {
     [](int x, int y) -> bool { return true; },                          // normal
@@ -61,7 +63,8 @@ PaintCondition GetBrush(int index) {
 int GetBrushCount() { return brushcount; }
 
 
-
+//bool testbool = true;
+//bool testbool2 = true;
 
 FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
     m_flipnote = fn;
@@ -82,6 +85,16 @@ FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
     m_editorbuttons = new WinWidgetContainer();
     m_editorbuttons->AddWidget(new EditorPenButton(m_editorbuttons, this));
     m_editorbuttons->AddWidget(new EditorBrushButton(m_editorbuttons, this));
+
+    ////Test ChildContiner
+    //auto cc = new ChildContainer(m_editorbuttons, 30, 30, 200, 200, WidgetAllign_None);
+    //cc->AddWidget(new CheckBox(cc, 0, 0, &testbool, "test"));
+    //m_editorbuttons->AddWidget(cc);
+    //auto cc2 = new ChildContainer(cc, 30, 30, 100, 100, WidgetAllign_None);
+    //cc2->m_issolid = true;
+    //cc2->AddWidget(new CheckBox(cc2, 0, 0, &testbool2, "test2"));
+    //cc->AddWidget(cc2);
+
     m_popupmenu = NULL;
 }
 
@@ -107,6 +120,7 @@ void FlipnoteEditor::Update(SDL_Renderer* renderer) {
             g_runstate->mouseused = true;
         }
     }
+    
     m_editorbuttons->Update();
     m_display->Update();
 

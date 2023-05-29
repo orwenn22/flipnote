@@ -10,9 +10,10 @@ class Widget;
 struct SDL_Renderer;
 struct SDL_Texture;
 
+//This can't be used as a child container
 class PopupMenu : public WidgetContainer {
     public:
-    PopupMenu(int originx, int originy, int width, int height, WidgetContainer* parrent = NULL);
+    PopupMenu(int originx, int originy, int width, int height);
     virtual ~PopupMenu();
 
     void Update();
@@ -23,8 +24,9 @@ class PopupMenu : public WidgetContainer {
     void SetX(int x);
     void SetY(int y);
 
-    int GetX();
-    int GetY();
+    //Get position of topleft
+    int GetContainerX();
+    int GetContainerY();
 
     //Methods to set the (absolute) size of the popup menu. Will call CalculateEdgesPos and SetupContent.
     void SetSize(int w, int h);
@@ -33,7 +35,6 @@ class PopupMenu : public WidgetContainer {
 
     //Get the distance between the opposite borders (not m_width or m_height)
     //Intended to be used by the menu's items
-    void GetAbsoluteSize(int* w, int* h);
     int GetAbsoluteWidth();
     int GetAbsoluteHeight();
 

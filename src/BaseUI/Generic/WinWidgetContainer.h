@@ -13,8 +13,8 @@ class WinWidgetContainer : public WidgetContainer {
     virtual void Update();
     virtual void Render();
 
-    int GetX();
-    int GetY();
+    int GetContainerX();
+    int GetContainerY();
 
     void GetAbsoluteSize(int* w, int* h);
     int GetAbsoluteWidth();

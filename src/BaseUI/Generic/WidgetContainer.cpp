@@ -4,39 +4,13 @@
 
 #include "Widget.h"
 
-WidgetContainer::WidgetContainer(WidgetContainer* parrent) {
-    m_parrent = parrent;
+WidgetContainer::WidgetContainer() {
 }
 
 WidgetContainer::~WidgetContainer() {
     for(Widget* i : m_widgets) {
         delete i;
     }
-}
-
-
-void WidgetContainer::GetPosition(int* x, int* y) {
-    *x = GetX();
-    *y = GetY();
-}
-
-int WidgetContainer::GetAbsoluteX() {
-     if(m_parrent == NULL)
-        return GetX();
-    else
-        return GetX() + m_parrent->GetAbsoluteX();
-}
-
-int WidgetContainer::GetAbsoluteY() {
-    if(m_parrent == NULL)
-        return GetY();
-    else
-        return GetY() + m_parrent->GetAbsoluteY();
-}
-
-void WidgetContainer::GetAbsolutePosition(int* x, int* y) {
-    *x = GetAbsoluteX();
-    *y = GetAbsoluteY();
 }
 
 
@@ -51,4 +25,9 @@ void WidgetContainer::RenderWidgets() {
 
 void WidgetContainer::AddWidget(Widget* widget) {
     if(widget != NULL) m_widgets.push_back(widget);
+}
+
+void WidgetContainer::GetAbsoluteSize(int* w, int* h) {
+    *w = GetAbsoluteWidth();
+    *h = GetAbsoluteHeight();
 }

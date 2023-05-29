@@ -22,8 +22,12 @@ void CheckBox::Update() {
 
     if(g_runstate->mouseused) return;
 
-    if(IsOvered() && g_runstate->leftclick) {
-        *m_target = !*m_target;
+    if(IsOvered()) {
+        g_runstate->mouseused = true;
+        
+        if(g_runstate->leftclick) {
+            *m_target = !*m_target;
+        }
     }
 }
 
