@@ -22,6 +22,8 @@ struct Ressources {
     SDL_Texture* txtr_popupmenutiles;
     SDL_Texture* txtr_checkboxfalse;
     SDL_Texture* txtr_checkboxtrue;
+    SDL_Texture* txtr_timelinetile;
+    SDL_Texture* txtr_timelineicon;
 
     Tileset* tileset_popupmenu;
     TilesetRectData* rectdata_popupmenu;    //for Tileset->DrawRectangle

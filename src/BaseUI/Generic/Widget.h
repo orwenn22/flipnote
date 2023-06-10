@@ -27,6 +27,7 @@ class Widget {
 
     //Calculate and update the position of the widget using m_(x/y)offset and m_allignment.
     //Depending of m_allignment, the origin of the offset will be different.
+    //if the widget have no container, it will be the same behavior as WidgetAllign_None
     void UpdatePos();
 
     //Get the x position of the widget in the container
@@ -35,6 +36,10 @@ class Widget {
     int GetY();
     //Get the position of the widget in the container
     void GetPos(int* x, int* y);
+
+    //Change the offset position from the alligment origin
+    void SetXOffset(int x);
+    void SetYOffest(int y);
 
 
     //Get the x position of the widget in the window

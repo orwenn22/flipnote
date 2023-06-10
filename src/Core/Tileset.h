@@ -30,6 +30,7 @@ class Tileset {
     void DrawTile(SDL_Renderer* renderer, int tilex, int tiley, int destx, int desty);
 
     void DrawRectangle(SDL_Renderer* renderer, int topleftx, int toplefty, int bottomrightx, int bottomrighty, TilesetRectData* rectdata);
+    void DrawRectangle(SDL_Renderer* renderer, SDL_FRect* rect, TilesetRectData* rectdata);
 
     private:
     SDL_Texture* m_texture;

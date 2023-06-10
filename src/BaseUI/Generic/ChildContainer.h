@@ -41,8 +41,10 @@ class ChildContainer : public WidgetContainer, public Widget {
     //Get the relative mouse position from the top left of the container/Widget.
     void GetRelativeMousePos(int* x, int* y);
 
-    //is set to true, g_runtime->mouseused will be set to true if the mouse is overing the ChildContainer
+    //if set to true, g_runtime->mouseused will be set to true if the mouse is overing the ChildContainer
     bool m_issolid;
+    //if set to true, the outline of the container will be drawn
+    bool m_drawoutline;
 
     protected:
     SDL_Texture* m_texture; //content

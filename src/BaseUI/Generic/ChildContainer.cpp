@@ -12,6 +12,7 @@ ChildContainer::ChildContainer(
     WidgetAllign allignment
 ) : WidgetContainer() , Widget(parrent, x, y, w, h, allignment) {
     m_issolid = false;
+    m_drawoutline = true;
 
     if(w < 0 || h < 0) {
         m_texture = NULL;
@@ -33,11 +34,17 @@ ChildContainer::~ChildContainer() {
 }
 
 void ChildContainer::Update() {
-    //Save the previous rendertarget
-    SDL_Texture* oldrendertarget = SDL_GetRenderTarget(g_runstate->renderer);
-
     //Update all widgets (update pos, react to userinput, etc)
     UpdateWidgets();
+
+    if(IsOvered() && m_issolid) {
+        g_runstate->mouseused = true;
+    }
+}
+
+void ChildContainer::Render() {
+    //Save the previous rendertarget
+    SDL_Texture* oldrendertarget = SDL_GetRenderTarget(g_runstate->renderer);
 
     //Draw all the widgets on the texture
     SDL_SetRenderTarget(g_runstate->renderer, m_texture);
@@ -46,16 +53,14 @@ void ChildContainer::Update() {
     RenderWidgets();
     SDL_SetRenderTarget(g_runstate->renderer, oldrendertarget);
 
-    if(IsOvered() && m_issolid) {
-        g_runstate->mouseused = true;
-    }
-}
-
-void ChildContainer::Render() {
     //Draw the texture (where all the widget are drawn) on the screen
     SDL_FRect dest = {(float)GetX(), (float)GetY(), (float)m_w, (float)m_h};
-    SDL_SetRenderDrawColor(g_runstate->renderer, 128, 128, 128, 255);
-    SDL_RenderRect(g_runstate->renderer, &dest);
+
+    if(m_drawoutline) {
+        SDL_SetRenderDrawColor(g_runstate->renderer, 128, 128, 128, 255);
+        SDL_RenderRect(g_runstate->renderer, &dest);
+    }
+    
     SDL_RenderTexture(g_runstate->renderer, m_texture, NULL, &dest);
 }
 
@@ -76,7 +81,11 @@ bool ChildContainer::IsMouseOvering() {
 }
 
 void ChildContainer::GetRelativeMousePos(int* x, int* y) {
-    m_container->GetRelativeMousePos(x, y);
+    if(m_container != NULL) m_container->GetRelativeMousePos(x, y);
+    else {
+        *x = g_runstate->mousex;
+        *y = g_runstate->mousey;
+    }
     *x -= GetX();
     *y -= GetY();
 }

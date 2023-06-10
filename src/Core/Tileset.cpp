@@ -104,3 +104,29 @@ void Tileset::DrawRectangle(SDL_Renderer* renderer, int topleftx, int toplefty, 
     SDL_FRect centerdest = {(float)(topleftx+m_tilewidth), (float)(toplefty+m_tileheight), wwb, hwb};
     DrawTile(renderer, rectdata->centerindex, &centerdest); 
 }
+
+
+void Tileset::DrawRectangle(SDL_Renderer* renderer, SDL_FRect* rect, TilesetRectData* rectdata) {
+    int topleftx, toplefty, bottomrightx, bottomrighty;
+
+    if(rect->w < 0) {
+        topleftx = (int)(rect->x + rect->w);
+        bottomrightx = (int)(rect->x);
+    }
+    else {
+        topleftx = (int)(rect->x);
+        bottomrightx = (int)(rect->x + rect->w);
+    }
+
+    if(rect->h < 0) {
+        toplefty = (int)(rect->y + rect->h);
+        bottomrighty = (int)(rect->y);
+    }
+    else {
+        toplefty = (int)(rect->y);
+        bottomrighty = (int)(rect->y + rect->h);
+    }
+
+    DrawRectangle(renderer, topleftx, toplefty, bottomrightx, bottomrighty, rectdata);
+
+}

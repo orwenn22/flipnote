@@ -17,9 +17,13 @@ Widget::Widget(WidgetContainer* container, int x, int y, int w, int h, WidgetAll
 Widget::~Widget() {}
 
 bool Widget::IsOvered() {
-    //Get mouse pos in popup menu
+    //Get mouse pos in parrent container
     int mousex, mousey;
-    m_container->GetRelativeMousePos(&mousex, &mousey);
+    if(m_container != NULL) m_container->GetRelativeMousePos(&mousex, &mousey);
+    else {  //if there is no parrent container assume it is the window itself
+        mousex = g_runstate->mousex;
+        mousey = g_runstate->mousey;
+    }
 
     //Check if mouse is overring
     return (mousex >= m_x && mousex < m_x+m_w 
@@ -32,6 +36,17 @@ int Widget::GetY() { return m_y; }
 void Widget::GetPos(int* x, int* y) {
     *x = m_x;
     *y = m_y;
+}
+
+
+void Widget::SetXOffset(int x) {
+    m_xoffset = x;
+    UpdatePos();
+}
+
+void Widget::SetYOffest(int y) {
+    m_yoffset = y;
+    UpdatePos();
 }
 
 
@@ -57,7 +72,7 @@ void Widget::GetAbsolutePosition(int* x, int* y) {
 
 
 void Widget::UpdatePos() {
-    if(m_allignment == WidgetAllign::WidgetAllign_None) {
+    if(m_allignment == WidgetAllign::WidgetAllign_None || m_container == NULL) {
         m_x = m_xoffset;
         m_y = m_yoffset;
         return;

@@ -14,6 +14,7 @@ class WinWidgetContainer;
 struct SDL_Surface;
 struct SDL_Renderer;
 
+class FlipnoteTimeline;
 
 
 PaintCondition GetBrush(int index);
@@ -27,11 +28,16 @@ class FlipnoteEditor {
     void Update(SDL_Renderer* renderer);
     void Render(SDL_Renderer* renderer);
 
-    //Load the page index in the surface, then call m_display->RefreshTexture
-    void ChangePage(SDL_Renderer* renderer, int index);
 
     //Return a pointer to the current FlipnoteFrame
     FlipnoteFrame* CurrentFrame();
+
+    //Will set the frame that is currently being edited, and update the FlipnoteDisplay 
+    void SetCurrentFrame(int index);
+
+    //Return a pointer to the flipnote being edited
+    Flipnote* GetFlipnote();
+
 
     //Get or change the current drawing color (m_currentcolorindex).
     int GetCurrentColorIndex();
@@ -47,6 +53,10 @@ class FlipnoteEditor {
     void OpenPopupMenu(PopupMenu* popupmenu);
     void ClosePopupMenu();
 
+    void OpenTimeline();
+    void CloseTimeline();
+    bool IsTimelineOpen();
+
     //True if the user is using a drawing tool
     //It is set to true by m_display->UpdateMouseInput
     bool m_isdrawing;
@@ -61,6 +71,9 @@ class FlipnoteEditor {
     //It's basicly the method that is in charge of painting on the current frame (both the fram itself and the display's texture).
     void UpdateDraw(SDL_Renderer* renderer);
 
+    void UpdatePopupMenu();
+    void UpdateTimeline();
+
     Flipnote* m_flipnote;
     FlipnoteDisplay* m_display;
     PopupMenu* m_popupmenu;
@@ -68,6 +81,7 @@ class FlipnoteEditor {
     //Contains all the buttons of the "overlay" (color, brush...)
     WinWidgetContainer* m_editorbuttons;
     
+    FlipnoteTimeline* m_timeline;
 
     //The current page of the flipnote being edited
     int m_page;

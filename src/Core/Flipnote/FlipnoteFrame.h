@@ -13,6 +13,7 @@ class FlipnoteFrame {
 
     //Copy m_pixels to a SDL_Texture.
     SDL_Texture* CopyToTexture();
+    SDL_Texture* CopyToTexture(int w, int h);
     
 
     void SetColor(int index, SDL_Color c);
@@ -21,6 +22,9 @@ class FlipnoteFrame {
 
     //Set a pixel in m_pixels.
     void SetPixel(int x, int y, int colorindex);
+
+    //Get a pixel in m_pixels.
+    unsigned char GetPixel(int x, int y);
 
 
     private:
@@ -32,16 +36,5 @@ class FlipnoteFrame {
     int m_height;
 };
 
-/////////////////////
-
-/*
-typedef void (*SetPixelFuction)(FlipnoteFrame*, int, int , int);
-
-void FrameSetPixel(FlipnoteFrame* frame, int x, int y, int colorindex);
-void FrameDrawLine(FlipnoteFrame* frame, int x0, int y0, int x1, int y1, int colorindex, SetPixelFuction setpixel);
-void FrameDrawLineEx(FlipnoteFrame* frame, int x0, int y0, int x1, int y1, int thickness, int colorindex, SetPixelFuction setpixel);
-void FrameDrawCircle(FlipnoteFrame* frame, int x, int y, int r, int colorindex, SetPixelFuction setpixel);
-void FrameFillCircle(FlipnoteFrame* frame, int x, int y, int r, int colorindex,SetPixelFuction setpixel);
-*/
 
 #endif

@@ -13,7 +13,10 @@
 #include "../Generic/WinWidgetContainer.h"
 #include "EditorBrushButton.h"
 #include "EditorPenButton.h"
+#include "EditorTimelineButton.h"
 #include "FlipnoteDisplay.h"
+
+#include "FlipnoteTimeline.h"
 
 //#include "../Generic/ChildContainer.h"
 //#include "../Generic/CheckBox.h"
@@ -85,6 +88,7 @@ FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
     m_editorbuttons = new WinWidgetContainer();
     m_editorbuttons->AddWidget(new EditorPenButton(m_editorbuttons, this));
     m_editorbuttons->AddWidget(new EditorBrushButton(m_editorbuttons, this));
+    m_editorbuttons->AddWidget(new EditorTimelineButton(m_editorbuttons, this));
 
     ////Test ChildContiner
     //auto cc = new ChildContainer(m_editorbuttons, 30, 30, 200, 200, WidgetAllign_None);
@@ -96,10 +100,12 @@ FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
     //cc->AddWidget(cc2);
 
     m_popupmenu = NULL;
+    m_timeline = NULL;
 }
 
 FlipnoteEditor::~FlipnoteEditor() {
     ClosePopupMenu();
+    CloseTimeline();
     delete m_editorbuttons;
     delete m_display;
 }
@@ -111,17 +117,9 @@ void FlipnoteEditor::Update(SDL_Renderer* renderer) {
     }
 
     ////Update all ui elements
-    if(m_popupmenu != NULL) {       //Check if there is a popup meun open
-        m_popupmenu->Update();
-        
-        //Close popup menu if clicking outside
-        if(g_runstate->leftclick && !m_popupmenu->IsMouseOvering()) {
-            ClosePopupMenu();
-            g_runstate->mouseused = true;
-        }
-    }
-    
+    UpdatePopupMenu();
     m_editorbuttons->Update();
+    UpdateTimeline();
     m_display->Update();
 
     //Draw to the canvas if the user is drawing
@@ -130,22 +128,29 @@ void FlipnoteEditor::Update(SDL_Renderer* renderer) {
 
 void FlipnoteEditor::Render(SDL_Renderer* renderer) {
     m_display->Render(renderer);
+    if(m_timeline != NULL) m_timeline->Render();
     m_editorbuttons->Render();
     if(m_popupmenu != NULL) m_popupmenu->Render(renderer);
 }
 
 
-void FlipnoteEditor::ChangePage(SDL_Renderer* renderer, int index) {
+FlipnoteFrame* FlipnoteEditor::CurrentFrame() {
+    return m_flipnote->GetFrame(m_page);
+}
+
+void FlipnoteEditor::SetCurrentFrame(int index) {
+    int framecount = m_flipnote->FrameCount();
     if(index < 0) index = 0;
-    else if(index >= m_flipnote->FrameCount()) index = m_flipnote->FrameCount()-1;
-    
+    else if(index > framecount) index = framecount-1;
+
     m_page = index;
-    m_display->RefreshTexture(renderer);
+
+    m_display->RefreshTexture(g_runstate->renderer);
 }
 
 
-FlipnoteFrame* FlipnoteEditor::CurrentFrame() {
-    return m_flipnote->GetFrame(m_page);
+Flipnote* FlipnoteEditor::GetFlipnote() {
+    return m_flipnote;
 }
 
 
@@ -193,6 +198,24 @@ void FlipnoteEditor::ClosePopupMenu() {
     }
 }
 
+
+void FlipnoteEditor::OpenTimeline() {
+    if(m_timeline != NULL) delete m_timeline;
+    m_timeline = new FlipnoteTimeline(this);
+}
+
+void FlipnoteEditor::CloseTimeline() {
+    if(m_timeline != NULL) {
+        delete m_timeline;
+        m_timeline = NULL;
+    }
+}
+
+bool FlipnoteEditor::IsTimelineOpen() {
+    return (m_timeline != NULL);
+}
+
+
 ///////////
 //Private
 
@@ -226,3 +249,29 @@ void FlipnoteEditor::UpdateDraw(SDL_Renderer* renderer) {
     }
 }
 
+
+void FlipnoteEditor::UpdatePopupMenu() {
+    //Check if there is a popup menu open
+    if(m_popupmenu == NULL) return;
+ 
+    m_popupmenu->Update();
+        
+    //Close popup menu if clicking outside
+    if(g_runstate->leftclick && !m_popupmenu->IsMouseOvering() && !g_runstate->mouseused) {
+        ClosePopupMenu();
+        g_runstate->mouseused = true;
+    }
+}
+
+void FlipnoteEditor::UpdateTimeline() {
+    //Check if the timeline is open
+    if(m_timeline == NULL) return;
+
+    m_timeline->Update();
+
+    //Close the timeline if clicking outside
+    if(g_runstate->leftclick && !m_timeline->IsMouseOvering() && !g_runstate->mouseused) {
+        CloseTimeline();
+        g_runstate->mouseused = true;
+    }
+}

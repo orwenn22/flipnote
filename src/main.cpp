@@ -49,13 +49,13 @@ int main() {
     IMG_Init(IMG_INIT_PNG);
     TTF_Init();
 
-    SDL_Window *window = SDL_CreateWindow("Flipnote", 600, 500, SDL_WINDOW_BORDERLESS | SDL_WINDOW_RESIZABLE);
+    SDL_Window *window = SDL_CreateWindow("Flipnote", 1280, 720, SDL_WINDOW_BORDERLESS | SDL_WINDOW_RESIZABLE);
     if(!window) {
         std::cout << "win creation failed\n";
         return -1;
     }
     if(SDL_SetWindowMinimumSize(window, 256, 256) < 0) return -1;
-    if(SDL_SetWindowHitTest(window, MyHitTest, 0) == -1) return -1;
+    if(SDL_SetWindowHitTest(window, MyHitTest, 0) != 0) return -1;
 
     SDL_Renderer* renderer = SDL_CreateRenderer(window,NULL, SDL_RENDERER_ACCELERATED);
     if(!renderer) {
@@ -73,6 +73,11 @@ int main() {
 
     //Flipnote editor
     Flipnote* flipnote = new Flipnote(512, 384);
+    flipnote->AddFrame(1);
+    flipnote->AddFrame(1);
+    flipnote->AddFrame(1);
+    flipnote->AddFrame(1);
+    flipnote->AddFrame(1);
     FlipnoteEditor* fe = new FlipnoteEditor(renderer, flipnote);
     
 

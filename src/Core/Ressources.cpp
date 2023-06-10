@@ -38,6 +38,8 @@ Ressources::Ressources(SDL_Renderer* renderer) {
     txtr_popupmenutiles = LoadImageAsTexture(renderer, "./res/popupmenutiles.png");
     txtr_checkboxfalse = LoadImageAsTexture(renderer, "./res/checkbox_empty.png");
     txtr_checkboxtrue = LoadImageAsTexture(renderer, "./res/checkbox_2.png");
+    txtr_timelinetile = LoadImageAsTexture(renderer, "./res/FrameBgTile.png");
+    txtr_timelineicon = LoadImageAsTexture(renderer, "./res/timelineicon.png");
 
     tileset_popupmenu = new Tileset(txtr_popupmenutiles, 16, 16);
     rectdata_popupmenu = new TilesetRectData({21, 22, 23, 27, 28, 29, 33, 34, 35});
@@ -58,6 +60,8 @@ Ressources::~Ressources() {
     SDL_DestroyTexture(txtr_popupmenutiles);
     SDL_DestroyTexture(txtr_checkboxfalse);
     SDL_DestroyTexture(txtr_checkboxtrue);
+    SDL_DestroyTexture(txtr_timelinetile);
+    SDL_DestroyTexture(txtr_timelineicon);
 
     delete rectdata_popupmenu;
     delete tileset_popupmenu;

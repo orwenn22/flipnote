@@ -52,6 +52,8 @@ FlipnoteFrame::~FlipnoteFrame() {
 
 
 SDL_Texture* FlipnoteFrame::CopyToTexture() {
+    SDL_Texture* previousrendertartget = SDL_GetRenderTarget(g_runstate->renderer);
+
     SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, m_width, m_height);
     SDL_SetRenderTarget(g_runstate->renderer, r);
 
@@ -68,9 +70,35 @@ SDL_Texture* FlipnoteFrame::CopyToTexture() {
         }
     }
 
-    SDL_SetRenderTarget(g_runstate->renderer, NULL);
+    SDL_SetRenderTarget(g_runstate->renderer, previousrendertartget);
     return r;
 }
+
+
+SDL_Texture* FlipnoteFrame::CopyToTexture(int w, int h) {
+    SDL_Texture* previousrendertartget = SDL_GetRenderTarget(g_runstate->renderer);
+
+    int stepx = m_width/w;
+    int stepy = m_height/h;
+
+    SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, w, h);
+    SDL_SetRenderTarget(g_runstate->renderer, r);
+
+    SDL_SetRenderDrawColor(g_runstate->renderer, 255, 255, 255, 255);
+    SDL_RenderClear(g_runstate->renderer);
+
+    for(int y = 0; y < h; y++) {
+        for(int x = 0; x < w; x++) {
+            unsigned char p = GetPixel(x*stepx, y*stepy);
+            SDL_SetRenderDrawColor(g_runstate->renderer, m_colors[p].r, m_colors[p].g, m_colors[p].b, m_colors[p].a);
+            SDL_RenderPoint(g_runstate->renderer, x, y);
+        }
+    }
+
+    SDL_SetRenderTarget(g_runstate->renderer, previousrendertartget);
+    return r;
+}
+
 
 void FlipnoteFrame::SetColor(int index, SDL_Color c) {
     if(index < 0) index = 0;
@@ -97,4 +125,12 @@ void FlipnoteFrame::SetPixel(int x, int y, int colorindex) {
         return;
 
     m_pixels[x+y*m_width] = colorindex;
+}
+
+
+unsigned char FlipnoteFrame::GetPixel(int x, int y) {
+    if(x < 0 || x >= m_width || y < 0 || y >= m_height) 
+        return 0;
+
+    return m_pixels[x+y*m_width];
 }
