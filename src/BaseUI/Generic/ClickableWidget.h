@@ -19,6 +19,7 @@ class ClickableWidget : public Widget {
     );
     virtual ~ClickableWidget();
 
+    //Note : the derivated method of ClickableWidget::Update MUST call it.
     virtual void Update();
     virtual void Render();
 
