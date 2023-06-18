@@ -14,7 +14,8 @@
 
 #include <stdio.h>
 
-bool azae=true;
+#include "../Generic/ClickableWidget.h"
+
 
 FlipnoteTimeline::FlipnoteTimeline(FlipnoteEditor* editor) {
     m_editor = editor;
@@ -36,7 +37,9 @@ FlipnoteTimeline::FlipnoteTimeline(FlipnoteEditor* editor) {
     //Setup the container for the timeline buttons (y is calculated by UpdateEnterAnimation)
     m_widgets = new ChildContainer(NULL, 70, 0, g_runstate->winwidth-140, 50, WidgetAllign::WidgetAllign_None);
     m_widgets->m_drawoutline = true;
-    m_widgets->AddWidget(new CheckBox(m_widgets, 10, 10, &azae, "aaa"));
+    m_widgets->AddWidget(new ClickableWidget(m_widgets, 0, 0, 20, 20, WidgetAllign_None, [&]() -> void {
+        AddFrame();
+    }));
 }
 
 FlipnoteTimeline::~FlipnoteTimeline() {
@@ -86,7 +89,7 @@ void FlipnoteTimeline::AddFrame() {
     Flipnote* fn = m_editor->GetFlipnote();
     int currentframe = m_editor->GetCurrentFrame();
     fn->AddFrame(currentframe+1);
-    m_framestextures.insert(m_framestextures.begin() + currentframe, fn->GetFrame(currentframe+1)->CopyToTexture(128, 96));
+    m_framestextures.insert(m_framestextures.begin() + (currentframe+1), fn->GetFrame(currentframe+1)->CopyToTexture(128, 96));
 }
 
 
