@@ -3,14 +3,13 @@
 
 #include <string>
 
-#include "Widget.h"
+#include "ClickableWidget.h"
 
-class CheckBox : public Widget {
+class CheckBox : public ClickableWidget {
     public:
     CheckBox(WidgetContainer* container, int x, int y, bool* target, std::string label = "");
 
-    void Update();
-    void Render();
+    void Render() override;
 
     private:
     bool* m_target;

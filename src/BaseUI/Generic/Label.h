@@ -1,19 +1,18 @@
 #ifndef LABEL_H
 #define LABEL_H
 
-#include "Widget.h"
+#include "ClickableWidget.h"
 
 #include <string>
 
 struct SDL_Texture;
 
-class Label : public Widget {
+class Label : public ClickableWidget {
     public:
-    Label(WidgetContainer* container, int x, int y, std::string text);
+    Label(WidgetContainer* container, int x, int y, std::string text, ClickabbleWidgetCallback callback);
     ~Label();
 
-    void Update();
-    void Render();
+    void Render() override;
 
     private:
     SDL_Texture* m_texture;

@@ -5,7 +5,7 @@
 
 #include "Widget.h"
 
-class ClickableWidget; //forward declaration used by EditorButtonCallback
+class ClickableWidget; //forward declaration used by ClickabbleWidgetCallback
 
 using ClickabbleWidgetCallback = std::function<void()>;
 
@@ -22,6 +22,7 @@ class ClickableWidget : public Widget {
     virtual void Update();
     virtual void Render();
 
+    void SetCallback(ClickabbleWidgetCallback callback);
 
     protected:
     //Executed when the button is clicked

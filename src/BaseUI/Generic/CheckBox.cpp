@@ -9,26 +9,17 @@
 #include "WidgetContainer.h"
 
 
-CheckBox::CheckBox(WidgetContainer* container, int x, int y, bool* target, std::string label) : Widget(container, x, y, 16, 16) {
+CheckBox::CheckBox(WidgetContainer* container, int x, int y, bool* target, std::string label) : ClickableWidget(container, x, y, 16, 16) {
     m_target = target;
-
-    if(!label.empty())
-        container->AddWidget(new Label(container, x+20, y, label));
-}
-
-void CheckBox::Update() {
-    //This is for when the menu is not fully deployed (the animation is not over)
-    if(!m_container->IsMouseOvering()) return;
-
-    if(g_runstate->mouseused) return;
-
-    if(IsOvered()) {
-        g_runstate->mouseused = true;
-        
+    
+    m_callback = [&]() -> void {
         if(g_runstate->leftclick) {
             *m_target = !*m_target;
         }
-    }
+    };
+
+    if(!label.empty())
+        container->AddWidget(new Label(container, x+20, y, label, m_callback));
 }
 
 void CheckBox::Render() {
