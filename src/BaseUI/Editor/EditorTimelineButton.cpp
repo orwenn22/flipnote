@@ -10,7 +10,7 @@
 
 EditorTimelineButton::EditorTimelineButton(WidgetContainer* container, FlipnoteEditor* editor) 
 : EditorButton(container, editor, 10, 10, 50, 50, WidgetAllign::WidgetAllign_BottomLeft) {
-    m_callback = [&](EditorButton*) -> void {
+    m_callback = [&]() -> void {
         if(m_editor->IsTimelineOpen()) m_editor->CloseTimeline();
         else m_editor->OpenTimeline();
     };

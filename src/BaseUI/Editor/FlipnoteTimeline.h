@@ -19,6 +19,8 @@ class FlipnoteTimeline {
 
     bool IsMouseOvering();
 
+    void AddFrame();
+
     private:
     void UpdateEnterAnimation();
     

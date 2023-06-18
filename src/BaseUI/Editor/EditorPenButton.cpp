@@ -18,7 +18,7 @@ EditorPenButton::EditorPenButton(WidgetContainer* container, FlipnoteEditor* edi
     UpdatePos();
 
 
-    m_callback = [&](EditorButton*) -> void {
+    m_callback = [&]() -> void {
         PopupMenu* pm = new PopupMenu(GetX() - 10, GetY(), -305, 100);
         pm->AddWidget(new PopupMenuTop(pm, 50));
         pm->AddWidget(new MenuAligner(pm, this));

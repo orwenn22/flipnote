@@ -25,7 +25,7 @@ EditorBrushButton::EditorBrushButton(WidgetContainer* container, FlipnoteEditor*
     m_texture = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, 32, 32);
 
 
-    m_callback = [&](EditorButton* b) -> void {
+    m_callback = [&]() -> void {
         PopupMenu* pm = new PopupMenu(GetX() - 10, GetY(), -319, 200);
 
         pm->AddWidget(new PopupMenuTop(pm, 98));

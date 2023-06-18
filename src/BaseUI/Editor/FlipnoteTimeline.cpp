@@ -82,6 +82,13 @@ bool FlipnoteTimeline::IsMouseOvering() {
 }
 
 
+void FlipnoteTimeline::AddFrame() {
+    Flipnote* fn = m_editor->GetFlipnote();
+    int currentframe = m_editor->GetCurrentFrame();
+    fn->AddFrame(currentframe+1);
+    m_framestextures.insert(m_framestextures.begin() + currentframe, fn->GetFrame(currentframe+1)->CopyToTexture(128, 96));
+}
+
 
 void FlipnoteTimeline::UpdateEnterAnimation() {
     //Make the timeline slide up

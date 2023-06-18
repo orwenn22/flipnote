@@ -34,6 +34,7 @@ class FlipnoteEditor {
 
     //Will set the frame that is currently being edited, and update the FlipnoteDisplay 
     void SetCurrentFrame(int index);
+    int GetCurrentFrame();
 
     //Return a pointer to the flipnote being edited
     Flipnote* GetFlipnote();

@@ -40,6 +40,7 @@ add_executable(Flipnote
     src/BaseUI/Generic/Background.cpp 
     src/BaseUI/Generic/CheckBox.cpp 
     src/BaseUI/Generic/ChildContainer.cpp 
+    src/BaseUI/Generic/ClickableWidget.cpp 
     src/BaseUI/Generic/Label.cpp 
     src/BaseUI/Generic/PopupMenuTop.cpp
     src/BaseUI/Generic/PopupMenu.cpp

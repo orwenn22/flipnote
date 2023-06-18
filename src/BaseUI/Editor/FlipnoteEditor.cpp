@@ -138,6 +138,7 @@ FlipnoteFrame* FlipnoteEditor::CurrentFrame() {
     return m_flipnote->GetFrame(m_page);
 }
 
+
 void FlipnoteEditor::SetCurrentFrame(int index) {
     int framecount = m_flipnote->FrameCount();
     if(index < 0) index = 0;
@@ -146,6 +147,10 @@ void FlipnoteEditor::SetCurrentFrame(int index) {
     m_page = index;
 
     m_display->RefreshTexture(g_runstate->renderer);
+}
+
+int FlipnoteEditor::GetCurrentFrame() {
+    return m_page;
 }
 
 
