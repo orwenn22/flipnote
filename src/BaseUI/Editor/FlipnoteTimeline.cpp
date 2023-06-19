@@ -158,7 +158,15 @@ void FlipnoteTimeline::RenderFrames() {
         SDL_RenderFillRect(g_runstate->renderer, &framesdest);
         SDL_RenderTexture(g_runstate->renderer, m_framestextures[i], NULL, &framesdest);
 
-        framesdest.x += 148.0f; //skip to nerxt frame
+        //outline arount selected frame
+        if(i == m_editor->GetCurrentFrame()) {
+            SDL_FRect recdest = {framesdest.x-4, framesdest.y-4, framesdest.w+8, framesdest.h+8};
+            SDL_Color* c = g_ressources->col_orange;
+            SDL_SetRenderDrawColor(g_runstate->renderer, c->r, c->g, c->b, c->a);
+            SDL_RenderRect(g_runstate->renderer, &recdest);
+        }
+
+        framesdest.x += 148.0f; //skip to next frame
         i++;
     }
 }
