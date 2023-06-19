@@ -19,14 +19,15 @@ class ClickableWidget : public Widget {
     );
     virtual ~ClickableWidget();
 
-    //Note : a derivated method of ClickableWidget::Update MUST call it.
+    //Note : A derivated method of ClickableWidget::Update MUST call it.
+    //       It also need to re-check if the mouse is overring and/or clicking the widget if it provide additionnal interaction
     virtual void Update();
     virtual void Render();
 
     void SetCallback(ClickabbleWidgetCallback callback);
 
     protected:
-    //Executed when the button is clicked
+    //Executed when the widget is clicked
     ClickabbleWidgetCallback m_callback;
 };
 

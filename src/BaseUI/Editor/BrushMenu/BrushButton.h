@@ -1,19 +1,19 @@
 #ifndef BRUSHBUTTON_H
 #define BRUSHBUTTON_H
 
-#include "../../Generic/Widget.h"
+#include "../../Generic/ClickableWidget.h"
 
 class FlipnoteEditor;
 
 struct SDL_Texture;
 
-class BrushButton : public Widget {
+class BrushButton : public ClickableWidget {
     public:
     BrushButton(WidgetContainer* container, FlipnoteEditor* editor, int brushindex, int x, int y);
     virtual ~BrushButton();
 
-    void Update();
-    void Render();
+    void Update() override;
+    void Render() override;
 
     private:
 

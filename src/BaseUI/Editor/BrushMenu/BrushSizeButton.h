@@ -1,18 +1,17 @@
 #ifndef BRUSHSIZEBUTTON_H
 #define BRUSHSIZEBUTTON_H
 
-#include "../../Generic/Widget.h"
+#include "../../Generic/ClickableWidget.h"
 
 class FlipnoteEditor;
 struct SDL_Texture;
 
-class BrushSizeButton : public Widget {
+class BrushSizeButton : public ClickableWidget {
     public:
     BrushSizeButton(WidgetContainer* container, FlipnoteEditor* editor, int brushsize, int x, int y);
     ~BrushSizeButton();
 
-    void Update();
-    void Render();
+    void Render() override;
 
     private:
     int m_brushsize;

@@ -9,7 +9,7 @@
 #include "../../Generic/WidgetContainer.h"
 #include "../FlipnoteEditor.h"
 
-BrushSizeButton::BrushSizeButton(WidgetContainer* container, FlipnoteEditor* editor, int brushsize, int x, int y) : Widget(container, x, y) {
+BrushSizeButton::BrushSizeButton(WidgetContainer* container, FlipnoteEditor* editor, int brushsize, int x, int y) : ClickableWidget(container, x, y) {
     m_w = 32;
     m_h = 32;
 
@@ -20,20 +20,12 @@ BrushSizeButton::BrushSizeButton(WidgetContainer* container, FlipnoteEditor* edi
 
     FlipnotePainter painter(NULL, m_texture);
     painter.FillCircle(m_w/2, m_h/2, brushsize, 1);
+
+    m_callback = [&]() -> void { m_editor->SetBrushSize(m_brushsize); };
 }
 
 BrushSizeButton::~BrushSizeButton() {
     SDL_DestroyTexture(m_texture);
-}
-
-void BrushSizeButton::Update() {
-    //This is for when the menu is not fully deployed (the animation is not over)
-    if(!m_container->IsMouseOvering()) return;
-    if(g_runstate->mouseused) return;
-
-    if(IsOvered() && g_runstate->leftclick) {
-        m_editor->SetBrushSize(m_brushsize);
-    }
 }
 
 void BrushSizeButton::Render() {

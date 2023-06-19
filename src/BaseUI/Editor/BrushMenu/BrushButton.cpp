@@ -8,7 +8,7 @@
 #include "../../Generic/WidgetContainer.h"
 #include "../FlipnoteEditor.h"
 
-BrushButton::BrushButton(WidgetContainer* container, FlipnoteEditor* editor, int brushindex, int x, int y) : Widget(container, x, y) {
+BrushButton::BrushButton(WidgetContainer* container, FlipnoteEditor* editor, int brushindex, int x, int y) : ClickableWidget(container, x, y) {
     m_editor = editor;
     m_brushindex = brushindex;
     
@@ -19,6 +19,7 @@ BrushButton::BrushButton(WidgetContainer* container, FlipnoteEditor* editor, int
     m_brushtexture = NULL;
     InitTexture();
 
+    m_callback = [&]() -> void { m_editor->SetCurrentBrush(m_brushindex); };
 }
 
 BrushButton::~BrushButton() {
@@ -27,18 +28,12 @@ BrushButton::~BrushButton() {
 
 
 void BrushButton::Update() {
+    //Reload the texture if the "invert brush" checkbox is clicked
     if(m_displayedbrushinverted != m_editor->m_invertpaint) {
         InitTexture();
     }
 
-    //This is for when the menu is not fully deployed (the animation is not over)
-    if(!m_container->IsMouseOvering()) return;
-
-    if(g_runstate->mouseused) return;
-
-    if(IsOvered() && g_runstate->leftclick) {
-        m_editor->SetCurrentBrush(m_brushindex);
-    }
+    this->ClickableWidget::Update();
 }
 
 void BrushButton::Render() {
