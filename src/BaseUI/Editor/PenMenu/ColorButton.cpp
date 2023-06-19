@@ -11,30 +11,15 @@
 
 #include <stdio.h>
 
-ColorButton::ColorButton(WidgetContainer* container, FlipnoteEditor* editor, int index, int x, int y) : Widget(container, x, y) {
+ColorButton::ColorButton(WidgetContainer* container, FlipnoteEditor* editor, int index, int x, int y) : ClickableWidget(container, x, y) {
     m_editor = editor;
     m_index = index;
 
     SDL_QueryTexture(g_ressources->txtr_smallpenbutton, NULL, NULL, &m_w, &m_h);
+
+    m_callback = [&]() -> void { m_editor->SetCurrentColorIndex(m_index); };
 }
 
-void ColorButton::Update() {
-    //This is for when the menu is not fully deployed (the animation is not over)
-    if(!m_container->IsMouseOvering()) return;
-
-    ////Get mouse pos in popup menu
-    //int mousex, mousey;
-    //m_popupmenu->GetRelativeMousePos(&mousex, &mousey);
-
-    if(g_runstate->mouseused) return;
-
-    //Check if mouse is overring
-    if(IsOvered()) {
-        if(g_runstate->leftclick) {
-            m_editor->SetCurrentColorIndex(m_index);
-        }
-    }
-}
 
 void ColorButton::Render() {
     float x = (float)GetX();

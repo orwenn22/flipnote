@@ -1,17 +1,16 @@
 #ifndef COLORBUTTON_H
 #define COLORBUTTON_H
 
-#include "../../Generic/Widget.h"
+#include "../../Generic/ClickableWidget.h"
 
 class FlipnoteEditor;
 
-class ColorButton : public Widget {
+class ColorButton : public ClickableWidget {
     public:
     //index is the color to switch to when the button is clicked
     ColorButton(WidgetContainer* container, FlipnoteEditor* editor, int index, int x, int y);
 
-    void Update();
-    void Render();
+    void Render() override;
 
     private:
     FlipnoteEditor* m_editor;

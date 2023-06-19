@@ -63,7 +63,6 @@ void EditorBrushButton::Update() {
     this->EditorButton::Update();
 
     //uncomment this if we need to do something else after that :
-    //UPDATE : this might not be necessary anymore since the ClickableWidget change.
     //if(g_runstate->mouseused) return;
 }
 
