@@ -27,13 +27,11 @@ BrushButton::~BrushButton() {
 }
 
 
-void BrushButton::Update() {
+void BrushButton::PreUpdate() {
     //Reload the texture if the "invert brush" checkbox is clicked
     if(m_displayedbrushinverted != m_editor->m_invertpaint) {
         InitTexture();
     }
-
-    this->ClickableWidget::Update();
 }
 
 void BrushButton::Render() {

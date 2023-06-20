@@ -12,7 +12,7 @@ class BrushButton : public ClickableWidget {
     BrushButton(WidgetContainer* container, FlipnoteEditor* editor, int brushindex, int x, int y);
     virtual ~BrushButton();
 
-    void Update() override;
+    void PreUpdate() override;
     void Render() override;
 
     private:

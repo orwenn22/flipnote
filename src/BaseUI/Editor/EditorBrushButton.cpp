@@ -51,19 +51,13 @@ EditorBrushButton::~EditorBrushButton() {
 }
 
 
-void EditorBrushButton::Update() {
+void EditorBrushButton::PreUpdate() {
     //check if brush settings were modified
     if(m_displayedbrushkind != m_editor->GetCurrentBrush()
     || m_displayedbrushsize != m_editor->GetBrushSize()
     || m_displayedbrushinverted != m_editor->m_invertpaint) {
         UpdateTexture();
     }
-
-    //Update pos, check for click, etc...
-    this->EditorButton::Update();
-
-    //uncomment this if we need to do something else after that :
-    //if(g_runstate->mouseused) return;
 }
 
 void EditorBrushButton::Render() {

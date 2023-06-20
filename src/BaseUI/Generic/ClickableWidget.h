@@ -19,9 +19,14 @@ class ClickableWidget : public Widget {
     );
     virtual ~ClickableWidget();
 
-    //Note : A derivated method of ClickableWidget::Update MUST call it.
-    //       It also need to re-check if the mouse is overring and/or clicking the widget if it provide additionnal interaction
-    virtual void Update();
+    //This is not redefinable. Use PreUpdate() and OnOver() instead.
+    void Update() final;
+    //Called "before" ClickableWidget::Update().
+    virtual void PreUpdate();
+    //Called "after" ClickableWidget::Update() if the widget is overred.
+    virtual void OnOver();
+
+
     virtual void Render();
 
     void SetCallback(ClickabbleWidgetCallback callback);

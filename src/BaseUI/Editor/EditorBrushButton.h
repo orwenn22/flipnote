@@ -11,7 +11,7 @@ class EditorBrushButton : public EditorButton {
     EditorBrushButton(WidgetContainer* container, FlipnoteEditor* editor);
     virtual ~EditorBrushButton();
 
-    void Update() override;
+    void PreUpdate() override;
     void Render() override;
 
     private:

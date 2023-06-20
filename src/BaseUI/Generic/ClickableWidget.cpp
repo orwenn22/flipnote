@@ -23,6 +23,8 @@ ClickableWidget::~ClickableWidget() {
 
 
 void ClickableWidget::Update() {
+    PreUpdate();
+
     UpdatePos();
 
     if(g_runstate->mouseused) return;
@@ -36,8 +38,13 @@ void ClickableWidget::Update() {
         if(g_runstate->leftclick) {
             m_callback();
         }
+
+        OnOver();
     }
 }
+void ClickableWidget::PreUpdate() {}
+void ClickableWidget::OnOver() {}
+
 
 void ClickableWidget::Render() {
     SDL_FRect dest = {(float)GetX(), (float)GetY(), (float)m_w, (float)m_h};
