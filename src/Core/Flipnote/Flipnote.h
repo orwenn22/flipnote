@@ -29,6 +29,8 @@ class Flipnote {
     //if index <0  it will append the frame at the begining of m_frames.
     void AddFrame(int index);
 
+    void DeleteFrame(int index);
+
     private:
     std::vector<FlipnoteFrame*> m_frames;
     int m_framewidth;

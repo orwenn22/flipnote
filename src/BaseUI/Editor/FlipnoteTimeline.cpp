@@ -14,7 +14,7 @@
 
 #include <stdio.h>
 
-#include "../Generic/ClickableWidget.h"
+#include "../Generic/IconButton.h"
 
 
 FlipnoteTimeline::FlipnoteTimeline(FlipnoteEditor* editor) {
@@ -22,28 +22,32 @@ FlipnoteTimeline::FlipnoteTimeline(FlipnoteEditor* editor) {
     m_y = g_runstate->winheight;
 
     SDL_QueryTexture(g_ressources->txtr_timelinetile, NULL, NULL, &m_tilewidth, &m_tileheight);
+
     m_yfrombottomdest = m_tileheight - 38;
     m_yfrombottom = 0;
 
-    m_framesx = 15;
+    m_framesx = 45 - 148*m_editor->GetCurrentFrame();
+    m_framesxvelocity = 0;
 
-    //Get all frame textures
-    Flipnote* fn = m_editor->GetFlipnote();
-    int framecount = fn->FrameCount();
-    for(int i = 0; i < framecount; i++) {
-        m_framestextures.push_back(fn->GetFrame(i)->CopyToTexture(128, 96));
-    }
+    //Allocate enougth space in the vector for all frames
+    m_framestextures = std::vector<SDL_Texture*>(m_editor->GetFlipnote()->FrameCount(), NULL);
 
     //Setup the container for the timeline buttons (y is calculated by UpdateEnterAnimation)
-    m_widgets = new ChildContainer(NULL, 70, 0, g_runstate->winwidth-140, 50, WidgetAllign::WidgetAllign_None);
+    m_widgets = new ChildContainer(NULL, 70, 0, g_runstate->winwidth-140, 40, WidgetAllign::WidgetAllign_None);
     m_widgets->m_drawoutline = true;
-    m_widgets->AddWidget(new ClickableWidget(m_widgets, 0, 0, 20, 20, WidgetAllign_None, [&]() -> void {
-        AddFrame();
-    }));
+
+    auto newframebutton = new IconButton(m_widgets, g_ressources->txtr_icon_add, 0, 0);
+    newframebutton->SetCallback([&]() { AddFrame(); });
+    m_widgets->AddWidget(newframebutton);
+
+    auto deleteframebutton = new IconButton(m_widgets, g_ressources->txtr_icon_delete, 40, 0);
+    deleteframebutton->SetCallback([&]() { DeleteFrame(); });
+    m_widgets->AddWidget(deleteframebutton);
 }
 
 FlipnoteTimeline::~FlipnoteTimeline() {
     for(SDL_Texture* t : m_framestextures) {
+        if(t == NULL) continue;
         SDL_DestroyTexture(t);
     }
     m_framestextures.clear();
@@ -92,22 +96,49 @@ void FlipnoteTimeline::AddFrame() {
     m_framestextures.insert(m_framestextures.begin() + (currentframe+1), fn->GetFrame(currentframe+1)->CopyToTexture(128, 96));
 }
 
+void FlipnoteTimeline::DeleteFrame() {
+    Flipnote* fn = m_editor->GetFlipnote();
+    int currentframe = m_editor->GetCurrentFrame();
+
+    //Count the number of frame before deleting the current one
+    //(If there is only one remaining we need to reload a texture)
+    int count = fn->FrameCount();
+
+    //Delete current frame
+    fn->DeleteFrame(currentframe);
+    SDL_DestroyTexture(m_framestextures[currentframe]);
+    m_framestextures.erase(m_framestextures.begin() + currentframe);
+    if(count == 1) m_framestextures.push_back(fn->GetFrame(0)->CopyToTexture(128, 96));
+
+    //Update Editor::m_display
+    m_editor->SetCurrentFrame(currentframe);
+}
+
 
 void FlipnoteTimeline::UpdateEnterAnimation() {
     //Make the timeline slide up
-    if(m_yfrombottom < m_yfrombottomdest) {
-        m_yfrombottom += 10;
-    } else {
+    if(m_yfrombottom > m_yfrombottomdest-5) {   //animation over
         m_yfrombottom = m_yfrombottomdest;
     }
+    else {      //animation not over
+        m_yfrombottom += 10;
+    }
 
+    //Calculate absolute position based on m_yfrombottom
     m_y = g_runstate->winheight - m_yfrombottom;
 
-    m_widgets->SetYOffest(m_y + 233);
+    //Reposition the buttons
+    m_widgets->SetYOffest(m_y + 238);
 }
 
 
 void FlipnoteTimeline::UpdateFrames() {
+    //Scroll animation
+    m_framesxvelocity += (g_runstate->mousewheel * 53);
+    m_framesx += m_framesxvelocity;
+    m_framesxvelocity /= 1.5;
+    if(m_framesx > 45) m_framesx = 45;
+
     //Rect corresponding to the pos of the first frame
     SDL_Rect framerect = {m_framesx, m_y+85, 128, 96};
 
@@ -122,7 +153,7 @@ void FlipnoteTimeline::UpdateFrames() {
 
     //Ignore the frames that are off screen
     while(framerect.x < -148.0f) {
-        framerect.x += 148.0f;  //skip to nerxt frame
+        framerect.x += 148.0f;  //skip to next frame
         i+=1;
     }
 
@@ -155,8 +186,7 @@ void FlipnoteTimeline::RenderFrames() {
     }
 
     while(i < framecount && framesdest.x < g_runstate->winwidth) {
-        SDL_RenderFillRect(g_runstate->renderer, &framesdest);
-        SDL_RenderTexture(g_runstate->renderer, m_framestextures[i], NULL, &framesdest);
+        LoadAndRenderFrame(i, &framesdest);
 
         //outline arount selected frame
         if(i == m_editor->GetCurrentFrame()) {
@@ -169,4 +199,12 @@ void FlipnoteTimeline::RenderFrames() {
         framesdest.x += 148.0f; //skip to next frame
         i++;
     }
+}
+
+void FlipnoteTimeline::LoadAndRenderFrame(int index, SDL_FRect* dest) {
+    if(m_framestextures[index] == NULL) {
+        m_framestextures[index] = m_editor->GetFlipnote()->GetFrame(index)->CopyToTexture(128, 96);
+    }
+    SDL_RenderFillRect(g_runstate->renderer, dest);
+    SDL_RenderTexture(g_runstate->renderer, m_framestextures[index], NULL, dest);
 }

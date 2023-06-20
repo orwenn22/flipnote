@@ -142,7 +142,7 @@ FlipnoteFrame* FlipnoteEditor::CurrentFrame() {
 void FlipnoteEditor::SetCurrentFrame(int index) {
     int framecount = m_flipnote->FrameCount();
     if(index < 0) index = 0;
-    else if(index > framecount) index = framecount-1;
+    else if(index >= framecount) index = framecount-1;
 
     m_page = index;
 

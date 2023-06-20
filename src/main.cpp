@@ -73,11 +73,6 @@ int main() {
 
     //Flipnote editor
     Flipnote* flipnote = new Flipnote(512, 384);
-    flipnote->AddFrame(1);
-    flipnote->AddFrame(1);
-    flipnote->AddFrame(1);
-    flipnote->AddFrame(1);
-    flipnote->AddFrame(1);
     FlipnoteEditor* fe = new FlipnoteEditor(renderer, flipnote);
     
 
