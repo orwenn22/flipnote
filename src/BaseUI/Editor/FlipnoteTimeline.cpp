@@ -126,6 +126,8 @@ bool FlipnoteTimeline::IsMouseOvering() {
 void FlipnoteTimeline::AddFrame() {
     Flipnote* fn = m_editor->GetFlipnote();
     int currentframe = m_editor->GetCurrentFrame();
+
+    //Insert an empty frame right after the current one
     fn->AddFrame(currentframe+1);
     m_framestextures.insert(m_framestextures.begin() + (currentframe+1), NULL);
 }
@@ -135,14 +137,14 @@ void FlipnoteTimeline::DeleteFrame() {
     int currentframe = m_editor->GetCurrentFrame();
 
     //Count the number of frame before deleting the current one
-    //(If there is only one remaining we need to reload a texture)
+    //(If there is only one remaining we need to reload a texture, because it is impossible to heva an empty flipnote)
     int count = fn->FrameCount();
 
     //Delete current frame
     fn->DeleteFrame(currentframe);
     SDL_DestroyTexture(m_framestextures[currentframe]);
     m_framestextures.erase(m_framestextures.begin() + currentframe);
-    if(count == 1) m_framestextures.push_back(NULL);    //Add a texture back if there is no longer one
+    if(count == 1) m_framestextures.push_back(NULL);    //Add a texture back if there was only one frame remaining before the deletion
 
     //Update Editor::m_display
     m_editor->SetCurrentFrame(currentframe);
