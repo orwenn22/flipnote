@@ -26,7 +26,7 @@ FlipnoteTimeline::FlipnoteTimeline(FlipnoteEditor* editor) {
     m_yfrombottomdest = m_tileheight - 38;
     m_yfrombottom = 0;
 
-    m_framesx = 45 - 148*m_editor->GetCurrentFrame();
+    m_framesx = FramesXMaxPosition() - 148*m_editor->GetCurrentFrame();
     m_framesxvelocity = 0;
 
     //Allocate enougth space in the vector for all frames
@@ -34,15 +34,40 @@ FlipnoteTimeline::FlipnoteTimeline(FlipnoteEditor* editor) {
 
     //Setup the container for the timeline buttons (y is calculated by UpdateEnterAnimation)
     m_widgets = new ChildContainer(NULL, 70, 0, g_runstate->winwidth-140, 40, WidgetAllign::WidgetAllign_None);
-    m_widgets->m_drawoutline = true;
+    m_widgets->m_drawoutline = false;
 
+
+    ////BUTTONS TO CHANGE THE ORDER OF THE FRAMES
+
+    //Create a new frame
     auto newframebutton = new IconButton(m_widgets, g_ressources->txtr_icon_add, 0, 0);
     newframebutton->SetCallback([&]() { AddFrame(); });
     m_widgets->AddWidget(newframebutton);
 
+    //Delete selected frame
     auto deleteframebutton = new IconButton(m_widgets, g_ressources->txtr_icon_delete, 40, 0);
     deleteframebutton->SetCallback([&]() { DeleteFrame(); });
     m_widgets->AddWidget(deleteframebutton);
+
+    //Move selected frame and put it in the first place
+    auto maxleftbutton = new IconButton(m_widgets, g_ressources->txtr_icon_left_double, 80, 0);
+    maxleftbutton->SetCallback([&]() { MoveToDest(0); });
+    m_widgets->AddWidget(maxleftbutton);
+
+    //Move selected frame to the left
+    auto leftbutton = new IconButton(m_widgets, g_ressources->txtr_icon_left, 120, 0);
+    leftbutton->SetCallback([&]() { MoveToDest(m_editor->GetCurrentFrame()-1); });
+    m_widgets->AddWidget(leftbutton);
+
+    //Move selected frame to the right
+    auto rightbutton = new IconButton(m_widgets, g_ressources->txtr_icon_right, 160, 0);
+    rightbutton->SetCallback([&]() { MoveToDest(m_editor->GetCurrentFrame()+1); });
+    m_widgets->AddWidget(rightbutton);
+
+    //Move selected frame and put it in the last place
+    auto maxrightbutton = new IconButton(m_widgets, g_ressources->txtr_icon_right_double, 200, 0);
+    maxrightbutton->SetCallback([&]() { MoveToDest(m_editor->GetFlipnote()->FrameCount()-1); });
+    m_widgets->AddWidget(maxrightbutton);
 }
 
 FlipnoteTimeline::~FlipnoteTimeline() {
@@ -56,7 +81,13 @@ FlipnoteTimeline::~FlipnoteTimeline() {
 }
 
 void FlipnoteTimeline::Update() {
+    //Enter animation (slide from the bottom of the window)
     UpdateEnterAnimation();
+    
+    //For when we resize the window
+    if(m_framesx > FramesXMaxPosition()) m_framesx = FramesXMaxPosition();
+    if(m_framesx < FramesXMinPosition()) m_framesx = FramesXMinPosition();
+
 
     if(g_runstate->mouseused) return;
 
@@ -89,11 +120,14 @@ bool FlipnoteTimeline::IsMouseOvering() {
 }
 
 
+///////////////////////////////
+// Button actions
+
 void FlipnoteTimeline::AddFrame() {
     Flipnote* fn = m_editor->GetFlipnote();
     int currentframe = m_editor->GetCurrentFrame();
     fn->AddFrame(currentframe+1);
-    m_framestextures.insert(m_framestextures.begin() + (currentframe+1), fn->GetFrame(currentframe+1)->CopyToTexture(128, 96));
+    m_framestextures.insert(m_framestextures.begin() + (currentframe+1), NULL);
 }
 
 void FlipnoteTimeline::DeleteFrame() {
@@ -108,12 +142,46 @@ void FlipnoteTimeline::DeleteFrame() {
     fn->DeleteFrame(currentframe);
     SDL_DestroyTexture(m_framestextures[currentframe]);
     m_framestextures.erase(m_framestextures.begin() + currentframe);
-    if(count == 1) m_framestextures.push_back(fn->GetFrame(0)->CopyToTexture(128, 96));
+    if(count == 1) m_framestextures.push_back(NULL);    //Add a texture back if there is no longer one
 
     //Update Editor::m_display
     m_editor->SetCurrentFrame(currentframe);
 }
 
+void FlipnoteTimeline::MoveToDest(int dest) {
+    int currentframe = m_editor->GetCurrentFrame();
+    Flipnote* fn = m_editor->GetFlipnote();
+
+    //Check if the frame is valid
+    if(dest < 0 || dest >= fn->FrameCount()) return;
+
+    //Move the frame int the flinote
+    fn->MoveFrame(currentframe, dest);
+
+    //Check in which "direction" the frame is going
+    int step;
+    if(dest < currentframe) step = -1;
+    else step = 1;
+
+    //Update the timeline's frames
+    //Setting the textures to NULL will make them reload
+    for(int i = currentframe; i != dest; i+=step) {
+        SDL_DestroyTexture(m_framestextures[i]);
+        m_framestextures[i] = NULL;
+    }
+    SDL_DestroyTexture(m_framestextures[dest]);
+    m_framestextures[dest] = NULL;
+
+    //Tell the editor the new position of the frame
+    m_editor->SetCurrentFrame(dest);
+
+    //Make it so the frame is at the center of the screen
+    m_framesx = FramesXMaxPosition() - 148*m_editor->GetCurrentFrame();
+}
+
+
+///////////////////////////////
+// Other stuff
 
 void FlipnoteTimeline::UpdateEnterAnimation() {
     //Make the timeline slide up
@@ -132,12 +200,21 @@ void FlipnoteTimeline::UpdateEnterAnimation() {
 }
 
 
+int FlipnoteTimeline::FramesXMaxPosition() {
+    return (g_runstate->winwidth/2);
+}
+
+int FlipnoteTimeline::FramesXMinPosition() {
+    return (g_runstate->winwidth/2) - 148*m_editor->GetFlipnote()->FrameCount();
+}
+
 void FlipnoteTimeline::UpdateFrames() {
     //Scroll animation
     m_framesxvelocity += (g_runstate->mousewheel * 53);
     m_framesx += m_framesxvelocity;
     m_framesxvelocity /= 1.5;
-    if(m_framesx > 45) m_framesx = 45;
+    if(m_framesx > FramesXMaxPosition()) m_framesx = FramesXMaxPosition();
+    if(m_framesx < FramesXMinPosition()) m_framesx = FramesXMinPosition();
 
     //Rect corresponding to the pos of the first frame
     SDL_Rect framerect = {m_framesx, m_y+85, 128, 96};

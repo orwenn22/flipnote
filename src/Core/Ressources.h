@@ -26,6 +26,10 @@ struct Ressources {
     SDL_Texture* txtr_timelineicon;
     SDL_Texture* txtr_icon_add;
     SDL_Texture* txtr_icon_delete;
+    SDL_Texture* txtr_icon_right;
+    SDL_Texture* txtr_icon_left;
+    SDL_Texture* txtr_icon_right_double;
+    SDL_Texture* txtr_icon_left_double;
 
     Tileset* tileset_popupmenu;
     TilesetRectData* rectdata_popupmenu;    //for Tileset->DrawRectangle

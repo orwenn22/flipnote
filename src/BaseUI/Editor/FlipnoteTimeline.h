@@ -20,14 +20,20 @@ class FlipnoteTimeline {
 
     bool IsMouseOvering();
 
-    //Action for buttons
+    //Action for buttons to interract with the selected frame.
     void AddFrame();
     void DeleteFrame();
+    void MoveToDest(int dest);
 
     private:
     //Sliding animation from the bottom of the window
     void UpdateEnterAnimation();
     
+    //Calculate the maximum position of the origin of the frames (based on the window's width)
+    int FramesXMaxPosition();
+    //Calculate the minimum position of the origin of the frames (based on the window's width and the number of frames)
+    int FramesXMinPosition();
+
     //Check for clicks on the frames.
     void UpdateFrames();
     //Draw the frames on the timeline.

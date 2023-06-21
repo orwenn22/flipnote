@@ -51,3 +51,24 @@ void Flipnote::DeleteFrame(int index) {
 
     if(FrameCount() == 0) AddFrame(0);
 }
+
+void Flipnote::MoveFrame(int src, int dest) {
+    if(src < 0 || src >= FrameCount()) return;
+    if(dest < 0 || dest >= FrameCount()) return;
+
+    FlipnoteFrame* tmp = m_frames[src];
+
+    //Determine in which "direction" we need to move the frame
+    int step;
+    if(dest < src) step = -1;
+    else step = 1;
+
+    //shift all frames by one
+    while(src != dest) {
+        m_frames[src] = m_frames[src+step];
+        src += step;
+    }
+
+    //put the frame in the right place
+    m_frames[dest] = tmp;
+}
