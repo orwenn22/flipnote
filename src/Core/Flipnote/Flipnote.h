@@ -33,6 +33,8 @@ class Flipnote {
 
     void MoveFrame(int src, int dest);
 
+    void GetFramesSize(int* w, int* h);
+
 
     private:
     std::vector<FlipnoteFrame*> m_frames;

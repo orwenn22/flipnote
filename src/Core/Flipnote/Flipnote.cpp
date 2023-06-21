@@ -72,3 +72,9 @@ void Flipnote::MoveFrame(int src, int dest) {
     //put the frame in the right place
     m_frames[dest] = tmp;
 }
+
+
+void Flipnote::GetFramesSize(int* w, int* h) {
+    *w = m_framewidth;
+    *h = m_frameheight;
+}

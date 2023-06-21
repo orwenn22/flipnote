@@ -13,6 +13,7 @@ FlipnoteDisplay::FlipnoteDisplay(SDL_Renderer* renderer, FlipnoteEditor* editor)
     m_editor = editor;
     m_x = 50;
     m_y = 50;
+    editor->GetFlipnote()->GetFramesSize(&m_unzoomedwidth, &m_unzoomedheight);
     m_scale = 1.0f;
 
     m_followmouse = false;
@@ -42,12 +43,17 @@ void FlipnoteDisplay::Update() {
 
 
 void FlipnoteDisplay::Render(SDL_Renderer* renderer) {
-    SDL_FRect dest = {(float)m_x, (float)m_y, (float)512 * m_scale, (float)384 * m_scale};
+    SDL_FRect dest = {(float)m_x, (float)m_y, (float)m_unzoomedwidth * m_scale, (float)m_unzoomedheight * m_scale};
 
     SDL_FRect outline = {dest.x - m_scale, dest.y - m_scale, dest.w + m_scale*2, dest.h + m_scale*2};
     SDL_SetRenderDrawColor(renderer, 190, 190, 190, 255);   //gray
     SDL_RenderFillRect(renderer, &outline);
     SDL_RenderTexture(renderer, m_currentpagetexture, NULL, &dest);
+
+
+    if(m_scale >= 5) {
+        RenderGrid();
+    }
 }
 
 
@@ -64,7 +70,8 @@ void FlipnoteDisplay::GetMousePosRelative(int* x, int* y) {
 
 bool FlipnoteDisplay::IsMouseOnDisplay() {
     return (g_runstate->mousex >= m_x && g_runstate->mousey >= m_y
-    && g_runstate->mousex < m_x + (int)(512.0f*m_scale) && g_runstate->mousey < m_y + (int)(384.0f*m_scale));
+    && g_runstate->mousex < m_x + (int)((float)m_unzoomedwidth*m_scale) 
+    && g_runstate->mousey < m_y + (int)((float)m_unzoomedheight*m_scale));
 }
 
 
@@ -139,5 +146,43 @@ void FlipnoteDisplay::HandleZoom() {
         //Actually apply the new distance
         m_x = g_runstate->mousex - relativex;
         m_y = g_runstate->mousey - relativey;
+    }
+}
+
+
+void FlipnoteDisplay::RenderGrid() {
+    //Find the position of the right and the bottom of the display
+    int displayrightpos = m_x + m_unzoomedwidth * m_scale;
+    int displaybottompos = m_y + m_unzoomedheight * m_scale;
+
+    //left pixels of the texture that are offscreen
+    int offscreenleft = (-m_x) / m_scale; 
+    if(offscreenleft < 0) offscreenleft = 0;
+
+    //top pixels of the texture that are offscreen
+    int offscreentop = (-m_y) / m_scale;
+    if(offscreentop < 0) offscreentop = 0;
+
+    //Find where we need to start drawing the lines
+    int firstlinex = m_x + offscreenleft * m_scale;
+    int firstliney = m_y + offscreentop * m_scale;
+
+    //Find at what x coordonate we need to stop the lines
+    int xstop;
+    if(displayrightpos > g_runstate->winwidth) xstop = g_runstate->winwidth;
+    else xstop = displayrightpos;
+
+    //Find at what y coordonate we need to stop the lines
+    int ystop;
+    if(displaybottompos > g_runstate->winheight) ystop = g_runstate->winheight;
+    else ystop = displaybottompos;
+
+
+    for(int x = firstlinex; x < xstop; x += m_scale) {
+        SDL_RenderLine(g_runstate->renderer, x, firstliney, x, ystop);
+    }
+
+    for(int y = firstliney; y < ystop; y += m_scale) {
+        SDL_RenderLine(g_runstate->renderer, firstlinex, y, xstop, y);
     }
 }

@@ -37,6 +37,9 @@ class FlipnoteDisplay {
     void HandleZoom();
 
 
+    void RenderGrid();
+
+
     //The parrent editor of the display
     FlipnoteEditor* m_editor;
 
@@ -46,6 +49,8 @@ class FlipnoteDisplay {
 
     int m_x;
     int m_y;
+    int m_unzoomedwidth;        //width without conciderring zoom (aka width of a frame of the flipnote)
+    int m_unzoomedheight;       //height without conciderring zoom (aka height of a frame of the flipnote)
     float m_scale;
 
     bool m_followmouse;
