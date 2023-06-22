@@ -2,6 +2,7 @@
 #define FLIPNOTEPAINTER_H
 
 class FlipnoteFrame;
+struct SDL_Color;
 struct SDL_Texture;
 
 #include "PaintCondition.h"
@@ -12,6 +13,7 @@ bool DefaultPaintCondition(int x, int y);
 class FlipnotePainter {
     public:
     FlipnotePainter(FlipnoteFrame* frame, SDL_Texture* texture, PaintCondition paintcondition = DefaultPaintCondition, bool invertpaint = false);
+    FlipnotePainter(SDL_Color* palette, SDL_Texture* texture, PaintCondition paintcondition = DefaultPaintCondition, bool invertpaint = false);
 
     //All of these will call PrepareRender
     void SetPixel(int x, int y, int colorindex);
@@ -25,6 +27,7 @@ class FlipnotePainter {
 
     FlipnoteFrame* m_frame;
     SDL_Texture* m_texture;
+    SDL_Color* m_palette;
 
     private:
     //All of these WON'T call PrepareRender

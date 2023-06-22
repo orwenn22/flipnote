@@ -112,12 +112,22 @@ SDL_Color FlipnoteFrame::GetColor(int index) {
     return m_colors[index];
 }
 
+SDL_Color* FlipnoteFrame::GetPalette() {
+    return m_colors;
+}
+
+
 //static
 SDL_Color FlipnoteFrame::GetDefaultColor(int index) {
     if(index < 0) index = 0;
     if(index > defaultframepalettesize) index = defaultframepalettesize-1;
     return defaultframepalette[index];
 }
+
+SDL_Color* FlipnoteFrame::GetDefaultPalette() {
+    return defaultframepalette;
+}
+
 
 
 void FlipnoteFrame::SetPixel(int x, int y, int colorindex) {

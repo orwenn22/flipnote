@@ -18,7 +18,11 @@ class FlipnoteFrame {
 
     void SetColor(int index, SDL_Color c);
     SDL_Color GetColor(int index);
+    //NEVER MODIFY THE PALETTE RETURNED BY THIS
+    SDL_Color* GetPalette();
     static SDL_Color GetDefaultColor(int index);
+    //NEVER MODIFY THE PALETTE RETURNED BY THIS
+    static SDL_Color* GetDefaultPalette();
 
     //Set a pixel in m_pixels.
     void SetPixel(int x, int y, int colorindex);

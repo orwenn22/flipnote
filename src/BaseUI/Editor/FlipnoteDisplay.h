@@ -40,12 +40,17 @@ class FlipnoteDisplay {
     void RenderGrid();
 
 
+    void RenderToolPreview();
+
+
     //The parrent editor of the display
     FlipnoteEditor* m_editor;
 
     //Copy of the current current page being edited on the gpu side.
     //Reloaded by RefreshTexture (each time the user switch page ?).
     SDL_Texture* m_currentpagetexture;
+
+    SDL_Texture* m_toolpreview;
 
     int m_x;
     int m_y;

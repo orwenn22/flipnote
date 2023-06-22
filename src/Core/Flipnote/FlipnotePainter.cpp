@@ -11,43 +11,27 @@
 
 bool DefaultPaintCondition(int x, int y) {
     return true;
-
-    //lignes verticales et horizontales
-    //return x%2;
-    //return y%2;
-
-    //Diagonales
-    //return (x-y)%3 == 0;
-    //return (x-y)%4 == 0;
-    //return (x+y)%3 == 0;
-    //return (x+y)%4 == 0;
-
-
-    // "cadriage"
-    //return (x%2 && y%2);
-    //return !(x%2 && y%2);
-    //return (x%3 && y%3);
-    //return !(x%3 && y%3);
-
-    //return (x-y)%2 == 0 || (x+y)%2 == 0;
-    //return (x-y)%3 == 0 || (x+y)%3 == 0;
-    
-
-    //weird brushes
-    //return (x-y)%3 == 0 || (x+y)%2 == 0;
-    //return (x-y)%3 == 0 || (x+y)%4 == 3;
-    //return (x-y)%4 == 0 || (x+y)%4 == 0;
-
-    //rectangles
-    //return (x%2 && y%3);
-    //return (x%3 && y%2);
 }
+
 
 FlipnotePainter::FlipnotePainter(FlipnoteFrame* frame, SDL_Texture* texture, PaintCondition paintcondition, bool invertpaint) {
     m_frame = frame;
     m_texture = texture;
     m_paintcondition = paintcondition;
     m_invertpaint = invertpaint;
+
+    if(m_frame == NULL) m_palette = FlipnoteFrame::GetDefaultPalette();
+    else m_palette = m_frame->GetPalette();
+}
+
+FlipnotePainter::FlipnotePainter(SDL_Color* palette, SDL_Texture* texture, PaintCondition paintcondition, bool invertpaint) {
+    m_frame = NULL;
+    m_palette = palette;
+    m_texture = texture;
+    m_paintcondition = paintcondition;
+    m_invertpaint = invertpaint;
+
+    if(m_palette == NULL) m_palette = FlipnoteFrame::GetDefaultPalette();
 }
 
 
@@ -166,15 +150,12 @@ void FlipnotePainter::InternalFillCircle(int x, int y, int r, int colorindex) {
 }
 
 
-
 SDL_Texture* FlipnotePainter::PrepareRender(int colorindex) {
     SDL_Texture* previoustarget = SDL_GetRenderTarget(g_runstate->renderer);
 
     SDL_SetRenderTarget(g_runstate->renderer, m_texture);
 
-    SDL_Color c;
-    if(m_frame) c = m_frame->GetColor(colorindex);
-    else c = FlipnoteFrame::GetDefaultColor(colorindex); 
+    SDL_Color c = m_palette[colorindex];
 
     SDL_SetRenderDrawColor(g_runstate->renderer, c.r, c.g, c.b, c.a);
 

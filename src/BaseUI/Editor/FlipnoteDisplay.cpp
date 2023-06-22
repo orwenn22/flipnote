@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "../../Core/Flipnote/FlipnoteFrame.h"
+#include "../../Core/Flipnote/FlipnotePainter.h"
 #include "../../Core/Flipnote/Flipnote.h"
 #include "../../Core/RunState.h"
 #include "../../Globals.h"
@@ -21,10 +22,14 @@ FlipnoteDisplay::FlipnoteDisplay(SDL_Renderer* renderer, FlipnoteEditor* editor)
     m_mouseoffsety = 0;
 
     m_currentpagetexture = m_editor->CurrentFrame()->CopyToTexture();
+
+    m_toolpreview = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, m_unzoomedwidth, m_unzoomedheight);
+    SDL_SetTextureBlendMode(m_toolpreview, SDL_BLENDMODE_BLEND);
 }
 
 FlipnoteDisplay::~FlipnoteDisplay() {
     SDL_DestroyTexture(m_currentpagetexture);
+    SDL_DestroyTexture(m_toolpreview);
 }
 
 
@@ -50,6 +55,7 @@ void FlipnoteDisplay::Render(SDL_Renderer* renderer) {
     SDL_RenderFillRect(renderer, &outline);
     SDL_RenderTexture(renderer, m_currentpagetexture, NULL, &dest);
 
+    RenderToolPreview();
 
     if(m_scale >= 5) {
         RenderGrid();
@@ -177,12 +183,36 @@ void FlipnoteDisplay::RenderGrid() {
     if(displaybottompos > g_runstate->winheight) ystop = g_runstate->winheight;
     else ystop = displaybottompos;
 
-
+    //Actually draw the lines
+    SDL_SetRenderDrawColor(g_runstate->renderer, 190, 190, 190, 255);   //gray
     for(int x = firstlinex; x < xstop; x += m_scale) {
         SDL_RenderLine(g_runstate->renderer, x, firstliney, x, ystop);
     }
-
     for(int y = firstliney; y < ystop; y += m_scale) {
         SDL_RenderLine(g_runstate->renderer, firstlinex, y, xstop, y);
     }
+}
+
+
+void FlipnoteDisplay::RenderToolPreview() {
+    SDL_Texture* previousrendertarget = SDL_GetRenderTarget(g_runstate->renderer);
+
+    //Get the pixel being overed by the mouse on the canvas
+    int pixelx, pixely;
+    GetMousePosPixel(&pixelx, &pixely);
+
+
+    SDL_SetRenderTarget(g_runstate->renderer, m_toolpreview);
+    
+    SDL_SetRenderDrawColor(g_runstate->renderer, 0, 0, 0, 0);
+    SDL_RenderClear(g_runstate->renderer);
+
+    FlipnotePainter painter(m_editor->CurrentFrame()->GetPalette(), m_toolpreview, GetBrush(m_editor->GetCurrentBrush()), m_editor->m_invertpaint);
+    painter.FillCircle(pixelx, pixely, m_editor->GetBrushSize(), m_editor->GetCurrentColorIndex());
+
+    SDL_SetRenderTarget(g_runstate->renderer, previousrendertarget);
+
+
+    SDL_FRect dest = {(float)m_x, (float)m_y, (float)m_unzoomedwidth * m_scale, (float)m_unzoomedheight * m_scale};
+    SDL_RenderTexture(g_runstate->renderer, m_toolpreview, NULL, &dest);
 }

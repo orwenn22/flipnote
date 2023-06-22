@@ -99,6 +99,7 @@ FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
     //cc2->AddWidget(new CheckBox(cc2, 0, 0, &testbool2, "test2"));
     //cc->AddWidget(cc2);
 
+
     m_popupmenu = NULL;
     m_timeline = NULL;
 }
