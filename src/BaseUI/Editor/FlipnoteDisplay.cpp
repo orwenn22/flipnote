@@ -103,11 +103,9 @@ void FlipnoteDisplay::UpdateMouseInput() {
         m_mouseoffsety = g_runstate->mousey - m_y;
     }
 
-
+    HandleZoom();
     if(IsMouseOnDisplay()) {
         if(g_runstate->leftclick) m_editor->m_isdrawing = true;
-
-        HandleZoom();
     }
 }
 
@@ -130,6 +128,8 @@ void FlipnoteDisplay::HandleZoom() {
         int relativex, relativey;
         GetMousePosRelative(&relativex, &relativey);
 
+        float oldscale = m_scale;
+
         if(g_runstate->mousewheel > 0) {    //zoom
             m_scale *= 2;
             //Double the distance because we are zooming
@@ -147,6 +147,11 @@ void FlipnoteDisplay::HandleZoom() {
             //In case someone is dragging and zooming at the same time
             m_mouseoffsetx /= 2;
             m_mouseoffsety /= 2;
+        }
+
+        if(m_scale < 0.25f || m_scale > 32.0f) {
+            m_scale = oldscale;
+            return;
         }
 
         //Actually apply the new distance
