@@ -49,8 +49,14 @@ void FlipnoteDisplay::Update() {
 
 void FlipnoteDisplay::Render(SDL_Renderer* renderer) {
     SDL_FRect dest = {(float)m_x, (float)m_y, (float)m_unzoomedwidth * m_scale, (float)m_unzoomedheight * m_scale};
+    SDL_FRect outline;
+    if(m_scale > 0.9f) {
+        outline = {dest.x - m_scale, dest.y - m_scale, dest.w + m_scale*2, dest.h + m_scale*2};
+    }
+    else {      //To avoid weird behavior with the outline when unzoomed too much
+        outline = {dest.x - 1, dest.y - 1, dest.w + 2, dest.h + 2};
+    }
 
-    SDL_FRect outline = {dest.x - m_scale, dest.y - m_scale, dest.w + m_scale*2, dest.h + m_scale*2};
     SDL_SetRenderDrawColor(renderer, 190, 190, 190, 255);   //gray
     SDL_RenderFillRect(renderer, &outline);
     SDL_RenderTexture(renderer, m_currentpagetexture, NULL, &dest);

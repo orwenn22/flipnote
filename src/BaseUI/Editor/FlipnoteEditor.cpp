@@ -13,13 +13,14 @@
 #include "../Generic/WinWidgetContainer.h"
 #include "EditorButtons/EditorBrushButton.h"
 #include "EditorButtons/EditorPenButton.h"
+#include "EditorButtons/EditorPlayButton.h"
 #include "EditorButtons/EditorTimelineButton.h"
 #include "FlipnoteDisplay.h"
 
 #include "FlipnoteTimeline.h"
 
 //#include "../Generic/ChildContainer.h"
-#include "../Generic/CheckBox.h"
+//#include "../Generic/CheckBox.h"
 
 static const PaintCondition brushes[] = {
     [](int x, int y) -> bool { return true; },                          // normal
@@ -93,6 +94,7 @@ FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
     m_editorbuttons->AddWidget(new EditorPenButton(m_editorbuttons, this));
     m_editorbuttons->AddWidget(new EditorBrushButton(m_editorbuttons, this));
     m_editorbuttons->AddWidget(new EditorTimelineButton(m_editorbuttons, this));
+    m_editorbuttons->AddWidget(new EditorPlayButton(m_editorbuttons, this));
 
     ////Test ChildContiner
     //auto cc = new ChildContainer(m_editorbuttons, 30, 30, 200, 200, WidgetAllign_None);
@@ -102,8 +104,6 @@ FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
     //cc2->m_issolid = true;
     //cc2->AddWidget(new CheckBox(cc2, 0, 0, &testbool2, "test2"));
     //cc->AddWidget(cc2);
-
-    m_editorbuttons->AddWidget(new CheckBox(m_editorbuttons, 5, 25, &m_animmationplaying));
 
 
     m_popupmenu = NULL;

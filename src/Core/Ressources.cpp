@@ -46,6 +46,8 @@ Ressources::Ressources(SDL_Renderer* renderer) {
     txtr_icon_left = LoadImageAsTexture(renderer, "./res/fluent_left.png");
     txtr_icon_right_double = LoadImageAsTexture(renderer, "./res/fluent_right_double.png");
     txtr_icon_left_double = LoadImageAsTexture(renderer, "./res/fluent_left_double.png");
+    txtr_playbutton = LoadImageAsTexture(renderer, "./res/button_play.png");
+    txtr_pausebutton = LoadImageAsTexture(renderer, "./res/button_pause.png");
 
     tileset_popupmenu = new Tileset(txtr_popupmenutiles, 16, 16);
     rectdata_popupmenu = new TilesetRectData({21, 22, 23, 27, 28, 29, 33, 34, 35});
@@ -74,6 +76,8 @@ Ressources::~Ressources() {
     SDL_DestroyTexture(txtr_icon_left);
     SDL_DestroyTexture(txtr_icon_right_double);
     SDL_DestroyTexture(txtr_icon_left_double);
+    SDL_DestroyTexture(txtr_playbutton);
+    SDL_DestroyTexture(txtr_pausebutton);
 
     delete rectdata_popupmenu;
     delete tileset_popupmenu;
