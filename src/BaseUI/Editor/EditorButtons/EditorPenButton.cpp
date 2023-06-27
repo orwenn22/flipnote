@@ -2,15 +2,15 @@
 
 #include <SDL.h>
 
-#include "../../Core/Flipnote/FlipnoteFrame.h"
-#include "../../Core/Ressources.h"
-#include "../../Core/RunState.h"
-#include "../../Globals.h"
-#include "../Generic/PopupMenuTop.h"
-#include "../Generic/PopupMenu.h"
-#include "FlipnoteEditor.h"
-#include "Menu/MenuAligner.h"
-#include "PenMenu/ColorButton.h"
+#include "../../../Core/Flipnote/FlipnoteFrame.h"
+#include "../../../Core/Ressources.h"
+#include "../../../Core/RunState.h"
+#include "../../../Globals.h"
+#include "../../Generic/PopupMenuTop.h"
+#include "../../Generic/PopupMenu.h"
+#include "../FlipnoteEditor.h"
+#include "../Menu/MenuAligner.h"
+#include "../PenMenu/ColorButton.h"
 
 EditorPenButton::EditorPenButton(WidgetContainer* container, FlipnoteEditor* editor) : EditorButton(container, editor, 10, 40) {
     SDL_QueryTexture(g_ressources->txtr_penbutton, NULL, NULL, &m_w, &m_h);

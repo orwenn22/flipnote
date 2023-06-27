@@ -28,10 +28,10 @@ add_executable(Flipnote
     src/BaseUI/DSThumbnail.cpp
     src/BaseUI/Editor/BrushMenu/BrushButton.cpp
     src/BaseUI/Editor/BrushMenu/BrushSizeButton.cpp
-    src/BaseUI/Editor/EditorBrushButton.cpp
-    src/BaseUI/Editor/EditorPenButton.cpp
-    src/BaseUI/Editor/EditorButton.cpp
-    src/BaseUI/Editor/EditorTimelineButton.cpp
+    src/BaseUI/Editor/EditorButtons/EditorButton.cpp
+    src/BaseUI/Editor/EditorButtons/EditorBrushButton.cpp
+    src/BaseUI/Editor/EditorButtons/EditorPenButton.cpp
+    src/BaseUI/Editor/EditorButtons/EditorTimelineButton.cpp
     src/BaseUI/Editor/FlipnoteDisplay.cpp
     src/BaseUI/Editor/FlipnoteEditor.cpp
     src/BaseUI/Editor/FlipnoteTimeline.cpp

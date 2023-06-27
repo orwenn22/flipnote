@@ -1,7 +1,7 @@
 #include "EditorButton.h"
 
-#include "../../Core/RunState.h"
-#include "../../Globals.h"
+#include "../../../Core/RunState.h"
+#include "../../../Globals.h"
 
 #include <SDL.h>
 

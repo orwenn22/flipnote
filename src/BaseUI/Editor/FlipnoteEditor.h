@@ -65,12 +65,18 @@ class FlipnoteEditor {
     //If set to true, the brush will be inversed
     bool m_invertpaint;
 
+    //Is set to true, the animation is playing;
+    bool m_animmationplaying;
+    //Animation speed (lower is faster)
+    int m_animationinterval;
 
     private:
 
     //If m_isdrawing is set to true, this will get executed.
     //It's basicly the method that is in charge of painting on the current frame (both the fram itself and the display's texture).
     void UpdateDraw(SDL_Renderer* renderer);
+
+    void UpdateAnimation();
 
     void UpdatePopupMenu();
     void UpdateTimeline();
@@ -97,6 +103,9 @@ class FlipnoteEditor {
     //The index of the current brush.
     int m_currentbrush;
     int m_brushsize;
+
+    //For when the animation is playing
+    int m_animationcooldown;
 };
 
 #endif

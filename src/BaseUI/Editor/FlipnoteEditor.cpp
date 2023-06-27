@@ -11,15 +11,15 @@
 #include "../../Globals.h"
 #include "../Generic/PopupMenu.h"
 #include "../Generic/WinWidgetContainer.h"
-#include "EditorBrushButton.h"
-#include "EditorPenButton.h"
-#include "EditorTimelineButton.h"
+#include "EditorButtons/EditorBrushButton.h"
+#include "EditorButtons/EditorPenButton.h"
+#include "EditorButtons/EditorTimelineButton.h"
 #include "FlipnoteDisplay.h"
 
 #include "FlipnoteTimeline.h"
 
 //#include "../Generic/ChildContainer.h"
-//#include "../Generic/CheckBox.h"
+#include "../Generic/CheckBox.h"
 
 static const PaintCondition brushes[] = {
     [](int x, int y) -> bool { return true; },                          // normal
@@ -83,6 +83,10 @@ FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
     m_currentbrush = 0;
     m_brushsize = 10;
 
+    m_animmationplaying = false;
+    m_animationinterval = 10;
+    m_animationcooldown = 0;
+
     m_display = new FlipnoteDisplay(renderer, this);
 
     m_editorbuttons = new WinWidgetContainer();
@@ -98,6 +102,8 @@ FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
     //cc2->m_issolid = true;
     //cc2->AddWidget(new CheckBox(cc2, 0, 0, &testbool2, "test2"));
     //cc->AddWidget(cc2);
+
+    m_editorbuttons->AddWidget(new CheckBox(m_editorbuttons, 5, 25, &m_animmationplaying));
 
 
     m_popupmenu = NULL;
@@ -115,6 +121,11 @@ void FlipnoteEditor::Update(SDL_Renderer* renderer) {
     //Disable drawing on the canvas when left is released
     if(!g_runstate->leftpressed) {
         m_isdrawing = false;
+    }
+
+    //Update animation
+    if(m_animmationplaying) {
+        UpdateAnimation();
     }
 
     ////Update all ui elements
@@ -252,6 +263,22 @@ void FlipnoteEditor::UpdateDraw(SDL_Renderer* renderer) {
     else {
         m_previousx = -1;
         m_previousy = -1;
+    }
+}
+
+
+void FlipnoteEditor::UpdateAnimation() {
+    m_animationcooldown++;
+    if(m_animationcooldown >= m_animationinterval) {
+        m_animationcooldown = 0;
+
+        //Check if we reached the end of the animation
+        if(m_page+1 >= m_flipnote->FrameCount()) {
+            SetCurrentFrame(0);
+        }
+        else {
+            SetCurrentFrame(m_page+1);
+        }
     }
 }
 

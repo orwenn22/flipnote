@@ -2,18 +2,18 @@
 
 #include <SDL.h>
 
-#include "../../Core/Flipnote/FlipnotePainter.h"
-#include "../../Core/Ressources.h"
-#include "../../Core/RunState.h"
-#include "../../Core/Tileset.h"
-#include "../../Globals.h"
-#include "../Generic/CheckBox.h"
-#include "../Generic/PopupMenuTop.h"
-#include "../Generic/PopupMenu.h"
-#include "BrushMenu/BrushButton.h"
-#include "BrushMenu/BrushSizeButton.h"
-#include "FlipnoteEditor.h"
-#include "Menu/MenuAligner.h"
+#include "../../../Core/Flipnote/FlipnotePainter.h"
+#include "../../../Core/Ressources.h"
+#include "../../../Core/RunState.h"
+#include "../../../Core/Tileset.h"
+#include "../../../Globals.h"
+#include "../../Generic/CheckBox.h"
+#include "../../Generic/PopupMenuTop.h"
+#include "../../Generic/PopupMenu.h"
+#include "../BrushMenu/BrushButton.h"
+#include "../BrushMenu/BrushSizeButton.h"
+#include "../FlipnoteEditor.h"
+#include "../Menu/MenuAligner.h"
 
 EditorBrushButton::EditorBrushButton(WidgetContainer* container, FlipnoteEditor* editor) 
 : EditorButton(container, editor, 10, 95, 48, 48, WidgetAllign::WidgetAllign_Left) {

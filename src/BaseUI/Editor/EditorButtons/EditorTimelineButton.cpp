@@ -1,10 +1,10 @@
 #include "EditorTimelineButton.h"
 
-#include "../../Core/Ressources.h"
-#include "../../Core/RunState.h"
-#include "../../Core/Tileset.h"
-#include "../../Globals.h"
-#include "FlipnoteEditor.h"
+#include "../../../Core/Ressources.h"
+#include "../../../Core/RunState.h"
+#include "../../../Core/Tileset.h"
+#include "../../../Globals.h"
+#include "../FlipnoteEditor.h"
 
 #include <SDL.h>
 
