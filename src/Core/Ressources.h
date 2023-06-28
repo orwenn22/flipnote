@@ -27,7 +27,10 @@ struct Ressources {
     SDL_Texture* txtr_button_timeline;
     SDL_Texture* txtr_button_play;
     SDL_Texture* txtr_button_pause;
-
+    SDL_Texture* txtr_button_playback;
+    SDL_Texture* txtr_button_playback_begginning;
+    SDL_Texture* txtr_button_playforward;
+    SDL_Texture* txtr_button_playforward_end;
 
     SDL_Texture* txtr_icon_add;
     SDL_Texture* txtr_icon_delete;

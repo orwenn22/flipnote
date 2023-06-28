@@ -1,2 +1,5 @@
 used : https://github.com/jaames/fakenote-studio
        https://fluenticons.co/
+
+Control button outline color : #cfd1db
+               background    : #ffd3a6

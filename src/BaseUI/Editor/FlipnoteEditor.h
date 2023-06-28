@@ -33,8 +33,11 @@ class FlipnoteEditor {
     FlipnoteFrame* CurrentFrame();
 
     //Will set the frame that is currently being edited, and update the FlipnoteDisplay 
+    //SHOULD BE THE ONLY WAY TO ACCESS AND MODIFY m_page
     void SetCurrentFrame(int index);
     int GetCurrentFrame();
+    void GoToNextFrame();
+    void GoToPreviousFrame();
 
     //Return a pointer to the flipnote being edited
     Flipnote* GetFlipnote();

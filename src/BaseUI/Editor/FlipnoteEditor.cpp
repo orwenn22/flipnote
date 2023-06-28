@@ -9,6 +9,7 @@
 #include "../../Core/RunState.h"
 #include "../../Core/Utils.h"
 #include "../../Globals.h"
+#include "../Generic/IconButton.h"
 #include "../Generic/PopupMenu.h"
 #include "../Generic/WinWidgetContainer.h"
 #include "EditorButtons/EditorBrushButton.h"
@@ -16,8 +17,8 @@
 #include "EditorButtons/EditorPlayButton.h"
 #include "EditorButtons/EditorTimelineButton.h"
 #include "FlipnoteDisplay.h"
-
 #include "FlipnoteTimeline.h"
+
 
 //#include "../Generic/ChildContainer.h"
 //#include "../Generic/CheckBox.h"
@@ -90,11 +91,22 @@ FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
 
     m_display = new FlipnoteDisplay(renderer, this);
 
+
+    ////Widgets
     m_editorbuttons = new WinWidgetContainer();
+
+    //Tools
     m_editorbuttons->AddWidget(new EditorPenButton(m_editorbuttons, this));
     m_editorbuttons->AddWidget(new EditorBrushButton(m_editorbuttons, this, 10, 95, WidgetAllign_Left));
+
+    //Play controls
+    m_editorbuttons->AddWidget(new IconButton(m_editorbuttons, g_ressources->txtr_button_playback_begginning, 250, 15, 0, 0, WidgetAllign_BottomLeft, [&]() { SetCurrentFrame(0); }));
+    m_editorbuttons->AddWidget(new IconButton(m_editorbuttons, g_ressources->txtr_button_playback, 210, 15, 0, 0, WidgetAllign_BottomLeft, [&]() { GoToPreviousFrame(); }));
+    m_editorbuttons->AddWidget(new EditorPlayButton(m_editorbuttons, this, 155, 10, WidgetAllign_BottomLeft));
+    m_editorbuttons->AddWidget(new IconButton(m_editorbuttons, g_ressources->txtr_button_playforward, 110, 15, 0, 0, WidgetAllign_BottomLeft, [&]() { GoToNextFrame(); }));
+    m_editorbuttons->AddWidget(new IconButton(m_editorbuttons, g_ressources->txtr_button_playforward_end, 70, 15, 0, 0, WidgetAllign_BottomLeft, [&]() { SetCurrentFrame(GetFlipnote()->FrameCount() - 1); }));
+    
     m_editorbuttons->AddWidget(new EditorTimelineButton(m_editorbuttons, this, 10, 10, WidgetAllign_BottomLeft));
-    m_editorbuttons->AddWidget(new EditorPlayButton(m_editorbuttons, this, 65, 10, WidgetAllign_BottomLeft));
 
     ////Test ChildContiner
     //auto cc = new ChildContainer(m_editorbuttons, 30, 30, 200, 200, WidgetAllign_None);
@@ -163,6 +175,17 @@ void FlipnoteEditor::SetCurrentFrame(int index) {
 
 int FlipnoteEditor::GetCurrentFrame() {
     return m_page;
+}
+
+void FlipnoteEditor::GoToNextFrame() {
+    if(m_page+1 < m_flipnote->FrameCount()) {
+        SetCurrentFrame(m_page+1);
+    }
+}
+void FlipnoteEditor::GoToPreviousFrame() {
+    if(m_page > 0) {
+        SetCurrentFrame(m_page-1);
+    }
 }
 
 
