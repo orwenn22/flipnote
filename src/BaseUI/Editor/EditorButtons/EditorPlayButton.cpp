@@ -3,12 +3,15 @@
 #include "../../../Core/Ressources.h"
 #include "../../../Core/RunState.h"
 #include "../../../Globals.h"
+#include "../../Generic/WidgetContainer.h"
 #include "../FlipnoteEditor.h"
 
 #include <SDL.h>
 
-EditorPlayButton::EditorPlayButton(WidgetContainer* container, FlipnoteEditor* editor) 
-: EditorButton(container, editor, 65, 10, 50, 50, WidgetAllign::WidgetAllign_BottomLeft) {
+EditorPlayButton::EditorPlayButton(
+    WidgetContainer* container, FlipnoteEditor* editor,
+    int x, int y, WidgetAllign allignment
+) : EditorButton(container, editor, x, y, 50, 50, allignment) {
     m_callback = [&]() -> void {
         m_editor->m_animmationplaying = !m_editor->m_animmationplaying;
     };

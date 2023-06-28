@@ -5,7 +5,11 @@
 
 class EditorPlayButton : public EditorButton {
     public:
-    EditorPlayButton(WidgetContainer* container, FlipnoteEditor* editor);
+    EditorPlayButton(
+        WidgetContainer* container, FlipnoteEditor* editor,
+        int x = 0, int y = 0,
+        WidgetAllign allignment = WidgetAllign::WidgetAllign_None
+    );
 
     void Render() override;
 };

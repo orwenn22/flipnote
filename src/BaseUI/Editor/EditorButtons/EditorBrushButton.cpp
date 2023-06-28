@@ -15,8 +15,10 @@
 #include "../FlipnoteEditor.h"
 #include "../Menu/MenuAligner.h"
 
-EditorBrushButton::EditorBrushButton(WidgetContainer* container, FlipnoteEditor* editor) 
-: EditorButton(container, editor, 10, 95, 48, 48, WidgetAllign::WidgetAllign_Left) {
+EditorBrushButton::EditorBrushButton(
+    WidgetContainer* container, FlipnoteEditor* editor,
+    int x, int y, WidgetAllign allignment 
+) : EditorButton(container, editor, x, y, 48, 48, allignment) {
     
     m_displayedbrushkind = -1;
     m_displayedbrushsize = -1;

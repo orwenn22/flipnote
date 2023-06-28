@@ -8,7 +8,11 @@ struct SDL_Texture;
 
 class EditorBrushButton : public EditorButton {
     public:
-    EditorBrushButton(WidgetContainer* container, FlipnoteEditor* editor);
+    EditorBrushButton(
+        WidgetContainer* container, FlipnoteEditor* editor,
+        int x = 0, int y = 0,
+        WidgetAllign allignment = WidgetAllign::WidgetAllign_None
+    );
     virtual ~EditorBrushButton();
 
     void PreUpdate() override;

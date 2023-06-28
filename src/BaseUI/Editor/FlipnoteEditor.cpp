@@ -92,9 +92,9 @@ FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
 
     m_editorbuttons = new WinWidgetContainer();
     m_editorbuttons->AddWidget(new EditorPenButton(m_editorbuttons, this));
-    m_editorbuttons->AddWidget(new EditorBrushButton(m_editorbuttons, this));
-    m_editorbuttons->AddWidget(new EditorTimelineButton(m_editorbuttons, this));
-    m_editorbuttons->AddWidget(new EditorPlayButton(m_editorbuttons, this));
+    m_editorbuttons->AddWidget(new EditorBrushButton(m_editorbuttons, this, 10, 95, WidgetAllign_Left));
+    m_editorbuttons->AddWidget(new EditorTimelineButton(m_editorbuttons, this, 10, 10, WidgetAllign_BottomLeft));
+    m_editorbuttons->AddWidget(new EditorPlayButton(m_editorbuttons, this, 65, 10, WidgetAllign_BottomLeft));
 
     ////Test ChildContiner
     //auto cc = new ChildContainer(m_editorbuttons, 30, 30, 200, 200, WidgetAllign_None);
