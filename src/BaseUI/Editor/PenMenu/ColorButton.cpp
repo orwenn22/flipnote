@@ -15,7 +15,7 @@ ColorButton::ColorButton(WidgetContainer* container, FlipnoteEditor* editor, int
     m_editor = editor;
     m_index = index;
 
-    SDL_QueryTexture(g_ressources->txtr_smallpenbutton, NULL, NULL, &m_w, &m_h);
+    SDL_QueryTexture(g_ressources->txtr_button_smallpen, NULL, NULL, &m_w, &m_h);
 
     m_callback = [&]() -> void { m_editor->SetCurrentColorIndex(m_index); };
 }
@@ -27,12 +27,12 @@ void ColorButton::Render() {
 
     //Custom color based on the index
     SDL_Color c = m_editor->CurrentFrame()->GetColor(m_index);
-    SDL_SetTextureColorMod(g_ressources->txtr_smallpenbutton, c.r, c.g, c.b);
+    SDL_SetTextureColorMod(g_ressources->txtr_button_smallpen, c.r, c.g, c.b);
 
     //Draw pen button on screen
     SDL_FRect dest = {x, y, (float)m_w, (float)m_h};
-    SDL_RenderTexture(g_runstate->renderer, g_ressources->txtr_smallpenbutton, NULL, &dest);
+    SDL_RenderTexture(g_runstate->renderer, g_ressources->txtr_button_smallpen, NULL, &dest);
     
     //Restore colors
-    SDL_SetTextureColorMod(g_ressources->txtr_smallpenbutton, 255, 255, 255);
+    SDL_SetTextureColorMod(g_ressources->txtr_button_smallpen, 255, 255, 255);
 }

@@ -22,11 +22,11 @@ struct Ressources {
     SDL_Texture* txtr_checkboxtrue;
     SDL_Texture* txtr_timelinetile;
 
-    SDL_Texture* txtr_penbutton;
-    SDL_Texture* txtr_smallpenbutton;
-    SDL_Texture* txtr_timelineicon;
-    SDL_Texture* txtr_playbutton;
-    SDL_Texture* txtr_pausebutton;
+    SDL_Texture* txtr_button_pen;
+    SDL_Texture* txtr_button_smallpen;
+    SDL_Texture* txtr_button_timeline;
+    SDL_Texture* txtr_button_play;
+    SDL_Texture* txtr_button_pause;
 
 
     SDL_Texture* txtr_icon_add;

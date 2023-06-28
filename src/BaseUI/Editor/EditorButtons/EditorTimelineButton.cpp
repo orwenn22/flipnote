@@ -28,5 +28,5 @@ void EditorTimelineButton::Render() {
     dest.y += 1.0f;
     dest.w -= 2.0f;
     dest.h -= 2.0f;
-    SDL_RenderTexture(g_runstate->renderer, g_ressources->txtr_timelineicon, NULL, &dest);
+    SDL_RenderTexture(g_runstate->renderer, g_ressources->txtr_button_timeline, NULL, &dest);
 }

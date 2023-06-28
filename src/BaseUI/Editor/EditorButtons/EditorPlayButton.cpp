@@ -21,9 +21,9 @@ void EditorPlayButton::Render() {
     SDL_FRect dest = {x, y, (float)m_w, (float)m_h};
 
     if(m_editor->m_animmationplaying) {
-        SDL_RenderTexture(g_runstate->renderer, g_ressources->txtr_pausebutton, NULL, &dest);
+        SDL_RenderTexture(g_runstate->renderer, g_ressources->txtr_button_pause, NULL, &dest);
     }
     else {
-        SDL_RenderTexture(g_runstate->renderer, g_ressources->txtr_playbutton, NULL, &dest);
+        SDL_RenderTexture(g_runstate->renderer, g_ressources->txtr_button_play, NULL, &dest);
     }
 }
