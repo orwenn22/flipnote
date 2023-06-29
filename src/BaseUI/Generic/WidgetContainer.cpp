@@ -1,5 +1,6 @@
 #include "WidgetContainer.h"
 
+#include <algorithm>
 #include <stddef.h>
 
 #include "Widget.h"
@@ -8,9 +9,7 @@ WidgetContainer::WidgetContainer() {
 }
 
 WidgetContainer::~WidgetContainer() {
-    for(Widget* i : m_widgets) {
-        delete i;
-    }
+    Clear();
 }
 
 
@@ -26,6 +25,23 @@ void WidgetContainer::RenderWidgets() {
 void WidgetContainer::AddWidget(Widget* widget) {
     if(widget != NULL) m_widgets.push_back(widget);
 }
+
+
+void WidgetContainer::RemoveWidget(Widget* widget) {
+    auto pos = std::find(m_widgets.begin(), m_widgets.end(), widget);
+    if(pos == m_widgets.end()) {
+        return;
+    }
+    m_widgets.erase(pos);
+}
+
+void WidgetContainer::Clear() {
+    for(Widget* i : m_widgets) {
+        delete i;
+    }
+    m_widgets.clear();
+}
+
 
 void WidgetContainer::GetAbsoluteSize(int* w, int* h) {
     *w = GetContainerWidth();

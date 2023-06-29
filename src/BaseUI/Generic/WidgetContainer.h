@@ -14,6 +14,10 @@ class WidgetContainer {
 
     //Add a widget to the container
     void AddWidget(Widget* widget);
+    //Remove a widget from the container
+    void RemoveWidget(Widget* widget);
+    //Remove all Widget
+    void Clear();
 
 
     //Get the position of the top left of the container on the window
