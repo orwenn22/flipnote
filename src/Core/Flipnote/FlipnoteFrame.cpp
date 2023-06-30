@@ -45,6 +45,31 @@ FlipnoteFrame::FlipnoteFrame(int w, int h) {
     for(int i = 0; i<pixelcount; i++) m_pixels[i] = 0;
 }
 
+FlipnoteFrame::FlipnoteFrame(int w, int h, FILE* infile) {
+    m_width = w;
+    m_height = h;
+    if(w < 0 || h < 0) {
+        m_pixels = NULL;
+        return;
+    }
+
+
+    m_colors = (SDL_Color*) malloc(sizeof(SDL_Color) * 8);
+    for(SDL_Color* colptr = m_colors; colptr < m_colors + 8;colptr += 1) {
+        colptr->r = getc(infile);
+        colptr->g = getc(infile);
+        colptr->b = getc(infile);
+        colptr->a = getc(infile);
+        printf("%x %x %x %x\n", colptr->r, colptr->g, colptr->b, colptr->a);
+    }
+
+
+    m_pixels = (unsigned char*) malloc(sizeof(unsigned char) * w * h);
+    int pixelcount = w*h;
+    for(int i = 0; i<pixelcount; i++) m_pixels[i] = getc(infile);
+}
+
+
 FlipnoteFrame::~FlipnoteFrame() {
     free(m_pixels);
     free(m_colors);
@@ -143,4 +168,21 @@ unsigned char FlipnoteFrame::GetPixel(int x, int y) {
         return 0;
 
     return m_pixels[x+y*m_width];
+}
+
+
+void FlipnoteFrame::Save(FILE* file) {
+    //FIXME : 8 color hardcoded
+    for(SDL_Color* colptr = m_colors; colptr < m_colors + 8;colptr += 1) {
+        putc(colptr->r, file);
+        putc(colptr->g, file);
+        putc(colptr->b, file);
+        putc(colptr->a, file);
+        printf("%x %x %x %x\n", colptr->r, colptr->g, colptr->b, colptr->a);
+    }
+
+    int istop = m_width*m_height;
+    for(int i = 0; i < istop; i++) {
+        putc(m_pixels[i], file);
+    }
 }

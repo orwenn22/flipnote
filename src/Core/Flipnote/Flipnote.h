@@ -1,6 +1,7 @@
 #ifndef FLIPNOTE_H
 #define FLIPNOTE_H
 
+#include <bits/types/FILE.h>
 #include <vector>
 
 class FlipnoteFrame;
@@ -35,11 +36,18 @@ class Flipnote {
 
     void GetFramesSize(int* w, int* h);
 
+    void Save(const char* filename);
+
+    static Flipnote* Load(const char* filename);
 
     private:
+    //called by Flipnote::Load
+    Flipnote(int framewidth, int frameheight, FILE* infile);
+
+
     std::vector<FlipnoteFrame*> m_frames;
-    int m_framewidth;
-    int m_frameheight;
+    unsigned int m_framewidth;
+    unsigned int m_frameheight;
 };
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef FLIPNOTEFRAME_H
 #define FLIPNOTEFRAME_H
 
+#include <bits/types/FILE.h>
+
 struct SDL_Surface;
 struct SDL_Texture;
 struct SDL_Color;
@@ -9,6 +11,7 @@ struct SDL_Color;
 class FlipnoteFrame {
     public:
     FlipnoteFrame(int w, int h);
+    FlipnoteFrame(int w, int h, FILE* infile);
     ~FlipnoteFrame();
 
     //Copy m_pixels to a SDL_Texture.
@@ -29,6 +32,8 @@ class FlipnoteFrame {
 
     //Get a pixel in m_pixels.
     unsigned char GetPixel(int x, int y);
+
+    void Save(FILE* file);
 
 
     private:
