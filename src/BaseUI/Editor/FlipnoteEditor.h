@@ -22,6 +22,7 @@ int GetBrushCount();
 
 class FlipnoteEditor {
     public:
+    //The FlipnoteEditor doesn't have ownership of fn, and must be deallocated manually AFTER destroying the FlipnoteEditor
     FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn);
     ~FlipnoteEditor();
 

@@ -123,6 +123,9 @@ FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
 }
 
 FlipnoteEditor::~FlipnoteEditor() {
+    m_flipnote->Save("autosave.fnt");
+    printf("FlipnoteEditor::~FlipnoteEditor : autosaved at autosave.fnt\n");
+
     ClosePopupMenu();
     CloseTimeline();
     delete m_editorbuttons;

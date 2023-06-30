@@ -40,7 +40,7 @@ MyHitTest(SDL_Window *win, const SDL_Point *area, void *data) {
     return SDL_HITTEST_NORMAL;
 }
 
-int main() {
+int main(int argc, const char* argv[]) {
     if(SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cout << "SDL init failed\n";
         return -1;
@@ -71,8 +71,21 @@ int main() {
     TopBar* topbar = new TopBar(renderer);
     Background* background = new Background(renderer);
 
-    //Flipnote editor
-    Flipnote* flipnote = new Flipnote(512, 384);
+    //Flipnote (canvas)
+    Flipnote* flipnote;
+    if(argc == 1) {
+        flipnote = new Flipnote(512, 384);
+    }
+    else  {
+        flipnote = Flipnote::Load(argv[1]);
+        printf("main : trying to load flipnote from '%s'\n", argv[1]);
+        if(flipnote == nullptr) {
+            printf("main : failed to load flipnote from '%s'\n", argv[1]);
+            flipnote = new Flipnote(512, 384);
+        }
+    }
+
+    //Flipnote Editor
     FlipnoteEditor* fe = new FlipnoteEditor(renderer, flipnote);
     
 
