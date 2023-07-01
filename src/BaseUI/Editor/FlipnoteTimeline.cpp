@@ -3,7 +3,7 @@
 #include "../../Core/Flipnote/Flipnote.h"
 #include "../../Core/Flipnote/FlipnoteFrame.h"
 #include "../../Core/Ressources.h"
-#include "../../Core/RunState.h"
+#include "../../Reusable/RunState.h"
 #include "../../Globals.h"
 #include "FlipnoteEditor.h"
 

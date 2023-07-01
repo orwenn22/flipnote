@@ -51,13 +51,13 @@ add_executable(Flipnote
     src/BaseUI/Generic/Widget.cpp
     src/BaseUI/Generic/WinWidgetContainer.cpp
     src/Core/Ressources.cpp 
-    src/Core/RunState.cpp 
     src/Core/Flipnote/Flipnote.cpp
     src/Core/Flipnote/FlipnoteFrame.cpp
     src/Core/Flipnote/FlipnotePainter.cpp
     src/Core/Tileset.cpp
     src/Core/Utils.cpp
-)
+    src/Reusable/RunState.cpp 
+    )
 
 
 target_link_libraries(Flipnote SDL3 SDL3_ttf SDL3_image)

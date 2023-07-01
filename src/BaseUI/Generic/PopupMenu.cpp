@@ -3,7 +3,7 @@
 #include <SDL.h>
 
 #include "../../Core/Ressources.h"
-#include "../../Core/RunState.h"
+#include "../../Reusable/RunState.h"
 #include "../../Core/Tileset.h"
 #include "../../Globals.h"
 #include "Widget.h"

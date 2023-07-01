@@ -4,7 +4,7 @@
 #include <SDL_ttf.h>
 
 #include "../../Core/Ressources.h"
-#include "../../Core/RunState.h"
+#include "../../Reusable/RunState.h"
 #include "../../Globals.h"
 
 TopBar::TopBar(SDL_Renderer* renderer) {

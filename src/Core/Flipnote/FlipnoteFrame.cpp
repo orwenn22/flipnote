@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 #include "../../Globals.h"
-#include "../RunState.h"
+#include "../../Reusable/RunState.h"
 #include "../Utils.h"
 
 static SDL_Color defaultframepalette[] = {

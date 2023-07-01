@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <stdio.h>
 
-#include "../Core/RunState.h"
+#include "../Reusable/RunState.h"
 #include "../Globals.h"
 
 SDL_Color thumbnailcolors[16] = {
