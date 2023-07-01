@@ -1,7 +1,7 @@
 #ifndef COLORBUTTON_H
 #define COLORBUTTON_H
 
-#include "../../Generic/ClickableWidget.h"
+#include "../../../Reusable/gui/ClickableWidget.h"
 
 class FlipnoteEditor;
 

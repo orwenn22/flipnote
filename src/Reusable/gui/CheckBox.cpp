@@ -2,9 +2,9 @@
 
 #include <SDL.h>
 
-#include "../../Core/Ressources.h"
-#include "../../Reusable/RunState.h"
-#include "../../Globals.h"
+#include "../Globals.h"
+#include "../Ressources.h"
+#include "../RunState.h"
 #include "Label.h"
 #include "WidgetContainer.h"
 
@@ -24,14 +24,14 @@ CheckBox::CheckBox(WidgetContainer* container, int x, int y, bool* target, std::
 
 void CheckBox::Render() {
     SDL_FRect dest = {(float)GetX(), (float)GetY(), (float)m_w, (float)m_h};
-    SDL_Color *orange = g_ressources->col_orange;
+    SDL_Color *orange = g_reusableressources->col_orange;
 
     if(*m_target) {
-        SDL_SetTextureColorMod(g_ressources->txtr_checkboxtrue, orange->r, orange->g, orange->b);
-        SDL_RenderTexture(g_runstate->renderer, g_ressources->txtr_checkboxtrue, NULL, &dest);
+        SDL_SetTextureColorMod(g_reusableressources->txtr_checkboxtrue, orange->r, orange->g, orange->b);
+        SDL_RenderTexture(g_runstate->renderer, g_reusableressources->txtr_checkboxtrue, NULL, &dest);
     } 
     else {
-        SDL_SetTextureColorMod(g_ressources->txtr_checkboxfalse, orange->r, orange->g, orange->b);
-        SDL_RenderTexture(g_runstate->renderer, g_ressources->txtr_checkboxfalse, NULL, &dest);
+        SDL_SetTextureColorMod(g_reusableressources->txtr_checkboxfalse, orange->r, orange->g, orange->b);
+        SDL_RenderTexture(g_runstate->renderer, g_reusableressources->txtr_checkboxfalse, NULL, &dest);
     }
 }

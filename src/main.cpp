@@ -6,16 +6,19 @@
 #include "BaseUI/DSThumbnail.h"
 #include "BaseUI/Editor/FlipnoteEditor.h"
 #include "BaseUI/Generic/Background.h"
-#include "BaseUI/Generic/TopBar.h"
-#include "Core/Ressources.h"
+#include "Core/FlipnoteRessources.h"
+#include "Reusable/gui/TopBar.h"
 #include "Reusable/RunState.h"
 
 #include "Core/Utils.h"
 
 #include "Core/Flipnote/Flipnote.h"
 
+
+//Globals definition
 RunState* g_runstate;
-Ressources* g_ressources;
+Ressources* g_reusableressources;
+FlipnoteRessources* g_ressources;
 
 
 static SDL_HitTestResult SDLCALL 
@@ -65,7 +68,8 @@ int main(int argc, const char* argv[]) {
 
     //Initialise globals
     g_runstate = new RunState(window, renderer);
-    g_ressources = new Ressources(renderer);
+    g_ressources = new FlipnoteRessources(renderer);
+    g_reusableressources = g_ressources;
     
     //Initialise main ui elements
     TopBar* topbar = new TopBar(renderer);

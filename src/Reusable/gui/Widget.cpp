@@ -1,7 +1,7 @@
 #include "Widget.h"
 
-#include "../../Reusable/RunState.h"
-#include "../../Globals.h"
+#include "../Globals.h"
+#include "../RunState.h"
 #include "WidgetContainer.h"
 
 Widget::Widget(WidgetContainer* container, int x, int y, int w, int h, WidgetAllign allignment) {

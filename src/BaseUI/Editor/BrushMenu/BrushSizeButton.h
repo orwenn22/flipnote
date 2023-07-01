@@ -1,7 +1,7 @@
 #ifndef BRUSHSIZEBUTTON_H
 #define BRUSHSIZEBUTTON_H
 
-#include "../../Generic/ClickableWidget.h"
+#include "../../../Reusable/gui/ClickableWidget.h"
 
 class FlipnoteEditor;
 struct SDL_Texture;

@@ -3,6 +3,7 @@
 
 #include "Widget.h"
 
+//TODO : get rid of this and find a better way of solving whatever problem led to the creation of this atrocity.
 class PopupMenuTop : public Widget {
     public:
     PopupMenuTop(WidgetContainer* container, int width);

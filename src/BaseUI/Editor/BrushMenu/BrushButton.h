@@ -1,7 +1,7 @@
 #ifndef BRUSHBUTTON_H
 #define BRUSHBUTTON_H
 
-#include "../../Generic/ClickableWidget.h"
+#include "../../../Reusable/gui/ClickableWidget.h"
 
 class FlipnoteEditor;
 

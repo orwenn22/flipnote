@@ -3,9 +3,9 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "../../Core/Ressources.h"
-#include "../../Reusable/RunState.h"
-#include "../../Globals.h"
+#include "../Ressources.h"
+#include "../RunState.h"
+#include "../Globals.h"
 
 TopBar::TopBar(SDL_Renderer* renderer) {
     m_mouseonclosebutton = false;
@@ -13,12 +13,12 @@ TopBar::TopBar(SDL_Renderer* renderer) {
     m_mouseonbar = false;
     m_y = 0;
 
-    SDL_Surface* titletextsurface = TTF_RenderText_Solid(g_ressources->font_ubuntumedium24, "Flipnote", *g_ressources->col_white);    //Write text to surface (white)
+    SDL_Surface* titletextsurface = TTF_RenderText_Solid(g_reusableressources->font_ubuntumedium24, "Flipnote", *g_reusableressources->col_white);    //Write text to surface (white)
     m_titletexttexturewhite = SDL_CreateTextureFromSurface(renderer, titletextsurface);     //copy surface to texture
     SDL_QueryTexture(m_titletexttexturewhite, NULL, NULL, &m_titlewidth, &m_titleheight);   //Get size of texture in pixel
     SDL_DestroySurface(titletextsurface);           //Deallocate the surface as it is now useless
 
-    titletextsurface = TTF_RenderText_Solid(g_ressources->font_ubuntumedium24, "Flipnote", *g_ressources->col_orange);    //Write text to surface (orange)
+    titletextsurface = TTF_RenderText_Solid(g_reusableressources->font_ubuntumedium24, "Flipnote", *g_reusableressources->col_orange);    //Write text to surface (orange)
     m_titletexttextureorange = SDL_CreateTextureFromSurface(renderer, titletextsurface);     //copy surface to texture
     SDL_DestroySurface(titletextsurface);           //Deallocate the surface as it is now useless
 }
@@ -72,7 +72,7 @@ void TopBar::Render(SDL_Renderer* renderer) {
 
 
     //Orange top bar (dynamic)
-    SDL_Color* orange = g_ressources->col_orange;
+    SDL_Color* orange = g_reusableressources->col_orange;
     SDL_SetRenderDrawColor(renderer, orange->r, orange->g, orange->b, orange->a);
     SDL_FRect rec = {0, (float)m_y, (float)g_runstate->winwidth, 30};
     SDL_RenderFillRect(renderer, &rec);
@@ -97,7 +97,7 @@ void TopBar::Render(SDL_Renderer* renderer) {
         SDL_RenderFillRect(renderer, &closerec);
     }
     //Close button
-    SDL_RenderTexture(renderer, g_ressources->txtr_cross, NULL, &closerec);
+    SDL_RenderTexture(renderer, g_reusableressources->txtr_cross, NULL, &closerec);
 
 
     //Maximise
@@ -106,5 +106,5 @@ void TopBar::Render(SDL_Renderer* renderer) {
         SDL_SetRenderDrawColor(renderer, 255, 120, 50, 255);   //orange (but a little diferent)
         SDL_RenderFillRect(renderer, &maximiserec);
     }
-    SDL_RenderTexture(renderer, g_ressources->txtr_maximize, NULL, &maximiserec);
+    SDL_RenderTexture(renderer, g_reusableressources->txtr_maximize, NULL, &maximiserec);
 }

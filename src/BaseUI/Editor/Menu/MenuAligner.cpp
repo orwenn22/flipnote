@@ -1,6 +1,6 @@
 #include "MenuAligner.h"
 
-#include "../../Generic/PopupMenu.h"
+#include "../../../Reusable/gui/PopupMenu.h"
 #include "../EditorButtons/EditorButton.h"
 
 MenuAligner::MenuAligner(WidgetContainer* container, EditorButton* editorbutton) : Widget(container, 0, 0) {

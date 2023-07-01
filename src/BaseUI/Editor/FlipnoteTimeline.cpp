@@ -2,19 +2,18 @@
 
 #include "../../Core/Flipnote/Flipnote.h"
 #include "../../Core/Flipnote/FlipnoteFrame.h"
-#include "../../Core/Ressources.h"
+#include "../../Core/FlipnoteRessources.h"
+#include "../../Core/Globals.h"
+#include "../../Reusable/gui/ChildContainer.h"
+#include "../../Reusable/gui/IconButton.h"
 #include "../../Reusable/RunState.h"
-#include "../../Globals.h"
 #include "FlipnoteEditor.h"
 
-#include "../Generic/ChildContainer.h"
-#include "../Generic/CheckBox.h"
 
 #include <SDL.h>
 
 #include <stdio.h>
 
-#include "../Generic/IconButton.h"
 
 
 FlipnoteTimeline::FlipnoteTimeline(FlipnoteEditor* editor) {

@@ -1,9 +1,9 @@
 #include "EditorTimelineButton.h"
 
-#include "../../../Core/Ressources.h"
+#include "../../../Core/FlipnoteRessources.h"
+#include "../../../Core/Globals.h"
 #include "../../../Reusable/RunState.h"
-#include "../../../Core/Tileset.h"
-#include "../../../Globals.h"
+#include "../../../Reusable/Tileset.h"
 #include "../FlipnoteEditor.h"
 
 #include <SDL.h>

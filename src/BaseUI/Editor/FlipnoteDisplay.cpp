@@ -6,8 +6,8 @@
 #include "../../Core/Flipnote/FlipnoteFrame.h"
 #include "../../Core/Flipnote/FlipnotePainter.h"
 #include "../../Core/Flipnote/Flipnote.h"
+#include "../../Core/Globals.h"
 #include "../../Reusable/RunState.h"
-#include "../../Globals.h"
 #include "FlipnoteEditor.h"
 
 FlipnoteDisplay::FlipnoteDisplay(SDL_Renderer* renderer, FlipnoteEditor* editor) {

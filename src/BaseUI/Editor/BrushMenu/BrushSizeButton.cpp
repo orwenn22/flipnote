@@ -3,10 +3,10 @@
 #include <SDL.h>
 
 #include "../../../Core/Flipnote/FlipnotePainter.h"
-#include "../../../Core/Ressources.h"
+#include "../../../Core/FlipnoteRessources.h"
+#include "../../../Core/Globals.h"
+#include "../../../Reusable/gui/WidgetContainer.h"
 #include "../../../Reusable/RunState.h"
-#include "../../../Globals.h"
-#include "../../Generic/WidgetContainer.h"
 #include "../FlipnoteEditor.h"
 
 BrushSizeButton::BrushSizeButton(WidgetContainer* container, FlipnoteEditor* editor, int brushsize, int x, int y) : ClickableWidget(container, x, y) {

@@ -51,6 +51,7 @@ class PopupMenu : public WidgetContainer {
     //Called by Update. Update all the animations values.
     void UpdateAnimation();
 
+    //This recalculate m_topleftx/y and m_bottomrightx/y using m_originx/y and m_width/m_height
     void CalculateEdgesPos();
 
     //Render the popup using the animation values

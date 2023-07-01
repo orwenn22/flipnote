@@ -5,13 +5,12 @@
 #include "../../Core/Flipnote/Flipnote.h"
 #include "../../Core/Flipnote/FlipnoteFrame.h"
 #include "../../Core/Flipnote/FlipnotePainter.h"
-#include "../../Core/Ressources.h"
+#include "../../Core/FlipnoteRessources.h"
+#include "../../Core/Globals.h"
 #include "../../Reusable/RunState.h"
-#include "../../Core/Utils.h"
-#include "../../Globals.h"
-#include "../Generic/IconButton.h"
-#include "../Generic/PopupMenu.h"
-#include "../Generic/WinWidgetContainer.h"
+#include "../../Reusable/gui/IconButton.h"
+#include "../../Reusable/gui/PopupMenu.h"
+#include "../../Reusable/gui/WinWidgetContainer.h"
 #include "EditorButtons/EditorBrushButton.h"
 #include "EditorButtons/EditorPenButton.h"
 #include "EditorButtons/EditorPlayButton.h"
@@ -19,6 +18,7 @@
 #include "FlipnoteDisplay.h"
 #include "FlipnoteTimeline.h"
 
+#include <SDL.h>    //FIXME : this is only included for SDL_abs
 
 //#include "../Generic/ChildContainer.h"
 //#include "../Generic/CheckBox.h"

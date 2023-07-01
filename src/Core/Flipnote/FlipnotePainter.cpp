@@ -3,8 +3,8 @@
 #include <math.h>
 #include <SDL.h>
 
-#include "../../Globals.h"
 #include "../../Reusable/RunState.h"
+#include "../Globals.h"
 #include "FlipnoteFrame.h"
 
 #include <stdio.h>

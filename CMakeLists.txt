@@ -39,25 +39,28 @@ add_executable(Flipnote
     src/BaseUI/Editor/Menu/MenuAligner.cpp
     src/BaseUI/Editor/PenMenu/ColorButton.cpp
     src/BaseUI/Generic/Background.cpp 
-    src/BaseUI/Generic/CheckBox.cpp 
-    src/BaseUI/Generic/ChildContainer.cpp 
-    src/BaseUI/Generic/ClickableWidget.cpp 
-    src/BaseUI/Generic/IconButton.cpp 
-    src/BaseUI/Generic/Label.cpp 
-    src/BaseUI/Generic/PopupMenuTop.cpp
-    src/BaseUI/Generic/PopupMenu.cpp
-    src/BaseUI/Generic/TopBar.cpp
-    src/BaseUI/Generic/WidgetContainer.cpp
-    src/BaseUI/Generic/Widget.cpp
-    src/BaseUI/Generic/WinWidgetContainer.cpp
-    src/Core/Ressources.cpp 
+    
+    src/Core/FlipnoteRessources.cpp 
     src/Core/Flipnote/Flipnote.cpp
     src/Core/Flipnote/FlipnoteFrame.cpp
     src/Core/Flipnote/FlipnotePainter.cpp
-    src/Core/Tileset.cpp
     src/Core/Utils.cpp
+
+    src/Reusable/gui/CheckBox.cpp 
+    src/Reusable/gui/ChildContainer.cpp 
+    src/Reusable/gui/ClickableWidget.cpp 
+    src/Reusable/gui/IconButton.cpp 
+    src/Reusable/gui/Label.cpp 
+    src/Reusable/gui/PopupMenuTop.cpp
+    src/Reusable/gui/PopupMenu.cpp
+    src/Reusable/gui/TopBar.cpp
+    src/Reusable/gui/WidgetContainer.cpp
+    src/Reusable/gui/Widget.cpp
+    src/Reusable/gui/WinWidgetContainer.cpp
+    src/Reusable/Ressources.cpp 
     src/Reusable/RunState.cpp 
-    )
+    src/Reusable/Tileset.cpp
+)
 
 
 target_link_libraries(Flipnote SDL3 SDL3_ttf SDL3_image)

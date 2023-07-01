@@ -3,7 +3,7 @@
 
 #include <functional>
 
-#include "../../Generic/ClickableWidget.h"
+#include "../../../Reusable/gui/ClickableWidget.h"
 
 class EditorButton; //forward declaration used by EditorButtonCallback
 class FlipnoteEditor;

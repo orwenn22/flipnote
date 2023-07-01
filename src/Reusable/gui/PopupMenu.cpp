@@ -2,10 +2,10 @@
 
 #include <SDL.h>
 
-#include "../../Core/Ressources.h"
-#include "../../Reusable/RunState.h"
-#include "../../Core/Tileset.h"
-#include "../../Globals.h"
+#include "../Globals.h"
+#include "../Ressources.h"
+#include "../RunState.h"
+#include "../Tileset.h"
 #include "Widget.h"
 
 #include <stdio.h>
@@ -200,18 +200,24 @@ void PopupMenu::CalculateEdgesPos() {
 
     //If the width or height are negatives, then we need to reclculate the topleft and bottomright's positions
     if(m_width < 0) {
+        //This "invert" m_topleftx and m_bottomrightx
         m_topleftx += m_width;
         m_bottomrightx = m_originx;
     }
     if(m_height < 0) {
+        //This "invert" m_toplefty and m_bottomrighty
         m_toplefty += m_height;
         m_bottomrighty = m_originy;
     }
 }
 
 void PopupMenu::RenderPopup(SDL_Renderer* renderer) {
-    //g_ressources->tileset_popupmenu->DrawRectangle(renderer, m_topleftx, m_toplefty, m_bottomrightx, m_bottomrighty, &popuprectdata);
-    g_ressources->tileset_popupmenu->DrawRectangle(renderer, m_animationtopleftx, m_animationtoplefty, m_animationbottomrightx, m_animationbottomrighty, g_ressources->rectdata_popupmenu);
+    g_reusableressources->tileset_popupmenu->DrawRectangle(
+        renderer, 
+        m_animationtopleftx, m_animationtoplefty,           //pos1
+        m_animationbottomrightx, m_animationbottomrighty,   //pos2
+        g_reusableressources->rectdata_popupmenu
+    );
 }
 
 

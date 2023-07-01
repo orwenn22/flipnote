@@ -2,8 +2,8 @@
 
 #include <SDL.h>
 
-#include "../../Reusable/RunState.h"
-#include "../../Globals.h"
+#include "../Globals.h"
+#include "../RunState.h"
 #include "WidgetContainer.h"
 
 

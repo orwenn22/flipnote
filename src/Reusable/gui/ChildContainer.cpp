@@ -1,6 +1,7 @@
 #include "ChildContainer.h"
-#include "../../Globals.h"
-#include "../../Reusable/RunState.h"
+
+#include "../RunState.h"
+#include "../Globals.h"
 
 
 #include <SDL.h>

@@ -1,9 +1,9 @@
 #include "PopupMenuTop.h"
 
-#include "../../Core/Tileset.h"
-#include "../../Core/Ressources.h"
-#include "../../Reusable/RunState.h"
-#include "../../Globals.h"
+#include "../Globals.h"
+#include "../Ressources.h"
+#include "../RunState.h"
+#include "../Tileset.h"
 #include "PopupMenu.h"
 
 static TilesetRectData topoverlaytiles = {
@@ -19,5 +19,6 @@ PopupMenuTop::PopupMenuTop(WidgetContainer* container, int width) : Widget(conta
 void PopupMenuTop::Update() {}
 
 void PopupMenuTop::Render() {
-    g_ressources->tileset_popupmenu->DrawRectangle(g_runstate->renderer, 0, 0, m_container->GetContainerWidth(), m_w, &topoverlaytiles);
+    g_reusableressources->tileset_popupmenu->DrawRectangle(g_runstate->renderer, 0, 0, m_container->GetContainerWidth(), m_w, &topoverlaytiles);
 }
+

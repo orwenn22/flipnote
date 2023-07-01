@@ -1,7 +1,7 @@
 #ifndef MENUALIGNER_H
 #define MENUALIGNER_H
 
-#include "../../Generic/Widget.h"
+#include "../../../Reusable/gui/Widget.h"
 
 class EditorButton;
 

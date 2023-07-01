@@ -3,13 +3,13 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "../../Core/Ressources.h"
-#include "../../Reusable/RunState.h"
-#include "../../Globals.h"
+#include "../Globals.h"
+#include "../Ressources.h"
+#include "../RunState.h"
 
 Label::Label(WidgetContainer* container, int x, int y, std::string text, ClickabbleWidgetCallback callback) 
 : ClickableWidget(container, x, y) {
-    SDL_Surface* tmp = TTF_RenderText_Solid(g_ressources->font_ubuntumedium16, text.c_str(), *(g_ressources->col_orange));
+    SDL_Surface* tmp = TTF_RenderText_Solid(g_reusableressources->font_ubuntumedium16, text.c_str(), *(g_reusableressources->col_orange));
     m_texture = SDL_CreateTextureFromSurface(g_runstate->renderer, tmp);
     SDL_DestroySurface(tmp);
 

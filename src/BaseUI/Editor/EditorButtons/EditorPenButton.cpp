@@ -3,11 +3,11 @@
 #include <SDL.h>
 
 #include "../../../Core/Flipnote/FlipnoteFrame.h"
-#include "../../../Core/Ressources.h"
+#include "../../../Core/FlipnoteRessources.h"
+#include "../../../Core/Globals.h"
+#include "../../../Reusable/gui/PopupMenuTop.h"
+#include "../../../Reusable/gui/PopupMenu.h"
 #include "../../../Reusable/RunState.h"
-#include "../../../Globals.h"
-#include "../../Generic/PopupMenuTop.h"
-#include "../../Generic/PopupMenu.h"
 #include "../FlipnoteEditor.h"
 #include "../Menu/MenuAligner.h"
 #include "../PenMenu/ColorButton.h"
