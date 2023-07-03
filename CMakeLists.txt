@@ -46,6 +46,7 @@ add_executable(Flipnote
     src/Core/Flipnote/FlipnotePainter.cpp
     src/Core/Utils.cpp
 
+    src/Reusable/DeltaTime.cpp 
     src/Reusable/gui/CheckBox.cpp 
     src/Reusable/gui/ChildContainer.cpp 
     src/Reusable/gui/ClickableWidget.cpp 

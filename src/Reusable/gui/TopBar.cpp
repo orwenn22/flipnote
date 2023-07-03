@@ -3,9 +3,10 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "../DeltaTime.h"
+#include "../Globals.h"
 #include "../Ressources.h"
 #include "../RunState.h"
-#include "../Globals.h"
 
 TopBar::TopBar(SDL_Renderer* renderer) {
     m_mouseonclosebutton = false;
@@ -35,8 +36,11 @@ void TopBar::Update() {
     m_mouseonmaximize = (m_mouseonbar && g_runstate->mousex >= g_runstate->winwidth-60 && g_runstate->mousex < g_runstate->winwidth-30);
 
     //Cool animation
-    if(m_mouseonbar && m_y < 0) m_y+=5;
-    else if(!m_mouseonbar && m_y > -30) m_y-=5;
+    if(m_mouseonbar && m_y < 0) m_y+=(300.0*g_deltatime);
+    else if(!m_mouseonbar && m_y > -30) m_y-=(300.0*g_deltatime);
+
+    //Make sure it doesn't go too far
+    if(m_y > 0) m_y = 0;
 
 
     //Don't check button clicks if the mouse have already been used

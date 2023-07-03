@@ -77,12 +77,18 @@ class PopupMenu : public WidgetContainer {
     int m_bottomrightx;
     int m_bottomrighty;
 
-    int m_animationspeed;
-    //These values are used by RenderPopup
-    int m_animationtopleftx;
-    int m_animationtoplefty;
-    int m_animationbottomrightx;
-    int m_animationbottomrighty;
+
+    //speed of the expend animation (in pixels per second)
+    float m_animationspeed;
+
+    //True if the animation is over
+    bool m_animationover;
+
+    //These values are moved by UpdateAnimation. It also correspond to the "rectangle" curently being displayed on screen.
+    float m_animationtopleftx;
+    float m_animationtoplefty;
+    float m_animationbottomrightx;
+    float m_animationbottomrighty;
 
     //This is on this texture that the content of the menu is drawn.
     SDL_Texture* m_content;

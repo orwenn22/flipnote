@@ -22,7 +22,7 @@ class TopBar {
     int m_titlewidth;
     int m_titleheight;
 
-    int m_y;
+    float m_y;
 };
 
 #endif

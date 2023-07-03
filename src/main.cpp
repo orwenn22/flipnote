@@ -7,6 +7,7 @@
 #include "BaseUI/Editor/FlipnoteEditor.h"
 #include "BaseUI/Generic/Background.h"
 #include "Core/FlipnoteRessources.h"
+#include "Reusable/DeltaTime.h"
 #include "Reusable/gui/TopBar.h"
 #include "Reusable/RunState.h"
 
@@ -93,10 +94,8 @@ int main(int argc, const char* argv[]) {
     FlipnoteEditor* fe = new FlipnoteEditor(renderer, flipnote);
     
 
-    Uint32 frameStart, frameTime;   //To hava a capped framerate
     while(g_runstate->running) {
-        frameStart = SDL_GetTicks();
-
+        StartTimingFrame();
 
         g_runstate->HandleEvent();
 
@@ -114,11 +113,15 @@ int main(int argc, const char* argv[]) {
 
         SDL_RenderPresent(renderer);
 
-        //Wait before getting to the next frame
-        frameTime = SDL_GetTicks() - frameStart;
-        if(frameTime < 16) {
-            SDL_Delay((int)(16 - frameTime));
+        const float secperframe = (1.0/120.0);  //time in second between each frame to get 120 fps
+        if(g_deltatime < secperframe) {         //check if the current frame's time is less than secperframe
+            Uint32 dtms = (Uint32)(g_deltatime*1000.0);
+            Uint32 spfms = (Uint32)(secperframe*1000.0);
+            SDL_Delay(spfms-dtms);              //if so wait so wait until we reach the correct amount of time (reduce cpu usage)
         }
+        
+
+        EndTimingFrame();
     }
 
 

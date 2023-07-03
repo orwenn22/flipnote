@@ -4,6 +4,7 @@
 #include "../../Core/Flipnote/FlipnoteFrame.h"
 #include "../../Core/FlipnoteRessources.h"
 #include "../../Core/Globals.h"
+#include "../../Reusable/DeltaTime.h"
 #include "../../Reusable/gui/ChildContainer.h"
 #include "../../Reusable/gui/IconButton.h"
 #include "../../Reusable/RunState.h"
@@ -187,14 +188,14 @@ void FlipnoteTimeline::MoveToDest(int dest) {
 void FlipnoteTimeline::UpdateEnterAnimation() {
     //Make the timeline slide up
     if(m_yfrombottom > m_yfrombottomdest-5) {   //animation over
-        m_yfrombottom = m_yfrombottomdest;
+        m_yfrombottom = (float)m_yfrombottomdest;
     }
     else {      //animation not over
-        m_yfrombottom += 10;
+        m_yfrombottom += (600.0*g_deltatime);
     }
 
     //Calculate absolute position based on m_yfrombottom
-    m_y = g_runstate->winheight - m_yfrombottom;
+    m_y = g_runstate->winheight - (int)m_yfrombottom;
 
     //Reposition the buttons
     m_widgets->SetYOffest(m_y + 238);
@@ -211,14 +212,15 @@ int FlipnoteTimeline::FramesXMinPosition() {
 
 void FlipnoteTimeline::UpdateFrames() {
     //Scroll animation
-    m_framesxvelocity += (g_runstate->mousewheel * 53);
-    m_framesx += m_framesxvelocity;
+    //FIXME : this is not done correctly
+    m_framesxvelocity += (g_runstate->mousewheel * 3180);
+    m_framesx += m_framesxvelocity * g_deltatime;
     m_framesxvelocity /= 1.5;
     if(m_framesx > FramesXMaxPosition()) m_framesx = FramesXMaxPosition();
     if(m_framesx < FramesXMinPosition()) m_framesx = FramesXMinPosition();
 
     //Rect corresponding to the pos of the first frame
-    SDL_Rect framerect = {m_framesx, m_y+85, 128, 96};
+    SDL_Rect framerect = {(int)m_framesx, m_y+85, 128, 96};
 
     //Mouse position
     SDL_Point mousepoint = {

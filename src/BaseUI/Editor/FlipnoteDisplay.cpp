@@ -119,6 +119,7 @@ void FlipnoteDisplay::UpdateMouseInput() {
 
 //Load the surface of the current page into the gpu
 void FlipnoteDisplay::RefreshTexture(SDL_Renderer* renderer) {
+    printf("FlipnoteDisplay::RefreshTexture : updating texture\n");
     SDL_DestroyTexture(m_currentpagetexture);
     //m_currentpagetexture = SDL_CreateTextureFromSurface(renderer, m_editor->CurrentFrameSurface());
     m_currentpagetexture = m_editor->CurrentFrame()->CopyToTexture();

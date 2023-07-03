@@ -45,7 +45,7 @@ class FlipnoteTimeline {
     int m_y;
 
     //Used for the enter animation
-    int m_yfrombottom;
+    float m_yfrombottom;
     int m_yfrombottomdest;
 
     //Size of the size of a tile of the timeline (background)
@@ -53,8 +53,8 @@ class FlipnoteTimeline {
     int m_tileheight;
 
     //Scroll position
-    int m_framesx;
-    int m_framesxvelocity;
+    float m_framesx;
+    float m_framesxvelocity;
 
 
     FlipnoteEditor* m_editor;

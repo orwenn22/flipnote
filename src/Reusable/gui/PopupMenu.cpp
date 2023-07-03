@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 
+#include "../DeltaTime.h"
 #include "../Globals.h"
 #include "../Ressources.h"
 #include "../RunState.h"
@@ -21,7 +22,7 @@ PopupMenu::PopupMenu(int originx, int originy, int width, int height) : WidgetCo
     CalculateEdgesPos();
     SetupContent();
 
-    m_animationspeed = 8;
+    m_animationspeed = 480;
     //Start the animation at the origin of the popup menu
     m_animationbottomrightx = m_originx;
     m_animationbottomrighty = m_originy;
@@ -159,35 +160,38 @@ void PopupMenu::SetupContent() {
 
 
 void PopupMenu::UpdateAnimation() {
+    //Calculate the distance in pixel we need to move the edges of the animation for this frame (d = s*t)
+    float distance = m_animationspeed*g_deltatime;
+
     //Move the borders of the animations toward the "absolute" borders
-    if(m_animationbottomrightx > m_bottomrightx)        m_animationbottomrightx -= m_animationspeed;
-    else if(m_animationbottomrightx < m_bottomrightx)   m_animationbottomrightx += m_animationspeed;
+    if(m_animationbottomrightx > m_bottomrightx)        m_animationbottomrightx -= distance;
+    else if(m_animationbottomrightx < m_bottomrightx)   m_animationbottomrightx += distance;
 
-    if(m_animationbottomrighty > m_bottomrighty)        m_animationbottomrighty -= m_animationspeed;
-    else if(m_animationbottomrighty < m_bottomrighty)   m_animationbottomrighty += m_animationspeed;
+    if(m_animationbottomrighty > m_bottomrighty)        m_animationbottomrighty -= distance;
+    else if(m_animationbottomrighty < m_bottomrighty)   m_animationbottomrighty += distance;
 
-    if(m_animationtopleftx > m_topleftx)        m_animationtopleftx -= m_animationspeed;
-    else if(m_animationtopleftx < m_topleftx)   m_animationtopleftx += m_animationspeed;
+    if(m_animationtopleftx > m_topleftx)        m_animationtopleftx -= distance;
+    else if(m_animationtopleftx < m_topleftx)   m_animationtopleftx += distance;
 
-    if(m_animationtoplefty > m_toplefty)        m_animationtoplefty -= m_animationspeed;
-    else if(m_animationtoplefty < m_toplefty)   m_animationtoplefty += m_animationspeed;
+    if(m_animationtoplefty > m_toplefty)        m_animationtoplefty -= distance;
+    else if(m_animationtoplefty < m_toplefty)   m_animationtoplefty += distance;
 
 
-    //Check if the values of the animations positions is near their "absolute" position
-    if(m_animationbottomrightx > m_bottomrightx-m_animationspeed 
-    && m_animationbottomrightx < m_bottomrightx+m_animationspeed)
+    //Check if the values of the animations positions is near their "absolute" position, and if so finish the animation
+    if(m_animationbottomrightx > m_bottomrightx-distance 
+    && m_animationbottomrightx < m_bottomrightx+distance)
         m_animationbottomrightx = m_bottomrightx;
     
-    if(m_animationbottomrighty > m_bottomrighty-m_animationspeed 
-    && m_animationbottomrighty < m_bottomrighty+m_animationspeed)
+    if(m_animationbottomrighty > m_bottomrighty-distance 
+    && m_animationbottomrighty < m_bottomrighty+distance)
         m_animationbottomrighty = m_bottomrighty;
     
-    if(m_animationtopleftx > m_topleftx-m_animationspeed
-    && m_animationtopleftx < m_topleftx+m_animationspeed)
+    if(m_animationtopleftx > m_topleftx-distance
+    && m_animationtopleftx < m_topleftx+distance)
         m_animationtopleftx = m_topleftx;
     
-    if(m_animationtoplefty > m_toplefty-m_animationspeed
-    && m_animationtoplefty < m_toplefty+m_animationspeed)
+    if(m_animationtoplefty > m_toplefty-distance
+    && m_animationtoplefty < m_toplefty+distance)
         m_animationtoplefty = m_toplefty;
     
 }
@@ -200,12 +204,12 @@ void PopupMenu::CalculateEdgesPos() {
 
     //If the width or height are negatives, then we need to reclculate the topleft and bottomright's positions
     if(m_width < 0) {
-        //This "invert" m_topleftx and m_bottomrightx
+        //This "invert" m_topleftx and m_bottomrightx (because m_bottomrightx needs to be bigger than m_topleftx)
         m_topleftx += m_width;
         m_bottomrightx = m_originx;
     }
     if(m_height < 0) {
-        //This "invert" m_toplefty and m_bottomrighty
+        //This "invert" m_toplefty and m_bottomrighty (because m_bottomrighty needs to be bigger than m_toplefty)
         m_toplefty += m_height;
         m_bottomrighty = m_originy;
     }
