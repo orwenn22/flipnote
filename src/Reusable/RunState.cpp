@@ -1,6 +1,7 @@
 #include "RunState.h"
 
 #include <SDL.h>
+#include <SDL_keycode.h>
 
 
 RunState::RunState(SDL_Window* win, SDL_Renderer* winrenderer) {
@@ -27,6 +28,7 @@ RunState::~RunState() {
 
 
 void RunState::HandleEvent() {
+    keypressed.clear();
     rightclick = false;
     leftclick = false;
     mouseused = false;
@@ -64,11 +66,12 @@ void RunState::HandleEvent() {
             break;
 
             case SDL_EVENT_KEY_DOWN:
+                keydown[event.key.keysym.sym] = true;
                 keypressed[event.key.keysym.sym] = true;
             break;
 
             case SDL_EVENT_KEY_UP:
-                keypressed[event.key.keysym.sym] = false;
+                keydown[event.key.keysym.sym] = false;
             break;
 
             case SDL_EVENT_MOUSE_WHEEL:
@@ -79,4 +82,17 @@ void RunState::HandleEvent() {
 
     SDL_GetMouseState(&mousex, &mousey);
     SDL_GetWindowSize(window, &winwidth, &winheight);
+}
+
+
+bool RunState::IsKeyDown(int key) {
+    if(keydown.count(key) == 0) return false;
+
+    return keydown[key];
+}
+
+bool RunState::IsKeyPressed(int key) {
+    if(keydown.count(key) == 0) return false;
+
+    return keypressed[key];
 }

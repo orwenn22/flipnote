@@ -20,12 +20,14 @@ struct RunState {
     bool rightclick;
     bool leftclick;
 
+    bool rightpressed;
+    bool leftpressed;
+
     int mousewheel;
     bool mouseused;
 
+    std::map<int, bool> keydown;
     std::map<int, bool> keypressed;
-    bool rightpressed;
-    bool leftpressed;
 
 
     int winwidth;
@@ -34,7 +36,8 @@ struct RunState {
     RunState(SDL_Window* win, SDL_Renderer* winrenderer);
     ~RunState();
     void HandleEvent();
-
+    bool IsKeyDown(int key);
+    bool IsKeyPressed(int key);
 };
 
 #endif

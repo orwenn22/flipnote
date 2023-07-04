@@ -95,12 +95,16 @@ int main(int argc, const char* argv[]) {
 
     //Flipnote Editor
     FlipnoteEditor* fe = new FlipnoteEditor(renderer, flipnote);
+
+    bool showdebugoverlay = false;
     
 
     while(g_runstate->running) {
         StartTimingFrame();
 
+
         g_runstate->HandleEvent();
+        if(g_runstate->IsKeyPressed(SDLK_F3)) showdebugoverlay = !showdebugoverlay;
 
         //Update
         topbar->Update();
@@ -113,7 +117,8 @@ int main(int argc, const char* argv[]) {
         fe->Render(renderer);
         topbar->Render(renderer);
 
-        RenderDebugOverlay(0, 0);
+        if(showdebugoverlay) RenderDebugOverlay(0, 0);
+
 
         SDL_RenderPresent(renderer);
 
