@@ -14,12 +14,12 @@ TopBar::TopBar(SDL_Renderer* renderer) {
     m_mouseonbar = false;
     m_y = 0;
 
-    SDL_Surface* titletextsurface = TTF_RenderText_Solid(g_reusableressources->font_ubuntumedium24, "Flipnote", *g_reusableressources->col_white);    //Write text to surface (white)
+    SDL_Surface* titletextsurface = TTF_RenderText_Blended(g_reusableressources->font_ubuntumedium24, "Flipnote", *g_reusableressources->col_white);    //Write text to surface (white)
     m_titletexttexturewhite = SDL_CreateTextureFromSurface(renderer, titletextsurface);     //copy surface to texture
     SDL_QueryTexture(m_titletexttexturewhite, NULL, NULL, &m_titlewidth, &m_titleheight);   //Get size of texture in pixel
     SDL_DestroySurface(titletextsurface);           //Deallocate the surface as it is now useless
 
-    titletextsurface = TTF_RenderText_Solid(g_reusableressources->font_ubuntumedium24, "Flipnote", *g_reusableressources->col_orange);    //Write text to surface (orange)
+    titletextsurface = TTF_RenderText_Blended(g_reusableressources->font_ubuntumedium24, "Flipnote", *g_reusableressources->col_orange);    //Write text to surface (orange)
     m_titletexttextureorange = SDL_CreateTextureFromSurface(renderer, titletextsurface);     //copy surface to texture
     SDL_DestroySurface(titletextsurface);           //Deallocate the surface as it is now useless
 }

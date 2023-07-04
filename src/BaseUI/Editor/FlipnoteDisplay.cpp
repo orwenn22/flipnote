@@ -59,6 +59,7 @@ void FlipnoteDisplay::Render(SDL_Renderer* renderer) {
 
     SDL_SetRenderDrawColor(renderer, 190, 190, 190, 255);   //gray
     SDL_RenderFillRect(renderer, &outline);
+    //TODO : don't draw the offscreen parts of the texture
     SDL_RenderTexture(renderer, m_currentpagetexture, NULL, &dest);
 
     RenderToolPreview();

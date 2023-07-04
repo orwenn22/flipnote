@@ -47,3 +47,11 @@ void EndTimingFrameCappedFramerate(int framerate) {
 //    SDL_Delay(2);    //if so wait so wait until we reach the correct amount of time (reduce cpu usage)
 //    EndTimingFrame();
 //}
+
+float GetCurrentFrameTime() {
+    //DeltaTime in ms
+    Uint32 frameend = SDL_GetTicks();
+    Uint32 frametime = frameend - s_framestart;
+
+    return (float)frametime / 1000.0f;
+}

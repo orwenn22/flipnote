@@ -7,11 +7,10 @@
 #include "BaseUI/Editor/FlipnoteEditor.h"
 #include "BaseUI/Generic/Background.h"
 #include "Core/FlipnoteRessources.h"
+#include "Reusable/DebugOverlay.h"
 #include "Reusable/DeltaTime.h"
 #include "Reusable/gui/TopBar.h"
 #include "Reusable/RunState.h"
-
-#include "Core/Utils.h"
 
 #include "Core/Flipnote/Flipnote.h"
 
@@ -50,6 +49,10 @@ int main(int argc, const char* argv[]) {
         return -1;
     }
 
+    for(int i = 0; i < SDL_GetNumRenderDrivers(); i++) {
+        printf("main : %i : %s\n", i, SDL_GetRenderDriver(i));
+    }
+
     IMG_Init(IMG_INIT_PNG);
     TTF_Init();
 
@@ -61,7 +64,7 @@ int main(int argc, const char* argv[]) {
     if(SDL_SetWindowMinimumSize(window, 256, 256) < 0) return -1;
     if(SDL_SetWindowHitTest(window, MyHitTest, 0) != 0) return -1;
 
-    SDL_Renderer* renderer = SDL_CreateRenderer(window,NULL, SDL_RENDERER_ACCELERATED);
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, NULL, SDL_RENDERER_ACCELERATED);
     if(!renderer) {
         std::cout << "renderer fail\n";
         return -1;
@@ -110,13 +113,15 @@ int main(int argc, const char* argv[]) {
         fe->Render(renderer);
         topbar->Render(renderer);
 
+        RenderDebugOverlay(0, 0);
 
         SDL_RenderPresent(renderer);
 
         //EndTimingFrame();       //for uncapped framerate
         EndTimingFrameCappedFramerate(120);
 
-        const float secperframe = (1.0/120.0);  //time in second between each frame to get 120 fps
+        
+        //const float secperframe = (1.0/120.0);  //time in second between each frame to get 120 fps
         //printf("main : time waited : %fs  |  target : %fs\n", g_deltatime, secperframe);
     }
 

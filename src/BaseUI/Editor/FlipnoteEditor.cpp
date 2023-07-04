@@ -280,7 +280,7 @@ void FlipnoteEditor::UpdateDraw(SDL_Renderer* renderer) {
             painter.DrawLineEx(m_previousx, m_previousy, pixelx, pixely, m_brushsize, m_currentcolorindex);
         }
         
-        printf("%i %i\n", pixelx, pixely);
+        printf("FlipnoteEditor::UpdateDraw : %i %i\n", pixelx, pixely);
 
         //Save the current mouse position for next frame
         m_previousx = pixelx;

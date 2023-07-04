@@ -44,8 +44,8 @@ add_executable(Flipnote
     src/Core/Flipnote/Flipnote.cpp
     src/Core/Flipnote/FlipnoteFrame.cpp
     src/Core/Flipnote/FlipnotePainter.cpp
-    src/Core/Utils.cpp
-
+    
+    src/Reusable/DebugOverlay.cpp
     src/Reusable/DeltaTime.cpp 
     src/Reusable/gui/CheckBox.cpp 
     src/Reusable/gui/ChildContainer.cpp 
@@ -61,7 +61,8 @@ add_executable(Flipnote
     src/Reusable/Ressources.cpp 
     src/Reusable/RunState.cpp 
     src/Reusable/Tileset.cpp
+    src/Reusable/Utils.cpp
 )
-
+    
 
 target_link_libraries(Flipnote SDL3 SDL3_ttf SDL3_image)

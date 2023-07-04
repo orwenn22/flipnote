@@ -16,7 +16,15 @@ RunState::RunState(SDL_Window* win, SDL_Renderer* winrenderer) {
     leftclick = false;
     mouseused = false;
     SDL_GetWindowSize(window, &winwidth, &winheight);
+
+    rendererinfo = new SDL_RendererInfo;
+    SDL_GetRendererInfo(renderer, rendererinfo);
 }
+
+RunState::~RunState() {
+    delete rendererinfo;
+}
+
 
 void RunState::HandleEvent() {
     rightclick = false;
