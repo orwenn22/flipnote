@@ -82,8 +82,8 @@ int main(int argc, const char* argv[]) {
         flipnote = new Flipnote(512, 384);
     }
     else  {
-        flipnote = Flipnote::Load(argv[1]);
         printf("main : trying to load flipnote from '%s'\n", argv[1]);
+        flipnote = Flipnote::Load(argv[1]);
         if(flipnote == nullptr) {
             printf("main : failed to load flipnote from '%s'\n", argv[1]);
             flipnote = new Flipnote(512, 384);
@@ -113,15 +113,11 @@ int main(int argc, const char* argv[]) {
 
         SDL_RenderPresent(renderer);
 
-        const float secperframe = (1.0/120.0);  //time in second between each frame to get 120 fps
-        if(g_deltatime < secperframe) {         //check if the current frame's time is less than secperframe
-            Uint32 dtms = (Uint32)(g_deltatime*1000.0);
-            Uint32 spfms = (Uint32)(secperframe*1000.0);
-            SDL_Delay(spfms-dtms);              //if so wait so wait until we reach the correct amount of time (reduce cpu usage)
-        }
-        
+        //EndTimingFrame();       //for uncapped framerate
+        EndTimingFrameCappedFramerate(120);
 
-        EndTimingFrame();
+        const float secperframe = (1.0/120.0);  //time in second between each frame to get 120 fps
+        //printf("main : time waited : %fs  |  target : %fs\n", g_deltatime, secperframe);
     }
 
 

@@ -71,8 +71,6 @@ class FlipnoteEditor {
 
     //Is set to true, the animation is playing;
     bool m_animmationplaying;
-    //Animation speed (lower is faster)
-    int m_animationinterval;
 
     private:
 
@@ -108,8 +106,8 @@ class FlipnoteEditor {
     int m_currentbrush;
     int m_brushsize;
 
-    //For when the animation is playing
-    int m_animationcooldown;
+    //For when the animation is playing (the time current frame have been displayed in second)
+    float m_animationcooldown;
 };
 
 #endif

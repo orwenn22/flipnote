@@ -240,7 +240,7 @@ void FlipnoteTimeline::UpdateFrames() {
     //Check for click
     while(i < framecount && framerect.x < g_runstate->winwidth) {
         if(SDL_PointInRect(&mousepoint, &framerect) && g_runstate->leftclick) {
-            printf("frame clicked :%i\n", i);
+            printf("FlipnoteTimeline::UpdateFrames : frame clicked : %i\n", i);
             m_editor->SetCurrentFrame(i);
         }
 

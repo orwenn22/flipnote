@@ -6,9 +6,31 @@
 
 #include "FlipnoteFrame.h"
 
+
+//Frames per second for each speed values.
+//values taken from https://flipnote.fandom.com/wiki/Flipnote_Speed
+static const float s_animationspeedfps[] = {
+    0.2,    //0
+    0.5,    //1
+    1,      //2
+    2,      //3
+    4,      //4
+    6,      //5
+    8,      //6
+    12,     //7
+    20,     //8
+    22,     //9
+    30      //10
+};
+
+static const int s_animationspeedcount = sizeof(s_animationspeedfps) / sizeof(const float);
+
+
 Flipnote::Flipnote(int framewidth, int frameheight) {
+    printf("Flipnote::Flipnote : creating with size %i x %i\n", frameheight, frameheight);
     m_framewidth = framewidth;
     m_frameheight = frameheight;
+    SetAnimationSpeed(2);   //1fps by default
     AddFrame(0);
 }
 
@@ -81,11 +103,39 @@ void Flipnote::GetFramesSize(int* w, int* h) {
 }
 
 
+///////////////////////////////
+// Animation stuff
 
+void Flipnote::SetAnimationSpeed(int speed) {
+    if(speed < 0) speed = 0;
+    if(speed >= s_animationspeedcount) speed = s_animationspeedcount-1;
+    m_animationspeed = speed;
+
+    printf("Flipnote::SetAnimationSpeed : m_animation speed set to %i (correspond to %f fps)\n", m_animationspeed, s_animationspeedfps[m_animationspeed]);
+}
+
+int Flipnote::GetAnimationSpeed() {
+    return m_animationspeed;
+}
+
+float Flipnote::GetAnimationDelay() {
+    ////In frame assuming 60fps
+    //return 60/s_animationspeedfps[m_animationspeed];
+    //Is seconds
+    return 1/s_animationspeedfps[m_animationspeed];
+}
+
+int Flipnote::GetAnimationFPS() {
+    return s_animationspeedfps[m_animationspeed];
+}
+
+
+///////////////////////////////
+// Save and load
 
 void Flipnote::Save(const char* filename) {
     if(m_framewidth > 2000 || m_frameheight > 2000) {
-        printf("Too big\n");
+        printf("Flipnote::Save : Too big\n");
     }
 
     //Save signature
@@ -98,6 +148,9 @@ void Flipnote::Save(const char* filename) {
     fputc(m_framewidth & 0xff, outfile);
     fputc((m_frameheight >> 8) & 0xff, outfile);
     fputc(m_frameheight & 0xff, outfile);
+
+    //Save animation speed
+    fputc(m_animationspeed, outfile);
     
 
     //Save number of frames
@@ -121,7 +174,7 @@ Flipnote* Flipnote::Load(const char* filename) {
     //Read and chack signature
     char signature[4] = {0};
     fgets(signature, 4, infile);
-    printf("%c%c%c\n", signature[0], signature[1], signature[2]);
+    //printf("Flipnote::Load : %c%c%c\n", signature[0], signature[1], signature[2]);
     if(!(signature[0] == 'F' && signature[1] == 'n' && signature[2] == 't')) {
         printf("Flipnote::Load : No signature\n");
         fclose(infile);
@@ -136,14 +189,16 @@ Flipnote* Flipnote::Load(const char* filename) {
     w += fgetc(infile);
     h += fgetc(infile) << 8;
     h += fgetc(infile);
-    printf("w : %i | h : %i", w, h);
+    printf("Flipnote::Load : w : %i | h : %i\n", w, h);
     if(w > 2000 || h > 2000) {  //Too big
+        printf("Flipnote::Load : invalid size (too big)\n");
         fclose(infile);
         return nullptr;
     }
 
     Flipnote* r = new Flipnote(w, h, infile);
     fclose(infile);
+    printf("Flipnote::Load : Successful!\n");
     return r;
 }
 
@@ -156,11 +211,15 @@ Flipnote::Flipnote(int framewidth, int frameheight, FILE* infile) {
     m_framewidth = framewidth;
     m_frameheight = frameheight;
 
+    //Get animation speed
+    SetAnimationSpeed(fgetc(infile));
+
     //Get frame count
     unsigned int framecount = 0;
     framecount += fgetc(infile) << 8;
     framecount += fgetc(infile);
 
+    //Load all frames
     for(unsigned int i =  0; i < framecount; i++) {
         m_frames.push_back(new FlipnoteFrame(framewidth, frameheight, infile));
     }

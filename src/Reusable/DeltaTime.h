@@ -7,5 +7,6 @@ extern float g_deltatime;
 //Used to calculate DeltaTime
 void StartTimingFrame();
 void EndTimingFrame();
+void EndTimingFrameCappedFramerate(int framerate);
 
 #endif

@@ -7,6 +7,7 @@
 #include "../../Core/Flipnote/FlipnotePainter.h"
 #include "../../Core/FlipnoteRessources.h"
 #include "../../Core/Globals.h"
+#include "../../Reusable/DeltaTime.h"
 #include "../../Reusable/RunState.h"
 #include "../../Reusable/gui/IconButton.h"
 #include "../../Reusable/gui/PopupMenu.h"
@@ -86,8 +87,7 @@ FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
     m_brushsize = 10;
 
     m_animmationplaying = false;
-    m_animationinterval = 10;
-    m_animationcooldown = 0;
+    m_animationcooldown = 0.0f;
 
     m_display = new FlipnoteDisplay(renderer, this);
 
@@ -293,7 +293,7 @@ void FlipnoteEditor::UpdateDraw(SDL_Renderer* renderer) {
 }
 
 
-void FlipnoteEditor::UpdateAnimation() {
+/*
     m_animationcooldown++;
     if(m_animationcooldown >= m_animationinterval) {
         m_animationcooldown = 0;
@@ -305,6 +305,24 @@ void FlipnoteEditor::UpdateAnimation() {
         else {
             SetCurrentFrame(m_page+1);
         }
+    }
+*/
+
+void FlipnoteEditor::UpdateAnimation() {
+    float animationdelay = m_flipnote->GetAnimationDelay();
+
+    m_animationcooldown+=g_deltatime;
+    while(m_animationcooldown >= animationdelay) {
+        m_animationcooldown -= animationdelay;
+        //Go to next frame
+        //(Check if we reached the end of the animation, if so loop to the beginning)
+        if(m_page+1 >= m_flipnote->FrameCount()) {
+            SetCurrentFrame(0);
+        }
+        else {
+            SetCurrentFrame(m_page+1);
+        }
+        m_animationcooldown = 0;
     }
 }
 

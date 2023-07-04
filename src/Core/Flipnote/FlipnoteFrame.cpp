@@ -9,6 +9,7 @@
 #include "../Globals.h"
 #include "../Utils.h"
 
+//FIXME : 8 colors hardcoded
 static SDL_Color defaultframepalette[] = {
     {255, 255, 255, 255},
     {  0,   0,   0, 255},
@@ -31,6 +32,7 @@ FlipnoteFrame::FlipnoteFrame(int w, int h) {
 
     m_pixels = (unsigned char*) malloc(sizeof(unsigned char) * w * h);
 
+    //FIXME : 8 colors hardcoded
     m_colors = (SDL_Color*) malloc(sizeof(SDL_Color) * 8);
     m_colors[0] = {255, 255, 255, 255};
     m_colors[1] = {  0,   0,   0, 255};
@@ -53,15 +55,17 @@ FlipnoteFrame::FlipnoteFrame(int w, int h, FILE* infile) {
         return;
     }
 
-
+    //FIXME : 8 colors hardcoded
     m_colors = (SDL_Color*) malloc(sizeof(SDL_Color) * 8);
+    printf("FlipnoteFrame::FlipnoteFrame : loading palette from file : ");
     for(SDL_Color* colptr = m_colors; colptr < m_colors + 8;colptr += 1) {
         colptr->r = getc(infile);
         colptr->g = getc(infile);
         colptr->b = getc(infile);
         colptr->a = getc(infile);
-        printf("%x %x %x %x\n", colptr->r, colptr->g, colptr->b, colptr->a);
+        printf("\x1b[48;2;%u;%u;%um  \x1b[0m", colptr->r, colptr->g, colptr->b);    //ANSI escape code for changing terminal's background color
     }
+    printf("\n");
 
 
     m_pixels = (unsigned char*) malloc(sizeof(unsigned char) * w * h);
@@ -126,12 +130,14 @@ SDL_Texture* FlipnoteFrame::CopyToTexture(int w, int h) {
 
 
 void FlipnoteFrame::SetColor(int index, SDL_Color c) {
+    //FIXME : 8 colors hardcoded
     if(index < 0) index = 0;
     if(index > 7) index = 7;
     m_colors[index] = c;
 }
 
 SDL_Color FlipnoteFrame::GetColor(int index) {
+    //FIXME : 8 colors hardcoded
     if(index < 0) index = 0;
     if(index > 7) index = 7;
     return m_colors[index];
@@ -172,14 +178,16 @@ unsigned char FlipnoteFrame::GetPixel(int x, int y) {
 
 
 void FlipnoteFrame::Save(FILE* file) {
-    //FIXME : 8 color hardcoded
+    //FIXME : 8 color colors
+    printf("FlipnoteFrame::Save : saving palette to file : ");
     for(SDL_Color* colptr = m_colors; colptr < m_colors + 8;colptr += 1) {
         putc(colptr->r, file);
         putc(colptr->g, file);
         putc(colptr->b, file);
         putc(colptr->a, file);
-        printf("%x %x %x %x\n", colptr->r, colptr->g, colptr->b, colptr->a);
+        printf("\x1b[48;2;%u;%u;%um  \x1b[0m", colptr->r, colptr->g, colptr->b);    //ANSI escape code for changing terminal's background color
     }
+    printf("\n");
 
     int istop = m_width*m_height;
     for(int i = 0; i < istop; i++) {
