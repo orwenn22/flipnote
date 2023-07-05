@@ -7,26 +7,30 @@
 #include "../Globals.h"
 #include "../Ressources.h"
 #include "../RunState.h"
+#include "../Utils.h"
 
-TopBar::TopBar(SDL_Renderer* renderer) {
+TopBar::TopBar(std::string text, SDL_Color bg, SDL_Color fg) {
     m_mouseonclosebutton = false;
     m_mouseonmaximize = false;
     m_mouseonbar = false;
     m_y = 0;
 
-    SDL_Surface* titletextsurface = TTF_RenderText_Blended(g_reusableressources->font_ubuntumedium24, "Flipnote", *g_reusableressources->col_white);    //Write text to surface (white)
-    m_titletexttexturewhite = SDL_CreateTextureFromSurface(renderer, titletextsurface);     //copy surface to texture
-    SDL_QueryTexture(m_titletexttexturewhite, NULL, NULL, &m_titlewidth, &m_titleheight);   //Get size of texture in pixel
-    SDL_DestroySurface(titletextsurface);           //Deallocate the surface as it is now useless
+    m_bg = new SDL_Color(bg);
+    m_fg = new SDL_Color(fg);
+    m_text = text;
 
-    titletextsurface = TTF_RenderText_Blended(g_reusableressources->font_ubuntumedium24, "Flipnote", *g_reusableressources->col_orange);    //Write text to surface (orange)
-    m_titletexttextureorange = SDL_CreateTextureFromSurface(renderer, titletextsurface);     //copy surface to texture
-    SDL_DestroySurface(titletextsurface);           //Deallocate the surface as it is now useless
+    m_titletexttexturebg = nullptr;
+    m_titletexttexturefg = nullptr;
+
+    UpdateTextures();
 }
 
 TopBar::~TopBar() {
-    SDL_DestroyTexture(m_titletexttexturewhite);
-    SDL_DestroyTexture(m_titletexttextureorange);
+    SDL_DestroyTexture(m_titletexttexturefg);
+    SDL_DestroyTexture(m_titletexttexturebg);
+
+    delete m_bg;
+    delete m_fg;
 }
 
 void TopBar::Update() {
@@ -70,14 +74,12 @@ void TopBar::Update() {
 }
 
 void TopBar::Render(SDL_Renderer* renderer) {
-    //orange title (static)
+    //static title (background color)
     const SDL_FRect orangetitlerecdest = {32, 0, (float)m_titlewidth, (float)m_titleheight};
-    SDL_RenderTexture(renderer, m_titletexttextureorange, NULL, &orangetitlerecdest);
+    SDL_RenderTexture(renderer, m_titletexttexturebg, NULL, &orangetitlerecdest);
 
 
-    //Orange top bar (dynamic)
-    SDL_Color* orange = g_reusableressources->col_orange;
-    SDL_SetRenderDrawColor(renderer, orange->r, orange->g, orange->b, orange->a);
+    SDL_SetRenderDrawColor(renderer, m_bg->r, m_bg->g, m_bg->b, m_bg->a);
     SDL_FRect rec = {0, (float)m_y, (float)g_runstate->winwidth, 30};
     SDL_RenderFillRect(renderer, &rec);
 
@@ -86,9 +88,9 @@ void TopBar::Render(SDL_Renderer* renderer) {
     SDL_SetRenderDrawColor(renderer, 190, 190, 190, 255);   //gray
     SDL_RenderLine(renderer, 0, (float)(m_y + 30), g_runstate->winwidth, (float)(m_y + 30));
 
-    //white title (dynamic)
+    //dynamic title (foreground color)
     const SDL_FRect titlerecdest = {32, (float)m_y, (float)m_titlewidth, (float)m_titleheight};
-    SDL_RenderTexture(renderer, m_titletexttexturewhite, NULL, &titlerecdest);
+    SDL_RenderTexture(renderer, m_titletexttexturefg, NULL, &titlerecdest);
 
 
 
@@ -107,8 +109,38 @@ void TopBar::Render(SDL_Renderer* renderer) {
     //Maximise
     SDL_FRect maximiserec = {(float)(g_runstate->winwidth-60), 0, 30, 30};
     if(m_mouseonmaximize) {
-        SDL_SetRenderDrawColor(renderer, 255, 120, 50, 255);   //orange (but a little diferent)
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 75);
+        //TODO ? : maybe it would be usefull to AWLAYS use SDL_BLENDMODE_BLEND to draw everything (and not only that)
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
         SDL_RenderFillRect(renderer, &maximiserec);
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
     }
     SDL_RenderTexture(renderer, g_reusableressources->txtr_maximize, NULL, &maximiserec);
+}
+
+
+void TopBar::SetColor(SDL_Color bg, SDL_Color fg) {
+    *m_bg = bg;
+    *m_fg = fg;
+    UpdateTextures();
+}
+
+void TopBar::SetText(std::string text) {
+    m_text = text;
+    UpdateTextures();
+}
+
+
+///////////////////////
+// PRIVATE
+
+void TopBar::UpdateTextures() {
+    if(m_titletexttexturefg != nullptr) SDL_DestroyTexture(m_titletexttexturefg);
+    if(m_titletexttexturebg != nullptr) SDL_DestroyTexture(m_titletexttexturebg);
+
+    m_titletexttexturefg = MakeTextTexture(m_text.c_str(), g_reusableressources->font_ubuntumedium24, *m_fg);
+    m_titletexttexturebg = MakeTextTexture(m_text.c_str(), g_reusableressources->font_ubuntumedium24, *m_bg);
+
+    //Get size of texture in pixel
+    SDL_QueryTexture(m_titletexttexturefg, NULL, NULL, &m_titlewidth, &m_titleheight);
 }

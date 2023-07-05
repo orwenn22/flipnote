@@ -46,3 +46,13 @@ void RenderText(const char* str, int x, int y, _TTF_Font* font, SDL_Color fg, SD
 
 	SDL_DestroyTexture(t);
 }
+
+
+SDL_Texture* MakeTextTexture(const char* str, _TTF_Font* font, SDL_Color fg) {
+	if(font == nullptr) return nullptr;
+
+	SDL_Surface* s = TTF_RenderText_Blended(font, str, fg);
+	SDL_Texture* t = SDL_CreateTextureFromSurface(g_runstate->renderer, s);
+	SDL_DestroySurface(s);
+	return t;
+}

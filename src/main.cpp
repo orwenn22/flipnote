@@ -76,7 +76,7 @@ int main(int argc, const char* argv[]) {
     g_reusableressources = g_ressources;
     
     //Initialise main ui elements
-    TopBar* topbar = new TopBar(renderer);
+    TopBar* topbar = new TopBar("Flipnote", *g_ressources->col_orange, *g_ressources->col_white);
     Background* background = new Background(renderer);
 
     //Flipnote (canvas)
