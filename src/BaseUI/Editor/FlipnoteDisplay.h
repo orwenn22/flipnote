@@ -10,11 +10,11 @@ struct SDL_Texture;
 //RefreshTexture must be called each time the user switch the current frame.
 class FlipnoteDisplay {
     public:
-    FlipnoteDisplay(SDL_Renderer* renderer, FlipnoteEditor* editor);
+    FlipnoteDisplay(FlipnoteEditor* editor);
     ~FlipnoteDisplay();
 
     void Update();
-    void Render(SDL_Renderer* renderer);
+    void Render();
 
     //Get the x and y index of the pixel being overred
     void GetMousePosPixel(int* x, int* y);

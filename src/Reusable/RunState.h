@@ -7,6 +7,7 @@ struct SDL_Renderer;
 struct SDL_RendererInfo;
 struct SDL_Window;
 
+//TODO : rename this to a better name. Globals ? EventHandler ? Or something like that ?
 struct RunState {
     SDL_Window* window;
     SDL_Renderer* renderer;

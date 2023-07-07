@@ -73,7 +73,9 @@ void TopBar::Update() {
     }
 }
 
-void TopBar::Render(SDL_Renderer* renderer) {
+void TopBar::Render() {
+    SDL_Renderer* renderer = g_runstate->renderer;
+    
     //static title (background color)
     const SDL_FRect orangetitlerecdest = {32, 0, (float)m_titlewidth, (float)m_titleheight};
     SDL_RenderTexture(renderer, m_titletexttexturebg, NULL, &orangetitlerecdest);

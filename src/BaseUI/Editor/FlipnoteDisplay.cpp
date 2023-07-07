@@ -10,7 +10,7 @@
 #include "../../Reusable/RunState.h"
 #include "FlipnoteEditor.h"
 
-FlipnoteDisplay::FlipnoteDisplay(SDL_Renderer* renderer, FlipnoteEditor* editor) {
+FlipnoteDisplay::FlipnoteDisplay(FlipnoteEditor* editor) {
     m_editor = editor;
     m_x = 50;
     m_y = 50;
@@ -23,7 +23,7 @@ FlipnoteDisplay::FlipnoteDisplay(SDL_Renderer* renderer, FlipnoteEditor* editor)
 
     m_currentpagetexture = m_editor->CurrentFrame()->CopyToTexture();
 
-    m_toolpreview = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, m_unzoomedwidth, m_unzoomedheight);
+    m_toolpreview = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, m_unzoomedwidth, m_unzoomedheight);
     SDL_SetTextureBlendMode(m_toolpreview, SDL_BLENDMODE_BLEND);
 }
 
@@ -47,7 +47,7 @@ void FlipnoteDisplay::Update() {
 }
 
 
-void FlipnoteDisplay::Render(SDL_Renderer* renderer) {
+void FlipnoteDisplay::Render() {
     SDL_FRect dest = {(float)m_x, (float)m_y, (float)m_unzoomedwidth * m_scale, (float)m_unzoomedheight * m_scale};
     SDL_FRect outline;
     if(m_scale > 0.9f) {
@@ -57,10 +57,10 @@ void FlipnoteDisplay::Render(SDL_Renderer* renderer) {
         outline = {dest.x - 1, dest.y - 1, dest.w + 2, dest.h + 2};
     }
 
-    SDL_SetRenderDrawColor(renderer, 190, 190, 190, 255);   //gray
-    SDL_RenderFillRect(renderer, &outline);
+    SDL_SetRenderDrawColor(g_runstate->renderer, 190, 190, 190, 255);   //gray
+    SDL_RenderFillRect(g_runstate->renderer, &outline);
     //TODO : don't draw the offscreen parts of the texture
-    SDL_RenderTexture(renderer, m_currentpagetexture, NULL, &dest);
+    SDL_RenderTexture(g_runstate->renderer, m_currentpagetexture, NULL, &dest);
 
     RenderToolPreview();
 

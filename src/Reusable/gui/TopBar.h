@@ -13,7 +13,7 @@ class TopBar {
     ~TopBar();
 
     void Update();
-    void Render(SDL_Renderer* renderer);
+    void Render();
 
     void SetColor(SDL_Color bg, SDL_Color fg);
     void SetText(std::string text);

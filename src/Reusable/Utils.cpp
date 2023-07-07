@@ -56,3 +56,26 @@ SDL_Texture* MakeTextTexture(const char* str, _TTF_Font* font, SDL_Color fg) {
 	SDL_DestroySurface(s);
 	return t;
 }
+
+
+SDL_HitTestResult SDLCALL
+BorderlessHitTest(SDL_Window *win, const SDL_Point *area, void *data) {
+	int ww;
+    int wh;
+    SDL_GetWindowSize(win, &ww, &wh);
+
+    if((SDL_GetWindowFlags(g_runstate->window) & SDL_WINDOW_MAXIMIZED) == 0) {      //not maximized
+        if(area->y < 7 && area->x < 7)              return SDL_HITTEST_RESIZE_TOPLEFT;
+        else if(area->y < 7 && area->x >= ww-7)     return SDL_HITTEST_RESIZE_TOPRIGHT;
+        else if(area->y >= wh-7 && area->x < 7)     return SDL_HITTEST_RESIZE_BOTTOMLEFT;
+        else if(area->y >= wh-7 && area->x >= ww-7) return SDL_HITTEST_RESIZE_BOTTOMRIGHT;
+        else if(area->y < 7)                        return SDL_HITTEST_RESIZE_TOP;
+        else if(area->x < 7)                        return SDL_HITTEST_RESIZE_LEFT;
+        else if(area->y >= wh-7)                    return SDL_HITTEST_RESIZE_BOTTOM;
+        else if(area->x >= ww-7)                    return SDL_HITTEST_RESIZE_RIGHT;
+    }
+    if(area->y < 30 && area->x < ww-60) {
+        return SDL_HITTEST_DRAGGABLE;
+    }
+    return SDL_HITTEST_NORMAL;
+}

@@ -17,7 +17,7 @@ class PopupMenu : public WidgetContainer {
     virtual ~PopupMenu();
 
     void Update();
-    void Render(SDL_Renderer* renderer);
+    void Render();
 
     //Methods to set the absolute position of the popup menu. Will move all the edges
     void SetPosition(int x, int y);

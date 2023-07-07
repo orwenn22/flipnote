@@ -1,0 +1,40 @@
+#include "MainMenuState.h"
+
+#include "../../BaseUI/Generic/Background.h"
+#include "../../Reusable/gui/Label.h"
+#include "../../Reusable/gui/TopBar.h"
+#include "../../Reusable/gui/WinWidgetContainer.h"
+#include "../../Reusable/State/StateManager.h"
+#include "../FlipnoteRessources.h"
+#include "../Globals.h"
+#include "EditorState.h"
+
+#include <SDL.h>
+
+
+MainMenuState::MainMenuState() : State() {
+    m_background = new Background();
+    m_topbar = new TopBar("Flipnote", *g_ressources->col_orange, *g_ressources->col_white);
+    m_widgets = new WinWidgetContainer();
+
+    m_widgets->AddWidget(new Label(m_widgets, 50, 50, "Create new", [&](){ m_manager->SetState(new EditorState()); }));
+}
+
+MainMenuState::~MainMenuState() {
+    delete m_widgets;
+    delete m_background;
+    delete m_topbar;
+}
+
+
+void MainMenuState::Update() {
+    m_topbar->Update();
+    m_widgets->Update();
+    m_background->Update();
+}
+
+void MainMenuState::Render() {
+    m_background->Render();
+    m_widgets->Render();
+    m_topbar->Render();
+}

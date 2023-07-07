@@ -72,7 +72,7 @@ int GetBrushCount() { return brushcount; }
 //bool testbool = true;
 //bool testbool2 = true;
 
-FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
+FlipnoteEditor::FlipnoteEditor(Flipnote* fn) {
     m_flipnote = fn;
     //m_flipnote->GetFrame(0)->SetColor(0, {255, 0, 0, 255});
     
@@ -89,7 +89,7 @@ FlipnoteEditor::FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn) {
     m_animmationplaying = false;
     m_animationcooldown = 0.0f;
 
-    m_display = new FlipnoteDisplay(renderer, this);
+    m_display = new FlipnoteDisplay(this);
 
 
     ////Widgets
@@ -132,7 +132,7 @@ FlipnoteEditor::~FlipnoteEditor() {
     delete m_display;
 }
 
-void FlipnoteEditor::Update(SDL_Renderer* renderer) {
+void FlipnoteEditor::Update() {
     //Disable drawing on the canvas when left is released
     if(!g_runstate->leftpressed) {
         m_isdrawing = false;
@@ -150,14 +150,14 @@ void FlipnoteEditor::Update(SDL_Renderer* renderer) {
     m_display->Update();
 
     //Draw to the canvas if the user is drawing
-    UpdateDraw(renderer);
+    UpdateDraw();
 }
 
-void FlipnoteEditor::Render(SDL_Renderer* renderer) {
-    m_display->Render(renderer);
+void FlipnoteEditor::Render() {
+    m_display->Render();
     if(m_timeline != NULL) m_timeline->Render();
     m_editorbuttons->Render();
-    if(m_popupmenu != NULL) m_popupmenu->Render(renderer);
+    if(m_popupmenu != NULL) m_popupmenu->Render();
 }
 
 
@@ -262,7 +262,7 @@ bool FlipnoteEditor::IsTimelineOpen() {
 ///////////
 //Private
 
-void FlipnoteEditor::UpdateDraw(SDL_Renderer* renderer) {
+void FlipnoteEditor::UpdateDraw() {
     if(m_isdrawing) {
         //Get the pixel being overed by the mouse on the canvas
         int pixelx, pixely;

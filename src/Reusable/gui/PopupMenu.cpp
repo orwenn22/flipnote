@@ -61,8 +61,8 @@ void PopupMenu::Update() {
     SDL_SetRenderTarget(g_runstate->renderer, previousrendertarget);
 }
 
-void PopupMenu::Render(SDL_Renderer* renderer) {
-    RenderPopup(renderer);
+void PopupMenu::Render() {
+    RenderPopup(g_runstate->renderer);
 
     SDL_FRect src = {
         0,
@@ -77,7 +77,7 @@ void PopupMenu::Render(SDL_Renderer* renderer) {
         (float)(m_animationbottomrighty - m_animationtoplefty)
     };
 
-    SDL_RenderTexture(renderer, m_content, &src, &dest);
+    SDL_RenderTexture(g_runstate->renderer, m_content, &src, &dest);
 }
 
 

@@ -44,9 +44,12 @@ add_executable(Flipnote
     src/Core/Flipnote/Flipnote.cpp
     src/Core/Flipnote/FlipnoteFrame.cpp
     src/Core/Flipnote/FlipnotePainter.cpp
+    src/Core/States/EditorState.cpp
+    src/Core/States/MainMenuState.cpp
     
     src/Reusable/DebugOverlay.cpp
     src/Reusable/DeltaTime.cpp 
+    src/Reusable/Globals.cpp 
     src/Reusable/gui/CheckBox.cpp 
     src/Reusable/gui/ChildContainer.cpp 
     src/Reusable/gui/ClickableWidget.cpp 
@@ -60,6 +63,8 @@ add_executable(Flipnote
     src/Reusable/gui/WinWidgetContainer.cpp
     src/Reusable/Ressources.cpp 
     src/Reusable/RunState.cpp 
+    src/Reusable/State/State.cpp 
+    src/Reusable/State/StateManager.cpp 
     src/Reusable/Tileset.cpp
     src/Reusable/Utils.cpp
 )

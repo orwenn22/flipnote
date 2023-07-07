@@ -27,7 +27,7 @@ static const int s_animationspeedcount = sizeof(s_animationspeedfps) / sizeof(co
 
 
 Flipnote::Flipnote(int framewidth, int frameheight) {
-    printf("Flipnote::Flipnote : creating with size %i x %i\n", frameheight, frameheight);
+    printf("Flipnote::Flipnote : creating with size %i x %i\n", framewidth, frameheight);
     m_framewidth = framewidth;
     m_frameheight = frameheight;
     SetAnimationSpeed(2);   //1fps by default

@@ -6,15 +6,15 @@ struct SDL_Texture;
 
 class Background {
     public:
-    Background(SDL_Renderer* renderer);
+    Background();
     ~Background();
 
-    void Update(SDL_Renderer* renderer);
-    void Render(SDL_Renderer* renderer);
+    void Update();
+    void Render();
 
     private:
 
-    void UpdateTexture(SDL_Renderer* renderer);
+    void UpdateTexture();
 
     SDL_Texture* m_bgtexture;
     int m_width;

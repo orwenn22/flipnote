@@ -23,11 +23,11 @@ int GetBrushCount();
 class FlipnoteEditor {
     public:
     //The FlipnoteEditor doesn't have ownership of fn, and must be deallocated manually AFTER destroying the FlipnoteEditor
-    FlipnoteEditor(SDL_Renderer* renderer, Flipnote* fn);
+    FlipnoteEditor(Flipnote* fn);
     ~FlipnoteEditor();
 
-    void Update(SDL_Renderer* renderer);
-    void Render(SDL_Renderer* renderer);
+    void Update();
+    void Render();
 
 
     //Return a pointer to the current FlipnoteFrame
@@ -76,7 +76,7 @@ class FlipnoteEditor {
 
     //If m_isdrawing is set to true, this will get executed.
     //It's basicly the method that is in charge of painting on the current frame (both the fram itself and the display's texture).
-    void UpdateDraw(SDL_Renderer* renderer);
+    void UpdateDraw();
 
     void UpdateAnimation();
 
