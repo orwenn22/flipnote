@@ -6,12 +6,11 @@
 #include "../Globals.h"
 #include "../Ressources.h"
 #include "../RunState.h"
+#include "../Utils.h"
 
 Label::Label(WidgetContainer* container, int x, int y, std::string text, ClickabbleWidgetCallback callback) 
 : ClickableWidget(container, x, y) {
-    SDL_Surface* tmp = TTF_RenderText_Solid(g_reusableressources->font_ubuntumedium16, text.c_str(), *(g_reusableressources->col_orange));
-    m_texture = SDL_CreateTextureFromSurface(g_runstate->renderer, tmp);
-    SDL_DestroySurface(tmp);
+    m_texture = MakeTextTexture(text.c_str(), g_reusableressources->font_ubuntumedium16, *g_reusableressources->col_orange);
 
     SDL_QueryTexture(m_texture, NULL, NULL, &m_w, &m_h);
     m_callback = callback;
