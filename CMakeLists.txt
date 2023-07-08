@@ -38,7 +38,6 @@ add_executable(Flipnote
     src/BaseUI/Editor/FlipnoteTimeline.cpp
     src/BaseUI/Editor/Menu/MenuAligner.cpp
     src/BaseUI/Editor/PenMenu/ColorButton.cpp
-    src/BaseUI/Generic/Background.cpp 
     
     src/Core/FlipnoteRessources.cpp 
     src/Core/Flipnote/Flipnote.cpp
@@ -50,6 +49,7 @@ add_executable(Flipnote
     src/Reusable/DebugOverlay.cpp
     src/Reusable/DeltaTime.cpp 
     src/Reusable/Globals.cpp 
+    src/Reusable/gui/Background.cpp 
     src/Reusable/gui/CheckBox.cpp 
     src/Reusable/gui/ChildContainer.cpp 
     src/Reusable/gui/ClickableWidget.cpp 

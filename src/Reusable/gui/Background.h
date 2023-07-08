@@ -4,9 +4,10 @@
 struct SDL_Renderer;
 struct SDL_Texture;
 
+//This provides a simple way to add a tiled background.
 class Background {
     public:
-    Background();
+    Background(SDL_Texture* tiletexture);
     ~Background();
 
     void Update();
@@ -17,6 +18,7 @@ class Background {
     void UpdateTexture();
 
     SDL_Texture* m_bgtexture;
+    SDL_Texture* m_tiletexture;
     int m_width;
     int m_height;
 

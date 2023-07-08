@@ -1,7 +1,7 @@
 #include "EditorState.h"
 
 #include "../../BaseUI/Editor/FlipnoteEditor.h"
-#include "../../BaseUI/Generic/Background.h"
+#include "../../Reusable/gui/Background.h"
 #include "../../Reusable/gui/TopBar.h"
 #include "../Flipnote/Flipnote.h"
 #include "../Globals.h"
@@ -11,7 +11,7 @@
 
 
 EditorState::EditorState(Flipnote* flipnote) : State() {
-    m_background = new Background();
+    m_background = new Background(g_ressources->txtr_bgtile);
     m_topbar = new TopBar("Flipnote Editor", *g_ressources->col_orange, *g_ressources->col_white);
 
     m_flipnote = flipnote;

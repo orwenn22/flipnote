@@ -4,13 +4,13 @@
 
 #include <stdio.h>
 
-#include "../../Core/FlipnoteRessources.h"
 #include "../../Core/Globals.h"
 #include "../../Reusable/RunState.h"
 
-Background::Background() {
+Background::Background(SDL_Texture* tiletexture) {
     m_bgtexture = NULL;
-    SDL_QueryTexture(g_ressources->txtr_bgtile, NULL, NULL, &m_tilewidth, &m_tileheight);
+    m_tiletexture = tiletexture;
+    SDL_QueryTexture(m_tiletexture, NULL, NULL, &m_tilewidth, &m_tileheight);
 
     UpdateTexture();
 }
@@ -47,7 +47,7 @@ void Background::UpdateTexture() {
     for(int y = 0; y < m_height; y+=m_tileheight) {
         for(int x = 0; x < m_width; x+=m_tilewidth) {
             SDL_FRect dest = {(float)x, (float)y, (float)m_tilewidth, (float)m_tileheight};
-            SDL_RenderTexture(g_runstate->renderer, g_ressources->txtr_bgtile, NULL, &dest);
+            SDL_RenderTexture(g_runstate->renderer, m_tiletexture, NULL, &dest);
         }
     }
 

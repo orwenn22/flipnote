@@ -5,7 +5,6 @@
 
 #include "BaseUI/DSThumbnail.h"
 #include "BaseUI/Editor/FlipnoteEditor.h"
-#include "BaseUI/Generic/Background.h"
 #include "Core/FlipnoteRessources.h"
 #include "Core/States/EditorState.h"
 #include "Core/States/MainMenuState.h"

@@ -1,6 +1,6 @@
 #include "MainMenuState.h"
 
-#include "../../BaseUI/Generic/Background.h"
+#include "../../Reusable/gui/Background.h"
 #include "../../Reusable/gui/Label.h"
 #include "../../Reusable/gui/TopBar.h"
 #include "../../Reusable/gui/WinWidgetContainer.h"
@@ -13,7 +13,7 @@
 
 
 MainMenuState::MainMenuState() : State() {
-    m_background = new Background();
+    m_background = new Background(g_ressources->txtr_bgtile);
     m_topbar = new TopBar("Flipnote", *g_ressources->col_orange, *g_ressources->col_white);
     m_widgets = new WinWidgetContainer();
 
