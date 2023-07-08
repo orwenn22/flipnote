@@ -7,7 +7,7 @@
 
 class CheckBox : public ClickableWidget {
     public:
-    CheckBox(WidgetContainer* container, int x, int y, bool* target, std::string label = "");
+    CheckBox(WidgetContainer* container, int x, int y, bool* target, std::string label = "", WidgetAllign allignment = WidgetAllign_None);
 
     void Render() override;
 

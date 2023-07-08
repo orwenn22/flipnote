@@ -78,17 +78,24 @@ void Widget::UpdatePos() {
         return;
     }
 
+
     if((m_allignment & WidgetAllign::WidgetAllign_Left) != 0) {
         m_x = m_container->GetContainerWidth() - m_xoffset - m_w;
     }
-    else {
+    else if((m_allignment & WidgetAllign::WidgetAllign_HCenter) != 0) {
+        m_x = m_container->GetContainerWidth()/2 - m_w/2 + m_xoffset;
+    }
+    else {  //no horizontal allignment specified
         m_x = m_xoffset;
     }
 
     if((m_allignment & WidgetAllign::WidgetAllign_Bottom) != 0) {
         m_y = m_container->GetContainerHeight() - m_yoffset - m_h;
     }
-    else {
+    else if((m_allignment & WidgetAllign::WidgetAllign_HCenter) != 0) {
+        m_y = m_container->GetContainerHeight()/2 - m_h/2 + m_yoffset;
+    }
+    else {  //no vertical allignment specified
         m_y = m_yoffset;
     }
 }

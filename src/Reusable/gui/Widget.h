@@ -5,10 +5,16 @@ class WidgetContainer;
 
 
 enum WidgetAllign {
-    WidgetAllign_None = 0b00,
-    WidgetAllign_Left = 0b01,
-    WidgetAllign_Bottom = 0b10,
-    WidgetAllign_BottomLeft = 0b11
+    WidgetAllign_None       = 0b00000000,
+
+    WidgetAllign_HCenter    = 0b00010000,
+    WidgetAllign_Left       = 0b00100000,
+
+    WidgetAllign_VCenter    = 0b00000001,
+    WidgetAllign_Bottom     = 0b00000010,
+
+    WidgetAllign_Center     = WidgetAllign_HCenter | WidgetAllign_VCenter,
+    WidgetAllign_BottomLeft = WidgetAllign_Left | WidgetAllign_Bottom,
 };
 
 class Widget {

@@ -9,7 +9,8 @@
 #include "WidgetContainer.h"
 
 
-CheckBox::CheckBox(WidgetContainer* container, int x, int y, bool* target, std::string label) : ClickableWidget(container, x, y, 16, 16) {
+CheckBox::CheckBox(WidgetContainer* container, int x, int y, bool* target, std::string label, WidgetAllign allignment) 
+: ClickableWidget(container, x, y, 16, 16, allignment) {
     m_target = target;
     
     m_callback = [&]() -> void {
@@ -19,7 +20,7 @@ CheckBox::CheckBox(WidgetContainer* container, int x, int y, bool* target, std::
     };
 
     if(!label.empty())
-        container->AddWidget(new Label(container, x+20, y, label, m_callback));
+        container->AddWidget(new Label(container, label, x+20, y, allignment, m_callback));
 }
 
 void CheckBox::Render() {

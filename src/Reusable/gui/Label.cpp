@@ -8,8 +8,12 @@
 #include "../RunState.h"
 #include "../Utils.h"
 
-Label::Label(WidgetContainer* container, int x, int y, std::string text, ClickabbleWidgetCallback callback) 
-: ClickableWidget(container, x, y) {
+Label::Label(
+    WidgetContainer* container, 
+    std::string text,
+    int x, int y, WidgetAllign allignment, 
+    ClickabbleWidgetCallback callback
+) : ClickableWidget(container, x, y, 0, 0, allignment) {
     m_texture = MakeTextTexture(text.c_str(), g_reusableressources->font_ubuntumedium16, *g_reusableressources->col_orange);
 
     SDL_QueryTexture(m_texture, NULL, NULL, &m_w, &m_h);

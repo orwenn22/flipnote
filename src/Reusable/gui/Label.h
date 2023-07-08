@@ -9,7 +9,12 @@ struct SDL_Texture;
 
 class Label : public ClickableWidget {
     public:
-    Label(WidgetContainer* container, int x, int y, std::string text, ClickabbleWidgetCallback callback);
+    Label(
+        WidgetContainer* container, 
+        std::string text,
+        int x, int y, WidgetAllign allignment, 
+        ClickabbleWidgetCallback callback
+    );
     ~Label();
 
     void Render() override;
