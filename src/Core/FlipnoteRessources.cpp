@@ -25,6 +25,7 @@ FlipnoteRessources::FlipnoteRessources(SDL_Renderer* renderer)
     txtr_button_playback_begginning = LoadImageAsTexture(renderer, "./res/button_playback_beginning.png");
     txtr_button_playforward = LoadImageAsTexture(renderer, "./res/button_playforward.png");
     txtr_button_playforward_end = LoadImageAsTexture(renderer, "./res/button_playforward_end.png");
+    txtr_button_frog = LoadImageAsTexture(renderer, "./res/frog_menu_plain.png");
 }
 
 FlipnoteRessources::~FlipnoteRessources() {
@@ -45,4 +46,5 @@ FlipnoteRessources::~FlipnoteRessources() {
     SDL_DestroyTexture(txtr_button_playback_begginning);
     SDL_DestroyTexture(txtr_button_playforward);
     SDL_DestroyTexture(txtr_button_playforward_end);
+    SDL_DestroyTexture(txtr_button_frog);
 }

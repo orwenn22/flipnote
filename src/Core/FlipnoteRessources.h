@@ -16,6 +16,7 @@ struct FlipnoteRessources : Ressources {
     SDL_Texture* txtr_button_playback_begginning;
     SDL_Texture* txtr_button_playforward;
     SDL_Texture* txtr_button_playforward_end;
+    SDL_Texture* txtr_button_frog;
 
     SDL_Texture* txtr_icon_add;
     SDL_Texture* txtr_icon_delete;

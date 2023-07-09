@@ -16,6 +16,7 @@
 #include "EditorButtons/EditorPenButton.h"
 #include "EditorButtons/EditorPlayButton.h"
 #include "EditorButtons/EditorTimelineButton.h"
+#include "EditorButtons/FrogMenuButton.h"
 #include "FlipnoteDisplay.h"
 #include "FlipnoteTimeline.h"
 
@@ -107,6 +108,9 @@ FlipnoteEditor::FlipnoteEditor(Flipnote* fn) {
     m_editorbuttons->AddWidget(new IconButton(m_editorbuttons, g_ressources->txtr_button_playforward_end, 70, 15, 0, 0, WidgetAllign_BottomLeft, [&]() { SetCurrentFrame(GetFlipnote()->FrameCount() - 1); }));
     
     m_editorbuttons->AddWidget(new EditorTimelineButton(m_editorbuttons, this, 10, 10, WidgetAllign_BottomLeft));
+
+    //Frog Button
+    m_editorbuttons->AddWidget(new FrogMenuButton(m_editorbuttons, this, 10, 10, WidgetAllign_Bottom));
 
     ////Test ChildContiner
     //auto cc = new ChildContainer(m_editorbuttons, 30, 30, 200, 200, WidgetAllign_None);
