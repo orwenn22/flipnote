@@ -1,6 +1,5 @@
 #include "Widget.h"
 
-#include "../Globals.h"
 #include "../RunState.h"
 #include "WidgetContainer.h"
 

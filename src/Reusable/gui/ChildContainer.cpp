@@ -1,11 +1,10 @@
 #include "ChildContainer.h"
 
-#include "../RunState.h"
-#include "../Globals.h"
-
-
 #include <SDL.h>
 #include <stdio.h>
+
+#include "../RunState.h"
+
 
 ChildContainer::ChildContainer(
     WidgetContainer* parrent, 

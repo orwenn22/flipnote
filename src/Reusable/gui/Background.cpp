@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 
-#include "../../Core/Globals.h"
 #include "../../Reusable/RunState.h"
 
 Background::Background(SDL_Texture* tiletexture) {

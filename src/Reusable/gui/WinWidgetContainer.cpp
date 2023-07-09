@@ -1,6 +1,5 @@
 #include "WinWidgetContainer.h"
 
-#include "../Globals.h"
 #include "../RunState.h"
 
 WinWidgetContainer::WinWidgetContainer() : WidgetContainer() {

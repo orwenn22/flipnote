@@ -2,7 +2,6 @@
 
 #include <SDL.h>
 
-#include "../Globals.h"
 #include "../Ressources.h"
 #include "../RunState.h"
 #include "Label.h"

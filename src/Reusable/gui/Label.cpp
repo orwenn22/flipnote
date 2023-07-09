@@ -3,7 +3,6 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "../Globals.h"
 #include "../Ressources.h"
 #include "../RunState.h"
 #include "../Utils.h"

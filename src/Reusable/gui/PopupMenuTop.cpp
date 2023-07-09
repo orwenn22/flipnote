@@ -1,6 +1,5 @@
 #include "PopupMenuTop.h"
 
-#include "../Globals.h"
 #include "../Ressources.h"
 #include "../RunState.h"
 #include "../Tileset.h"

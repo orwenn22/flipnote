@@ -2,7 +2,6 @@
 
 #include <SDL.h>
 
-#include "../Globals.h"
 #include "../RunState.h"
 
 IconButton::IconButton(

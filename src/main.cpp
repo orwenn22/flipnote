@@ -10,7 +10,6 @@
 #include "Core/States/MainMenuState.h"
 #include "Reusable/DebugOverlay.h"
 #include "Reusable/DeltaTime.h"
-#include "Reusable/Globals.h"
 #include "Reusable/gui/TopBar.h"
 #include "Reusable/RunState.h"
 #include "Reusable/State/StateManager.h"
@@ -20,7 +19,7 @@
 
 
 //Globals definition
-Ressources* g_reusableressources = nullptr;
+
 FlipnoteRessources* g_ressources = nullptr;
 
 

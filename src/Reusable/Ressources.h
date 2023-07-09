@@ -32,4 +32,6 @@ struct Ressources {
     virtual ~Ressources();
 };
 
+extern Ressources* g_reusableressources;
+
 #endif

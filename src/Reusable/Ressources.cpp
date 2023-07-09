@@ -7,6 +7,8 @@
 
 #include "Tileset.h"
 
+Ressources* g_reusableressources = nullptr;
+
 SDL_Texture* LoadImageAsTexture(SDL_Renderer* renderer, const char *file) {
     SDL_Surface* tmp = IMG_Load(file);
     if(!tmp) {

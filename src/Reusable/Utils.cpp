@@ -3,7 +3,6 @@
 #include <math.h>
 #include <SDL_ttf.h>
 
-#include "../Reusable/Globals.h"
 #include "../Reusable/RunState.h"
 
 

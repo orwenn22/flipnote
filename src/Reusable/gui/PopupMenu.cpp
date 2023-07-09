@@ -3,7 +3,6 @@
 #include <SDL.h>
 
 #include "../DeltaTime.h"
-#include "../Globals.h"
 #include "../Ressources.h"
 #include "../RunState.h"
 #include "../Tileset.h"
