@@ -49,7 +49,6 @@ add_executable(Flipnote
     
     src/Reusable/DebugOverlay.cpp
     src/Reusable/DeltaTime.cpp 
-    src/Reusable/Globals.cpp 
     src/Reusable/gui/Background.cpp 
     src/Reusable/gui/CheckBox.cpp 
     src/Reusable/gui/ChildContainer.cpp 

@@ -3,6 +3,8 @@
 #include <SDL.h>
 #include <SDL_keycode.h>
 
+RunState* g_runstate = nullptr;
+
 
 RunState::RunState(SDL_Window* win, SDL_Renderer* winrenderer) {
     window = win;

@@ -41,4 +41,9 @@ struct RunState {
     bool IsKeyPressed(int key);
 };
 
+//This must be initialised by the program if it needs to be used.
+// ex : g_runstate = new RunState()
+extern RunState* g_runstate;
+
+
 #endif

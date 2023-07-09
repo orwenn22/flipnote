@@ -20,8 +20,8 @@
 
 
 //Globals definition
-Ressources* g_reusableressources;
-FlipnoteRessources* g_ressources;
+Ressources* g_reusableressources = nullptr;
+FlipnoteRessources* g_ressources = nullptr;
 
 
 int main(int argc, const char* argv[]) {
