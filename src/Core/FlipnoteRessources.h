@@ -31,4 +31,8 @@ struct FlipnoteRessources : Ressources {
     virtual ~FlipnoteRessources();
 };
 
+//Used by every graphical stuff not in the Reusable folder.
+//Initialised in main
+extern FlipnoteRessources* g_ressources;
+
 #endif

@@ -6,7 +6,6 @@
 #include "../../Core/Flipnote/FlipnoteFrame.h"
 #include "../../Core/Flipnote/FlipnotePainter.h"
 #include "../../Core/FlipnoteRessources.h"
-#include "../../Core/Globals.h"
 #include "../../Reusable/DeltaTime.h"
 #include "../../Reusable/RunState.h"
 #include "../../Reusable/gui/IconButton.h"

@@ -4,7 +4,6 @@
 
 #include "../../../Core/Flipnote/FlipnoteFrame.h"
 #include "../../../Core/FlipnoteRessources.h"
-#include "../../../Core/Globals.h"
 #include "../../../Reusable/gui/PopupMenuTop.h"
 #include "../../../Reusable/gui/PopupMenu.h"
 #include "../../../Reusable/RunState.h"

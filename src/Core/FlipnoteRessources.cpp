@@ -6,6 +6,9 @@
 #include <stdio.h>
 
 
+FlipnoteRessources* g_ressources = nullptr;
+
+
 FlipnoteRessources::FlipnoteRessources(SDL_Renderer* renderer)
 : Ressources(renderer) {
     txtr_bgtile = LoadImageAsTexture(renderer, "./res/GridBackgroundTile_2x.png");

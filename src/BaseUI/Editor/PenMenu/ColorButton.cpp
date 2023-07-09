@@ -2,7 +2,6 @@
 
 #include <SDL.h>
 
-#include "../../../Core/Globals.h"
 #include "../../../Core/Flipnote/FlipnoteFrame.h"
 #include "../../../Core/FlipnoteRessources.h"
 #include "../../../Reusable/gui/WidgetContainer.h"

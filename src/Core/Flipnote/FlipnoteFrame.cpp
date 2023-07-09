@@ -7,7 +7,6 @@
 
 #include "../../Reusable/RunState.h"
 #include "../../Reusable/Utils.h"
-#include "../Globals.h"
 
 //FIXME : 8 colors hardcoded
 static SDL_Color defaultframepalette[] = {

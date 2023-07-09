@@ -32,6 +32,11 @@ struct Ressources {
     virtual ~Ressources();
 };
 
+//Used by every gui stuff in the Reusable folder. Must be initalised in main.
+//ex : g_reusableressources = new Ressources(...);
+// -- or --
+//ex : g_customressources = new CustomRessources(...);
+//     g_reusableressources = g_customressources;
 extern Ressources* g_reusableressources;
 
 #endif

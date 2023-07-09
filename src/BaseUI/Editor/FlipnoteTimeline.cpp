@@ -3,7 +3,6 @@
 #include "../../Core/Flipnote/Flipnote.h"
 #include "../../Core/Flipnote/FlipnoteFrame.h"
 #include "../../Core/FlipnoteRessources.h"
-#include "../../Core/Globals.h"
 #include "../../Reusable/DeltaTime.h"
 #include "../../Reusable/gui/ChildContainer.h"
 #include "../../Reusable/gui/IconButton.h"

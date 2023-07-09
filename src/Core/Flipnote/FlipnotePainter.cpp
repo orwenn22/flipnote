@@ -4,7 +4,6 @@
 #include <SDL.h>
 
 #include "../../Reusable/RunState.h"
-#include "../Globals.h"
 #include "FlipnoteFrame.h"
 
 #include <stdio.h>

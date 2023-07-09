@@ -6,7 +6,6 @@
 #include "../../Reusable/gui/WinWidgetContainer.h"
 #include "../../Reusable/State/StateManager.h"
 #include "../FlipnoteRessources.h"
-#include "../Globals.h"
 #include "EditorState.h"
 
 #include <SDL.h>

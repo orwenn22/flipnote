@@ -4,7 +4,6 @@
 #include "../../Reusable/gui/Background.h"
 #include "../../Reusable/gui/TopBar.h"
 #include "../Flipnote/Flipnote.h"
-#include "../Globals.h"
 #include "../FlipnoteRessources.h"
 
 #include <SDL.h>

@@ -18,11 +18,6 @@
 #include "Core/Flipnote/Flipnote.h"
 
 
-//Globals definition
-
-FlipnoteRessources* g_ressources = nullptr;
-
-
 int main(int argc, const char* argv[]) {
     if(SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cout << "SDL init failed\n";

@@ -1,7 +1,6 @@
 #include "EditorPlayButton.h"
 
 #include "../../../Core/FlipnoteRessources.h"
-#include "../../../Core/Globals.h"
 #include "../../../Reusable/gui/WidgetContainer.h"
 #include "../../../Reusable/RunState.h"
 #include "../FlipnoteEditor.h"
