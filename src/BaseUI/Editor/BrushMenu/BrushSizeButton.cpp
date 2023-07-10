@@ -8,7 +8,7 @@
 #include "../../../Reusable/RunState.h"
 #include "../FlipnoteEditor.h"
 
-BrushSizeButton::BrushSizeButton(WidgetContainer* container, FlipnoteEditor* editor, int brushsize, int x, int y) : ClickableWidget(container, x, y) {
+BrushSizeButton::BrushSizeButton(FlipnoteEditor* editor, int brushsize, int x, int y) : ClickableWidget(x, y) {
     m_w = 32;
     m_h = 32;
 

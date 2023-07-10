@@ -8,9 +8,9 @@
 #include <SDL.h>
 
 EditorTimelineButton::EditorTimelineButton(
-    WidgetContainer* container, FlipnoteEditor* editor,
+    FlipnoteEditor* editor,
     int x, int y, WidgetAllign allignment
-) : EditorButton(container, editor, x, y, 50, 50, allignment) {
+) : EditorButton(editor, x, y, 50, 50, allignment) {
     m_callback = [&]() -> void {
         if(m_editor->IsTimelineOpen()) m_editor->CloseTimeline();
         else m_editor->OpenTimeline();

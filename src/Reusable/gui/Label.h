@@ -10,7 +10,6 @@ struct SDL_Texture;
 class Label : public ClickableWidget {
     public:
     Label(
-        WidgetContainer* container, 
         std::string text,
         int x, int y, WidgetAllign allignment, 
         ClickabbleWidgetCallback callback = [](){}

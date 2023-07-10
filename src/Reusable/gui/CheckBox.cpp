@@ -8,8 +8,8 @@
 #include "WidgetContainer.h"
 
 
-CheckBox::CheckBox(WidgetContainer* container, int x, int y, bool* target, std::string label, WidgetAllign allignment) 
-: ClickableWidget(container, x, y, 16, 16, allignment) {
+CheckBox::CheckBox(int x, int y, bool* target, std::string label, WidgetAllign allignment) 
+: ClickableWidget(x, y, 16, 16, allignment) {
     m_target = target;
     
     m_callback = [&]() -> void {
@@ -18,11 +18,20 @@ CheckBox::CheckBox(WidgetContainer* container, int x, int y, bool* target, std::
         }
     };
 
-    if(!label.empty())
-        container->AddWidget(new Label(container, label, x+20, y, allignment, m_callback));
+    if(!label.empty()) m_label = new Label(label, x+20, y, allignment, m_callback);
+    else m_label = nullptr;
+}
+
+CheckBox::~CheckBox() {
+    if(m_label != nullptr) {
+        delete m_label;
+        m_label = nullptr;
+    }
 }
 
 void CheckBox::Render() {
+    if(m_label != nullptr) m_label->Render();
+
     SDL_FRect dest = {(float)GetX(), (float)GetY(), (float)m_w, (float)m_h};
     SDL_Color *orange = g_reusableressources->col_orange;
 
@@ -34,4 +43,12 @@ void CheckBox::Render() {
         SDL_SetTextureColorMod(g_reusableressources->txtr_checkboxfalse, orange->r, orange->g, orange->b);
         SDL_RenderTexture(g_runstate->renderer, g_reusableressources->txtr_checkboxfalse, NULL, &dest);
     }
+}
+
+
+void CheckBox::OnContainerAdd() {
+    if(m_label == nullptr) return;
+
+    m_container->AddWidget(m_label);
+    m_label = nullptr;
 }

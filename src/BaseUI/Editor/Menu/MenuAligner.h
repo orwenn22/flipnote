@@ -9,7 +9,7 @@ class EditorButton;
 //TODO : add configurable offset
 class MenuAligner : public Widget {
     public:
-    MenuAligner(WidgetContainer* container, EditorButton* penbutton, int xallignoffset = -10, int yallignoffset = 0);
+    MenuAligner(EditorButton* penbutton, int xallignoffset = -10, int yallignoffset = 0);
 
     void Update();
     void Render();

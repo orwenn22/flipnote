@@ -6,7 +6,7 @@
 class FrogMenuButton  : public EditorButton {
     public:
     FrogMenuButton(
-        WidgetContainer* container, FlipnoteEditor* editor,
+        FlipnoteEditor* editor,
         int x = 0, int y = 0,
         WidgetAllign allignment = WidgetAllign::WidgetAllign_None
     );

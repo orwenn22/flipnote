@@ -8,7 +8,7 @@ struct SDL_Texture;
 
 class BrushSizeButton : public ClickableWidget {
     public:
-    BrushSizeButton(WidgetContainer* container, FlipnoteEditor* editor, int brushsize, int x, int y);
+    BrushSizeButton(FlipnoteEditor* editor, int brushsize, int x, int y);
     ~BrushSizeButton();
 
     void Render() override;

@@ -10,7 +10,6 @@ struct SDL_Texture;
 class ChildContainer : public WidgetContainer, public Widget {
     public:
     ChildContainer(
-        WidgetContainer* parrent, 
         int x, int y, int w, int h, 
         WidgetAllign allignment = WidgetAllign_None
     );

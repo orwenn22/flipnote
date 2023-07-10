@@ -8,7 +8,7 @@ class FlipnoteEditor;
 class ColorButton : public ClickableWidget {
     public:
     //index is the color to switch to when the button is clicked
-    ColorButton(WidgetContainer* container, FlipnoteEditor* editor, int index, int x, int y);
+    ColorButton(FlipnoteEditor* editor, int index, int x, int y);
 
     void Render() override;
 

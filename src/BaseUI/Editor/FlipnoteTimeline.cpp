@@ -32,39 +32,39 @@ FlipnoteTimeline::FlipnoteTimeline(FlipnoteEditor* editor) {
     m_framestextures = std::vector<SDL_Texture*>(m_editor->GetFlipnote()->FrameCount(), NULL);
 
     //Setup the container for the timeline buttons (y is calculated by UpdateEnterAnimation)
-    m_widgets = new ChildContainer(NULL, 70, 0, g_runstate->winwidth-140, 40, WidgetAllign::WidgetAllign_None);
+    m_widgets = new ChildContainer(70, 0, g_runstate->winwidth-140, 40, WidgetAllign::WidgetAllign_None);
     m_widgets->m_drawoutline = false;
 
 
     ////BUTTONS TO CHANGE THE ORDER OF THE FRAMES
 
     //Create a new frame
-    auto newframebutton = new IconButton(m_widgets, g_ressources->txtr_icon_add, 0, 0);
+    auto newframebutton = new IconButton(g_ressources->txtr_icon_add, 0, 0);
     newframebutton->SetCallback([&]() { AddFrame(); });
     m_widgets->AddWidget(newframebutton);
 
     //Delete selected frame
-    auto deleteframebutton = new IconButton(m_widgets, g_ressources->txtr_icon_delete, 40, 0);
+    auto deleteframebutton = new IconButton(g_ressources->txtr_icon_delete, 40, 0);
     deleteframebutton->SetCallback([&]() { DeleteFrame(); });
     m_widgets->AddWidget(deleteframebutton);
 
     //Move selected frame and put it in the first place
-    auto maxleftbutton = new IconButton(m_widgets, g_ressources->txtr_icon_left_double, 80, 0);
+    auto maxleftbutton = new IconButton(g_ressources->txtr_icon_left_double, 80, 0);
     maxleftbutton->SetCallback([&]() { MoveToDest(0); });
     m_widgets->AddWidget(maxleftbutton);
 
     //Move selected frame to the left
-    auto leftbutton = new IconButton(m_widgets, g_ressources->txtr_icon_left, 120, 0);
+    auto leftbutton = new IconButton(g_ressources->txtr_icon_left, 120, 0);
     leftbutton->SetCallback([&]() { MoveToDest(m_editor->GetCurrentFrame()-1); });
     m_widgets->AddWidget(leftbutton);
 
     //Move selected frame to the right
-    auto rightbutton = new IconButton(m_widgets, g_ressources->txtr_icon_right, 160, 0);
+    auto rightbutton = new IconButton(g_ressources->txtr_icon_right, 160, 0);
     rightbutton->SetCallback([&]() { MoveToDest(m_editor->GetCurrentFrame()+1); });
     m_widgets->AddWidget(rightbutton);
 
     //Move selected frame and put it in the last place
-    auto maxrightbutton = new IconButton(m_widgets, g_ressources->txtr_icon_right_double, 200, 0);
+    auto maxrightbutton = new IconButton(g_ressources->txtr_icon_right_double, 200, 0);
     maxrightbutton->SetCallback([&]() { MoveToDest(m_editor->GetFlipnote()->FrameCount()-1); });
     m_widgets->AddWidget(maxrightbutton);
 }

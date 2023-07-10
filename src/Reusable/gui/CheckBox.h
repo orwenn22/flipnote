@@ -5,14 +5,21 @@
 
 #include "ClickableWidget.h"
 
+class Label;
+
 class CheckBox : public ClickableWidget {
     public:
-    CheckBox(WidgetContainer* container, int x, int y, bool* target, std::string label = "", WidgetAllign allignment = WidgetAllign_None);
+    CheckBox(int x, int y, bool* target, std::string label = "", WidgetAllign allignment = WidgetAllign_None);
+    ~CheckBox();
 
     void Render() override;
 
+    protected:
+    void OnContainerAdd() override;
+
     private:
     bool* m_target;
+    Label* m_label;
 };
 
 #endif

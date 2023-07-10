@@ -15,9 +15,9 @@
 #include "../Menu/MenuAligner.h"
 
 EditorBrushButton::EditorBrushButton(
-    WidgetContainer* container, FlipnoteEditor* editor,
+    FlipnoteEditor* editor,
     int x, int y, WidgetAllign allignment 
-) : EditorButton(container, editor, x, y, 48, 48, allignment) {
+) : EditorButton(editor, x, y, 48, 48, allignment) {
     
     m_displayedbrushkind = -1;
     m_displayedbrushsize = -1;
@@ -29,18 +29,18 @@ EditorBrushButton::EditorBrushButton(
     m_callback = [&]() -> void {
         PopupMenu* pm = new PopupMenu(GetX() - 10, GetY(), -319, 200);
 
-        pm->AddWidget(new PopupMenuTop(pm, 98));
-        pm->AddWidget(new MenuAligner(pm, this));
+        pm->AddWidget(new PopupMenuTop(98));
+        pm->AddWidget(new MenuAligner(this));
 
         //Add button for all brushes
         for(int i = 0; i < GetBrushCount(); i++) {
-            pm->AddWidget(new BrushButton(pm, m_editor, i, 10 + (26+4)*(i%10), 10+ (26+4)*(i/10)));
+            pm->AddWidget(new BrushButton(m_editor, i, 10 + (26+4)*(i%10), 10+ (26+4)*(i/10)));
         }
-        pm->AddWidget(new CheckBox(pm, 10, 75, &(m_editor->m_invertpaint), "Invert brush"));
+        pm->AddWidget(new CheckBox(10, 75, &(m_editor->m_invertpaint), "Invert brush"));
 
 
         for(int i = 0; i < 8; i++) {
-            pm->AddWidget(new BrushSizeButton(pm, m_editor, i*2, 10 + (32+4)*i, 130));
+            pm->AddWidget(new BrushSizeButton(m_editor, i*2, 10 + (32+4)*i, 130));
         }
 
         m_editor->OpenPopupMenu(pm);

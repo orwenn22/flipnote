@@ -20,7 +20,6 @@ enum WidgetAllign {
 class Widget {
     public:
     Widget(
-        WidgetContainer* container,
         int x, int y, int w = 0, int h = 0,
         WidgetAllign allignment = WidgetAllign_None
     );
@@ -54,8 +53,16 @@ class Widget {
     int GetAbsoluteY();
     //Get the position of the widget in the window
     void GetAbsolutePosition(int* x, int* y);
+
+    //Called by WidgetContainer::AddWidget()
+    void SetContainer(WidgetContainer* container);
     
+
     protected:
+
+    virtual void OnContainerAdd();
+
+
     WidgetContainer* m_container;
 
     //Used for allignment (in UpdatePos)
@@ -66,6 +73,7 @@ class Widget {
 
     int m_w;
     int m_h;
+    
 
     private:
     //X and Y are calculated by UpdatePos depending on m_allignment and shoud not be assigned manually.

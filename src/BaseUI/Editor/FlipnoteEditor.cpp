@@ -21,8 +21,8 @@
 
 #include <SDL.h>    //FIXME : this is only included for SDL_abs
 
-//#include "../Generic/ChildContainer.h"
-//#include "../Generic/CheckBox.h"
+//#include "../../Reusable/gui/ChildContainer.h"
+//#include "../../Reusable/gui/CheckBox.h"
 
 static const PaintCondition brushes[] = {
     [](int x, int y) -> bool { return true; },                          // normal
@@ -96,28 +96,28 @@ FlipnoteEditor::FlipnoteEditor(Flipnote* fn) {
     m_editorbuttons = new WinWidgetContainer();
 
     //Tools
-    m_editorbuttons->AddWidget(new EditorPenButton(m_editorbuttons, this));
-    m_editorbuttons->AddWidget(new EditorBrushButton(m_editorbuttons, this, 10, 95, WidgetAllign_Left));
+    m_editorbuttons->AddWidget(new EditorPenButton(this));
+    m_editorbuttons->AddWidget(new EditorBrushButton(this, 10, 95, WidgetAllign_Left));
 
     //Play controls
-    m_editorbuttons->AddWidget(new IconButton(m_editorbuttons, g_ressources->txtr_button_playback_begginning, 250, 15, 0, 0, WidgetAllign_BottomLeft, [&]() { SetCurrentFrame(0); }));
-    m_editorbuttons->AddWidget(new IconButton(m_editorbuttons, g_ressources->txtr_button_playback, 210, 15, 0, 0, WidgetAllign_BottomLeft, [&]() { GoToPreviousFrame(); }));
-    m_editorbuttons->AddWidget(new EditorPlayButton(m_editorbuttons, this, 155, 10, WidgetAllign_BottomLeft));
-    m_editorbuttons->AddWidget(new IconButton(m_editorbuttons, g_ressources->txtr_button_playforward, 110, 15, 0, 0, WidgetAllign_BottomLeft, [&]() { GoToNextFrame(); }));
-    m_editorbuttons->AddWidget(new IconButton(m_editorbuttons, g_ressources->txtr_button_playforward_end, 70, 15, 0, 0, WidgetAllign_BottomLeft, [&]() { SetCurrentFrame(GetFlipnote()->FrameCount() - 1); }));
+    m_editorbuttons->AddWidget(new IconButton(g_ressources->txtr_button_playback_begginning, 250, 15, 0, 0, WidgetAllign_BottomLeft, [&]() { SetCurrentFrame(0); }));
+    m_editorbuttons->AddWidget(new IconButton(g_ressources->txtr_button_playback, 210, 15, 0, 0, WidgetAllign_BottomLeft, [&]() { GoToPreviousFrame(); }));
+    m_editorbuttons->AddWidget(new EditorPlayButton(this, 155, 10, WidgetAllign_BottomLeft));
+    m_editorbuttons->AddWidget(new IconButton(g_ressources->txtr_button_playforward, 110, 15, 0, 0, WidgetAllign_BottomLeft, [&]() { GoToNextFrame(); }));
+    m_editorbuttons->AddWidget(new IconButton(g_ressources->txtr_button_playforward_end, 70, 15, 0, 0, WidgetAllign_BottomLeft, [&]() { SetCurrentFrame(GetFlipnote()->FrameCount() - 1); }));
     
-    m_editorbuttons->AddWidget(new EditorTimelineButton(m_editorbuttons, this, 10, 10, WidgetAllign_BottomLeft));
+    m_editorbuttons->AddWidget(new EditorTimelineButton(this, 10, 10, WidgetAllign_BottomLeft));
 
     //Frog Button
-    m_editorbuttons->AddWidget(new FrogMenuButton(m_editorbuttons, this, 10, 10, WidgetAllign_Bottom));
+    m_editorbuttons->AddWidget(new FrogMenuButton(this, 10, 10, WidgetAllign_Bottom));
 
     ////Test ChildContiner
-    //auto cc = new ChildContainer(m_editorbuttons, 30, 30, 200, 200, WidgetAllign_None);
-    //cc->AddWidget(new CheckBox(cc, 0, 0, &testbool, "test"));
+    //auto cc = new ChildContainer(30, 30, 200, 200, WidgetAllign_None);
+    //cc->AddWidget(new CheckBox(0, 0, &testbool, "test"));
     //m_editorbuttons->AddWidget(cc);
-    //auto cc2 = new ChildContainer(cc, 30, 30, 100, 100, WidgetAllign_None);
+    //auto cc2 = new ChildContainer(30, 30, 100, 100, WidgetAllign_None);
     //cc2->m_issolid = true;
-    //cc2->AddWidget(new CheckBox(cc2, 0, 0, &testbool2, "test2"));
+    //cc2->AddWidget(new CheckBox(0, 0, &testbool2, "test2"));
     //cc->AddWidget(cc2);
 
 

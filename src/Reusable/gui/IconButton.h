@@ -8,7 +8,6 @@ struct SDL_Texture;
 class IconButton : public ClickableWidget {
     public:
     IconButton(
-        WidgetContainer* container,
         SDL_Texture* texture,
         int x, int y, int w = 0, int h = 0,
         WidgetAllign allignment = WidgetAllign_None,

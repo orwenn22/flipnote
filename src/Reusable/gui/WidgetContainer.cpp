@@ -23,7 +23,10 @@ void WidgetContainer::RenderWidgets() {
 }
 
 void WidgetContainer::AddWidget(Widget* widget) {
-    if(widget != NULL) m_widgets.push_back(widget);
+    if(widget == nullptr) return; 
+
+    m_widgets.push_back(widget);
+    widget->SetContainer(this);
 }
 
 

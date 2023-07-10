@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 
-ColorButton::ColorButton(WidgetContainer* container, FlipnoteEditor* editor, int index, int x, int y) : ClickableWidget(container, x, y) {
+ColorButton::ColorButton(FlipnoteEditor* editor, int index, int x, int y) : ClickableWidget(x, y) {
     m_editor = editor;
     m_index = index;
 

@@ -9,7 +9,7 @@ struct SDL_Texture;
 
 class BrushButton : public ClickableWidget {
     public:
-    BrushButton(WidgetContainer* container, FlipnoteEditor* editor, int brushindex, int x, int y);
+    BrushButton(FlipnoteEditor* editor, int brushindex, int x, int y);
     virtual ~BrushButton();
 
     void PreUpdate() override;

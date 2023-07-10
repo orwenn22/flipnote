@@ -7,10 +7,9 @@
 
 
 ChildContainer::ChildContainer(
-    WidgetContainer* parrent, 
     int x, int y, int w, int h, 
     WidgetAllign allignment
-) : WidgetContainer() , Widget(parrent, x, y, w, h, allignment) {
+) : WidgetContainer() , Widget(x, y, w, h, allignment) {
     m_issolid = false;
     m_drawoutline = true;
 
@@ -20,10 +19,6 @@ ChildContainer::ChildContainer(
     else {
         m_texture = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, w, h);
         SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_BLEND);
-    }
-
-    if(parrent == NULL) {
-        printf("ChildContainer don't have parrent\n");
     }
 }
 

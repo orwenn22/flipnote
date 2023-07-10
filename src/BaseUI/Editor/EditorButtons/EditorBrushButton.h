@@ -9,7 +9,7 @@ struct SDL_Texture;
 class EditorBrushButton : public EditorButton {
     public:
     EditorBrushButton(
-        WidgetContainer* container, FlipnoteEditor* editor,
+        FlipnoteEditor* editor,
         int x = 0, int y = 0,
         WidgetAllign allignment = WidgetAllign::WidgetAllign_None
     );

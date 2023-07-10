@@ -3,8 +3,8 @@
 #include "../RunState.h"
 #include "WidgetContainer.h"
 
-Widget::Widget(WidgetContainer* container, int x, int y, int w, int h, WidgetAllign allignment) {
-    m_container = container; 
+Widget::Widget(int x, int y, int w, int h, WidgetAllign allignment) {
+    m_container = nullptr;
     m_xoffset = x;
     m_yoffset = y;
     m_w = w;
@@ -97,4 +97,17 @@ void Widget::UpdatePos() {
     else {  //no vertical allignment specified
         m_y = m_yoffset;
     }
+}
+
+void Widget::SetContainer(WidgetContainer* container) {
+    m_container = container;
+    OnContainerAdd();
+}
+
+
+//////////////////
+// PROTECTED
+
+void Widget::OnContainerAdd() {
+
 }

@@ -7,12 +7,11 @@
 
 
 ClickableWidget::ClickableWidget(
-        WidgetContainer* container,
         int x, int y, int w, int h ,
         WidgetAllign allignment,
         ClickabbleWidgetCallback callback
 ) 
-: Widget(container, x, y, w, h, allignment) {
+: Widget(x, y, w, h, allignment) {
     m_callback = callback;
 }
 

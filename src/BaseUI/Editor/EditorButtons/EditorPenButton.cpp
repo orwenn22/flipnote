@@ -11,7 +11,7 @@
 #include "../Menu/MenuAligner.h"
 #include "../PenMenu/ColorButton.h"
 
-EditorPenButton::EditorPenButton(WidgetContainer* container, FlipnoteEditor* editor) : EditorButton(container, editor, 10, 40) {
+EditorPenButton::EditorPenButton(FlipnoteEditor* editor) : EditorButton(editor, 10, 40) {
     SDL_QueryTexture(g_ressources->txtr_button_pen, NULL, NULL, &m_w, &m_h);
     m_allignment = WidgetAllign::WidgetAllign_Left;
     UpdatePos();
@@ -19,13 +19,13 @@ EditorPenButton::EditorPenButton(WidgetContainer* container, FlipnoteEditor* edi
 
     m_callback = [&]() -> void {
         PopupMenu* pm = new PopupMenu(GetX() - 10, GetY(), -305, 100);
-        pm->AddWidget(new PopupMenuTop(pm, 50));
-        pm->AddWidget(new MenuAligner(pm, this));
+        pm->AddWidget(new PopupMenuTop(50));
+        pm->AddWidget(new MenuAligner(this));
         int itemwidth;
         SDL_QueryTexture(g_ressources->txtr_button_smallpen, NULL, NULL, &itemwidth, NULL);
 
         for(int i = 0; i < 8; i++) {    //TODO : 8 color hardcoded
-            pm->AddWidget(new ColorButton(pm, m_editor, i, 10 + i*(itemwidth+3), 10));
+            pm->AddWidget(new ColorButton(m_editor, i, 10 + i*(itemwidth+3), 10));
         }
             
         m_editor->OpenPopupMenu(pm);

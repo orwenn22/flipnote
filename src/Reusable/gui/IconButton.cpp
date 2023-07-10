@@ -5,13 +5,12 @@
 #include "../RunState.h"
 
 IconButton::IconButton(
-    WidgetContainer* container,
     SDL_Texture* texture,
     int x, int y, int w, int h,
     WidgetAllign allignment,
     ClickabbleWidgetCallback callback
 )
-: ClickableWidget(container, x, y, w, h, allignment, callback) {
+: ClickableWidget(x, y, w, h, allignment, callback) {
     m_texture = texture;
     if(m_texture == NULL) return;
     

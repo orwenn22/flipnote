@@ -6,7 +6,7 @@
 #include "../../../Reusable/RunState.h"
 #include "../FlipnoteEditor.h"
 
-BrushButton::BrushButton(WidgetContainer* container, FlipnoteEditor* editor, int brushindex, int x, int y) : ClickableWidget(container, x, y) {
+BrushButton::BrushButton(FlipnoteEditor* editor, int brushindex, int x, int y) : ClickableWidget(x, y) {
     m_editor = editor;
     m_brushindex = brushindex;
     

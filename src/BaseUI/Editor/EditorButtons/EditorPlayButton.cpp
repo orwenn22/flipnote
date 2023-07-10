@@ -8,9 +8,9 @@
 #include <SDL.h>
 
 EditorPlayButton::EditorPlayButton(
-    WidgetContainer* container, FlipnoteEditor* editor,
+    FlipnoteEditor* editor,
     int x, int y, WidgetAllign allignment
-) : EditorButton(container, editor, x, y, 50, 50, allignment) {
+) : EditorButton(editor, x, y, 50, 50, allignment) {
     m_callback = [&]() -> void {
         m_editor->m_animmationplaying = !m_editor->m_animmationplaying;
     };
