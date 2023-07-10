@@ -13,7 +13,7 @@ class Label : public ClickableWidget {
         WidgetContainer* container, 
         std::string text,
         int x, int y, WidgetAllign allignment, 
-        ClickabbleWidgetCallback callback
+        ClickabbleWidgetCallback callback = [](){}
     );
     ~Label();
 
