@@ -82,7 +82,7 @@ FlipnoteFrame::~FlipnoteFrame() {
 SDL_Texture* FlipnoteFrame::CopyToTexture() {
     SDL_Texture* previousrendertartget = SDL_GetRenderTarget(g_runstate->renderer);
 
-    SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, m_width, m_height);
+    SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_XRGB8888, SDL_TEXTUREACCESS_TARGET, m_width, m_height);
     SDL_SetRenderTarget(g_runstate->renderer, r);
 
     SDL_SetRenderDrawColor(g_runstate->renderer, 255, 255, 255, 255);
@@ -109,7 +109,7 @@ SDL_Texture* FlipnoteFrame::CopyToTexture(int w, int h) {
     int stepx = m_width/w;
     int stepy = m_height/h;
 
-    SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, w, h);
+    SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_XRGB8888, SDL_TEXTUREACCESS_TARGET, w, h);
     SDL_SetRenderTarget(g_runstate->renderer, r);
 
     SDL_SetRenderDrawColor(g_runstate->renderer, 255, 255, 255, 255);
