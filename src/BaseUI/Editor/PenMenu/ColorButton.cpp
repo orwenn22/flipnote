@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 
-#include "../../../Core/Flipnote/FlipnoteFrame.h"
+#include "../../../Core/Flipnote/Flipnote.h"
 #include "../../../Core/FlipnoteRessources.h"
 #include "../../../Reusable/gui/WidgetContainer.h"
 #include "../../../Reusable/RunState.h"
@@ -25,7 +25,7 @@ void ColorButton::Render() {
     float y = (float)GetY();
 
     //Custom color based on the index
-    SDL_Color c = m_editor->CurrentFrame()->GetColor(m_index);
+    SDL_Color c = m_editor->GetFlipnote()->GetColor(m_index);
     SDL_SetTextureColorMod(g_ressources->txtr_button_smallpen, c.r, c.g, c.b);
 
     //Draw pen button on screen

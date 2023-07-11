@@ -17,8 +17,8 @@ BrushSizeButton::BrushSizeButton(FlipnoteEditor* editor, int brushsize, int x, i
 
     m_texture = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, 32, 32);
 
-    FlipnotePainter painter((FlipnoteFrame*)NULL, m_texture);
-    painter.FillCircle(m_w/2, m_h/2, brushsize, 1);
+    FlipnotePainter painter(m_texture);
+    painter.FillCircle(m_w/2, m_h/2, brushsize, 1); //1 is black on the default palette
 
     m_callback = [&]() -> void { m_editor->SetBrushSize(m_brushsize); };
 }

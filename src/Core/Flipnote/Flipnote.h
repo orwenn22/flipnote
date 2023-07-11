@@ -6,6 +6,7 @@
 
 class FlipnoteFrame;
 
+struct SDL_Color;
 struct SDL_Renderer;
 struct SDL_Texture;
 struct SDL_Surface;
@@ -55,6 +56,18 @@ class Flipnote {
 
 
     ///////////////////////////////////////////////
+    // Color related things
+
+    void SetColor(int index, SDL_Color c);
+    SDL_Color GetColor(int index);
+    //NEVER MODIFY THE PALETTE RETURNED BY THIS
+    SDL_Color* GetPalette();
+    static SDL_Color GetDefaultColor(int index);
+    //NEVER MODIFY THE PALETTE RETURNED BY THIS
+    static SDL_Color* GetDefaultPalette();
+
+
+    ///////////////////////////////////////////////
     //Saving and loading
 
     void Save(const char* filename);
@@ -70,6 +83,8 @@ class Flipnote {
     unsigned int m_framewidth;
     unsigned int m_frameheight;
     unsigned char m_animationspeed;  //this is the index corresponding to a value in s_animationspeedfps
+
+    SDL_Color* m_colors;    //array of 8 elements  TODO : don't limit to 8 colors
 };
 
 #endif

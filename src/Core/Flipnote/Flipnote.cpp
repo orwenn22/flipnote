@@ -26,10 +26,37 @@ static const float s_animationspeedfps[] = {
 static const int s_animationspeedcount = sizeof(s_animationspeedfps) / sizeof(const float);
 
 
+//FIXME : 8 colors hardcoded
+static SDL_Color defaultframepalette[] = {
+    {255, 255, 255, 255},
+    {  0,   0,   0, 255},
+    {200,   0,   0, 255},
+    {  0,   0, 200, 255},
+    {0  , 200,   0, 255},
+    {170, 170, 170, 255},
+    {200,   0, 200, 255},
+    {200, 200,   0, 255},
+};
+
+static const int defaultframepalettesize = sizeof(defaultframepalette) / sizeof(defaultframepalette[0]);
+
+
 Flipnote::Flipnote(int framewidth, int frameheight) {
     printf("Flipnote::Flipnote : creating with size %i x %i\n", framewidth, frameheight);
     m_framewidth = framewidth;
     m_frameheight = frameheight;
+
+    //FIXME : 8 colors hardcoded
+    m_colors = (SDL_Color*) malloc(sizeof(SDL_Color) * 8);
+    m_colors[0] = {255, 255, 255, 255};
+    m_colors[1] = {  0,   0,   0, 255};
+    m_colors[2] = {200,   0,   0, 255};
+    m_colors[3] = {  0,   0, 200, 255};
+    m_colors[4] = {  0, 200,   0, 255};
+    m_colors[5] = {170, 170, 170, 255};
+    m_colors[6] = {200,   0, 200, 255};
+    m_colors[7] = {200, 200,   0, 255};
+
     SetAnimationSpeed(2);   //1fps by default
     AddFrame(0);
 }
@@ -39,6 +66,8 @@ Flipnote::~Flipnote() {
         delete f;
     }
     m_frames.clear();
+
+    free(m_colors);
 }
 
 FlipnoteFrame* Flipnote::GetFrame(int index) {
@@ -63,8 +92,8 @@ int Flipnote::FrameCount() {
 void Flipnote::AddFrame(int index) {
     if(index < 0) index = 0;
 
-    if(index >= FrameCount()) m_frames.push_back(new FlipnoteFrame(m_framewidth, m_frameheight));
-    else m_frames.insert(m_frames.begin() + index, new FlipnoteFrame(m_framewidth, m_frameheight));
+    if(index >= FrameCount()) m_frames.push_back(new FlipnoteFrame(this, m_framewidth, m_frameheight));
+    else m_frames.insert(m_frames.begin() + index, new FlipnoteFrame(this, m_framewidth, m_frameheight));
 }
 
 void Flipnote::DeleteFrame(int index) {
@@ -131,6 +160,39 @@ int Flipnote::GetAnimationFPS() {
 
 
 ///////////////////////////////
+// Color stuff
+
+void Flipnote::SetColor(int index, SDL_Color c) {
+    //FIXME : 8 colors hardcoded
+    if(index < 0) index = 0;
+    if(index > 7) index = 7;
+    m_colors[index] = c;
+}
+
+SDL_Color Flipnote::GetColor(int index) {
+    //FIXME : 8 colors hardcoded
+    if(index < 0) index = 0;
+    if(index > 7) index = 7;
+    return m_colors[index];
+}
+
+SDL_Color* Flipnote::GetPalette() {
+    return m_colors;
+}
+
+//static
+SDL_Color Flipnote::GetDefaultColor(int index) {
+    if(index < 0) index = 0;
+    if(index > defaultframepalettesize) index = defaultframepalettesize-1;
+    return defaultframepalette[index];
+}
+
+SDL_Color* Flipnote::GetDefaultPalette() {
+    return defaultframepalette;
+}
+
+
+///////////////////////////////
 // Save and load
 
 void Flipnote::Save(const char* filename) {
@@ -157,6 +219,19 @@ void Flipnote::Save(const char* filename) {
     unsigned int framecount = FrameCount();
     fputc((framecount >> 8) & 0xff, outfile);
     fputc(framecount & 0xff, outfile);
+
+
+    //Save color palette
+    //FIXME : 8 color colors
+    printf("Flipnote::Save : saving palette to file : ");
+    for(SDL_Color* colptr = m_colors; colptr < m_colors + 8;colptr += 1) {
+        putc(colptr->r, outfile);
+        putc(colptr->g, outfile);
+        putc(colptr->b, outfile);
+        putc(colptr->a, outfile);
+        printf("\x1b[48;2;%u;%u;%um  \x1b[0m", colptr->r, colptr->g, colptr->b);    //ANSI escape code for changing terminal's background color
+    }
+    printf("\n");
 
 
     //Save all frames
@@ -214,13 +289,26 @@ Flipnote::Flipnote(int framewidth, int frameheight, FILE* infile) {
     //Get animation speed
     SetAnimationSpeed(fgetc(infile));
 
-    //Get frame count
+    //Get number of frames
     unsigned int framecount = 0;
     framecount += fgetc(infile) << 8;
     framecount += fgetc(infile);
 
+    //Get colors
+    //FIXME : 8 colors hardcoded
+    m_colors = (SDL_Color*) malloc(sizeof(SDL_Color) * 8);
+    printf("Flipnote::Flipnote : loading palette from file : ");
+    for(SDL_Color* colptr = m_colors; colptr < m_colors + 8;colptr += 1) {
+        colptr->r = getc(infile);
+        colptr->g = getc(infile);
+        colptr->b = getc(infile);
+        colptr->a = getc(infile);
+        printf("\x1b[48;2;%u;%u;%um  \x1b[0m", colptr->r, colptr->g, colptr->b);    //ANSI escape code for changing terminal's background color
+    }
+    printf("\n");
+
     //Load all frames
     for(unsigned int i =  0; i < framecount; i++) {
-        m_frames.push_back(new FlipnoteFrame(framewidth, frameheight, infile));
+        m_frames.push_back(new FlipnoteFrame(this, framewidth, frameheight, infile));
     }
 }

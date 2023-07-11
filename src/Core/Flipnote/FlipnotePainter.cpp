@@ -5,6 +5,7 @@
 
 #include "../../Reusable/RunState.h"
 #include "FlipnoteFrame.h"
+#include "Flipnote.h"
 
 #include <stdio.h>
 
@@ -13,24 +14,28 @@ bool DefaultPaintCondition(int x, int y) {
 }
 
 
-FlipnotePainter::FlipnotePainter(FlipnoteFrame* frame, SDL_Texture* texture, PaintCondition paintcondition, bool invertpaint) {
-    m_frame = frame;
+FlipnotePainter::FlipnotePainter(SDL_Texture* texture, PaintCondition paintcondition, bool invertpaint) {
+    m_frame = nullptr;
     m_texture = texture;
     m_paintcondition = paintcondition;
     m_invertpaint = invertpaint;
 
-    if(m_frame == NULL) m_palette = FlipnoteFrame::GetDefaultPalette();
-    else m_palette = m_frame->GetPalette();
+    m_palette = Flipnote::GetDefaultPalette();
 }
 
-FlipnotePainter::FlipnotePainter(SDL_Color* palette, SDL_Texture* texture, PaintCondition paintcondition, bool invertpaint) {
-    m_frame = NULL;
-    m_palette = palette;
-    m_texture = texture;
-    m_paintcondition = paintcondition;
-    m_invertpaint = invertpaint;
+FlipnotePainter::FlipnotePainter(FlipnoteFrame* frame, SDL_Texture* texture, PaintCondition paintcondition, bool invertpaint) 
+: FlipnotePainter(texture, paintcondition, invertpaint) {
+    m_frame = frame;
 
-    if(m_palette == NULL) m_palette = FlipnoteFrame::GetDefaultPalette();
+    if(m_frame == nullptr) m_palette = Flipnote::GetDefaultPalette();
+    else m_palette = m_frame->m_flipnote->GetPalette();
+}
+
+FlipnotePainter::FlipnotePainter(SDL_Color* palette, SDL_Texture* texture, PaintCondition paintcondition, bool invertpaint) 
+: FlipnotePainter(texture, paintcondition, invertpaint) {
+    m_palette = palette;
+
+    if(m_palette == nullptr) m_palette = Flipnote::GetDefaultPalette();
 }
 
 

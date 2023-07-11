@@ -3,6 +3,8 @@
 
 #include <bits/types/FILE.h>
 
+class Flipnote;
+
 struct SDL_Surface;
 struct SDL_Texture;
 struct SDL_Color;
@@ -10,22 +12,14 @@ struct SDL_Color;
 
 class FlipnoteFrame {
     public:
-    FlipnoteFrame(int w, int h);
-    FlipnoteFrame(int w, int h, FILE* infile);
+    FlipnoteFrame(Flipnote* flipnote, int w, int h);
+    FlipnoteFrame(Flipnote* flipnote, int w, int h, FILE* infile);  //For loading from a file
     ~FlipnoteFrame();
 
     //Copy m_pixels to a SDL_Texture.
     SDL_Texture* CopyToTexture();
     SDL_Texture* CopyToTexture(int w, int h);
     
-
-    void SetColor(int index, SDL_Color c);
-    SDL_Color GetColor(int index);
-    //NEVER MODIFY THE PALETTE RETURNED BY THIS
-    SDL_Color* GetPalette();
-    static SDL_Color GetDefaultColor(int index);
-    //NEVER MODIFY THE PALETTE RETURNED BY THIS
-    static SDL_Color* GetDefaultPalette();
 
     //Set a pixel in m_pixels.
     void SetPixel(int x, int y, int colorindex);
@@ -35,11 +29,11 @@ class FlipnoteFrame {
 
     void Save(FILE* file);
 
+    //Public because it is accessed by FlipnotePainter
+    Flipnote* m_flipnote;
 
     private:
-    //SDL_Surface* m_surface;
     unsigned char* m_pixels;
-    SDL_Color* m_colors;    //array of 8 elements
 
     int m_width;
     int m_height;

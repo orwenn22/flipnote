@@ -12,7 +12,11 @@ bool DefaultPaintCondition(int x, int y);
 //This class is used in order to paint on the texture and on the frame at the same time.
 class FlipnotePainter {
     public:
+    //For drawing on a texture only (use Flipnote::GetDefaultPalette() as palette)
+    FlipnotePainter(SDL_Texture* texture, PaintCondition paintcondition = DefaultPaintCondition, bool invertpaint = false);
+    //For drawing on a texture and a frame at the same time (use frame->m_flipnote->Getpalette() as palette)
     FlipnotePainter(FlipnoteFrame* frame, SDL_Texture* texture, PaintCondition paintcondition = DefaultPaintCondition, bool invertpaint = false);
+    //For drawing on a texture only (use palette as palette)
     FlipnotePainter(SDL_Color* palette, SDL_Texture* texture, PaintCondition paintcondition = DefaultPaintCondition, bool invertpaint = false);
 
     //All of these will call PrepareRender

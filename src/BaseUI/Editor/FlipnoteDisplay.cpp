@@ -219,7 +219,7 @@ void FlipnoteDisplay::RenderToolPreview() {
     SDL_SetRenderDrawColor(g_runstate->renderer, 0, 0, 0, 0);
     SDL_RenderClear(g_runstate->renderer);
 
-    FlipnotePainter painter(m_editor->CurrentFrame()->GetPalette(), m_toolpreview, GetBrush(m_editor->GetCurrentBrush()), m_editor->m_invertpaint);
+    FlipnotePainter painter(m_editor->GetFlipnote()->GetPalette(), m_toolpreview, GetBrush(m_editor->GetCurrentBrush()), m_editor->m_invertpaint);
     painter.FillCircle(pixelx, pixely, m_editor->GetBrushSize(), m_editor->GetCurrentColorIndex());
 
     SDL_SetRenderTarget(g_runstate->renderer, previousrendertarget);
