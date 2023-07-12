@@ -21,14 +21,17 @@ FlipnotePainter::FlipnotePainter(SDL_Texture* texture, PaintCondition paintcondi
     m_invertpaint = invertpaint;
 
     m_palette = Flipnote::GetDefaultPalette();
+    m_targetlayer = 0;
 }
 
-FlipnotePainter::FlipnotePainter(FlipnoteFrame* frame, SDL_Texture* texture, PaintCondition paintcondition, bool invertpaint) 
+FlipnotePainter::FlipnotePainter(FlipnoteFrame* frame, int targetlayer, SDL_Texture* texture, PaintCondition paintcondition, bool invertpaint) 
 : FlipnotePainter(texture, paintcondition, invertpaint) {
     m_frame = frame;
 
     if(m_frame == nullptr) m_palette = Flipnote::GetDefaultPalette();
     else m_palette = m_frame->m_flipnote->GetPalette();
+    
+    m_targetlayer = targetlayer;
 }
 
 FlipnotePainter::FlipnotePainter(SDL_Color* palette, SDL_Texture* texture, PaintCondition paintcondition, bool invertpaint) 
@@ -36,6 +39,8 @@ FlipnotePainter::FlipnotePainter(SDL_Color* palette, SDL_Texture* texture, Paint
     m_palette = palette;
 
     if(m_palette == nullptr) m_palette = Flipnote::GetDefaultPalette();
+
+    m_targetlayer = 0;
 }
 
 
@@ -116,7 +121,7 @@ void FlipnotePainter::FillCircle(int x, int y, int r, int colorindex) {
 
 void FlipnotePainter::InternalSetPixel(int x, int y, int colorindex) {
     if(m_paintcondition(x, y) ^ m_invertpaint) {
-        if(m_frame) m_frame->SetPixel(x, y, colorindex);    //don't draw on the FlipnoteFrame if it is not set
+        if(m_frame) m_frame->SetPixel(x, y, m_targetlayer, colorindex);    //don't draw on the FlipnoteFrame if it is not set
         SDL_RenderPoint(g_runstate->renderer, x, y);
     }
 }
@@ -157,9 +162,17 @@ void FlipnotePainter::InternalFillCircle(int x, int y, int r, int colorindex) {
 SDL_Texture* FlipnotePainter::PrepareRender(int colorindex) {
     SDL_Texture* previoustarget = SDL_GetRenderTarget(g_runstate->renderer);
 
+    SDL_SetRenderDrawBlendMode(g_runstate->renderer, SDL_BLENDMODE_NONE);   //Necessary for the "eraser" effect
     SDL_SetRenderTarget(g_runstate->renderer, m_texture);
 
-    SDL_Color c = m_palette[colorindex];
+    SDL_Color c;
+
+    if(m_targetlayer > 0 && colorindex == 0) {  //Not drawing on the bottom layer AND drawing with first color
+        c = {0, 0, 0, 0};  //transparent / blank / "eraser"
+    }
+    else {  //Drawing on bottom layer or not drawing with first color = always fill with color from palette  (or when m_frame is not defiined)
+        c = m_palette[colorindex];
+    }
 
     SDL_SetRenderDrawColor(g_runstate->renderer, c.r, c.g, c.b, c.a);
 

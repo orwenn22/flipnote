@@ -1,6 +1,8 @@
 #ifndef FLIPNOTEDISPLAY_H
 #define FLIPNOTEDISPLAY_H
 
+#include <vector>
+
 class FlipnoteEditor;
 struct SDL_Renderer;
 struct SDL_Surface;
@@ -22,9 +24,11 @@ class FlipnoteDisplay {
     //Get the x and y position of the mouse from the canvas's top left
     void GetMousePosRelative(int* x, int* y);
 
-    //Load the surface of the current page into the gpu
+    //Fully reload the texture of the display (when the user switch frame for exemple)
     void RefreshTexture(SDL_Renderer* renderer);
-    SDL_Texture* GetTexture();
+
+    SDL_Texture* GetTexture(int layerindex);
+
 
     bool IsMouseOnDisplay();
 
@@ -46,9 +50,9 @@ class FlipnoteDisplay {
     //The parrent editor of the display
     FlipnoteEditor* m_editor;
 
-    //Copy of the current current page being edited on the gpu side.
-    //Reloaded by RefreshTexture (each time the user switch page ?).
-    SDL_Texture* m_currentpagetexture;
+    //Copy of the current current frame being edited on the gpu side (contain all layers).
+    //Reloaded by RefreshTexture (each time the user switch page).
+    std::vector<SDL_Texture*> m_currentframetextures;
 
     SDL_Texture* m_toolpreview;
 

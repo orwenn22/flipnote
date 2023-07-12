@@ -11,6 +11,7 @@
 #include "../../Reusable/gui/IconButton.h"
 #include "../../Reusable/gui/PopupMenu.h"
 #include "../../Reusable/gui/WinWidgetContainer.h"
+#include "../../Reusable/Utils.h"
 #include "EditorButtons/EditorBrushButton.h"
 #include "EditorButtons/EditorPenButton.h"
 #include "EditorButtons/EditorPlayButton.h"
@@ -20,9 +21,11 @@
 #include "FlipnoteTimeline.h"
 
 #include <SDL.h>    //FIXME : this is only included for SDL_abs
+#include <string>
 
 //#include "../../Reusable/gui/ChildContainer.h"
 //#include "../../Reusable/gui/CheckBox.h"
+
 
 static const PaintCondition brushes[] = {
     [](int x, int y) -> bool { return true; },                          // normal
@@ -89,6 +92,8 @@ FlipnoteEditor::FlipnoteEditor(Flipnote* fn) {
     m_animmationplaying = false;
     m_animationcooldown = 0.0f;
 
+    m_targetlayer = 0;
+
     m_display = new FlipnoteDisplay(this);
 
 
@@ -154,6 +159,10 @@ void FlipnoteEditor::Update() {
 
     //Draw to the canvas if the user is drawing
     UpdateDraw();
+
+    //TODO : replace this bu UI buttons
+    if(g_runstate->IsKeyPressed(SDLK_UP)) m_targetlayer++;
+    if(g_runstate->IsKeyPressed(SDLK_DOWN)) m_targetlayer--;
 }
 
 void FlipnoteEditor::Render() {
@@ -161,6 +170,9 @@ void FlipnoteEditor::Render() {
     if(m_timeline != NULL) m_timeline->Render();
     m_editorbuttons->Render();
     if(m_popupmenu != NULL) m_popupmenu->Render();
+    
+    //TODO : replace this bu UI buttons
+    RenderText((std::string("current layer : ") + std::to_string(m_targetlayer)).c_str(), 50, 50, g_ressources->font_ubuntumedium24, {0, 255, 0, 255});
 }
 
 
@@ -272,7 +284,7 @@ void FlipnoteEditor::UpdateDraw() {
         m_display->GetMousePosPixel(&pixelx, &pixely);
 
         //We want to draw on the frame and on the display's texture at the same time.
-        FlipnotePainter painter(CurrentFrame(), m_display->GetTexture(), GetBrush(m_currentbrush), m_invertpaint);
+        FlipnotePainter painter(CurrentFrame(), m_targetlayer, m_display->GetTexture(m_targetlayer), GetBrush(m_currentbrush), m_invertpaint);
 
         if(m_previousx == -1 || m_previousy == -1) {
             //Single click

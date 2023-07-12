@@ -20,14 +20,18 @@ FlipnoteDisplay::FlipnoteDisplay(FlipnoteEditor* editor) {
     m_mouseoffsetx = 0;
     m_mouseoffsety = 0;
 
-    m_currentpagetexture = m_editor->CurrentFrame()->CopyToTexture();
+    m_currentframetextures = m_editor->CurrentFrame()->CopyToTextures();
 
     m_toolpreview = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, m_unzoomedwidth, m_unzoomedheight);
     SDL_SetTextureBlendMode(m_toolpreview, SDL_BLENDMODE_BLEND);
 }
 
 FlipnoteDisplay::~FlipnoteDisplay() {
-    SDL_DestroyTexture(m_currentpagetexture);
+    for(SDL_Texture* t : m_currentframetextures) {
+        SDL_DestroyTexture(t);
+    }
+    m_currentframetextures.clear();
+
     SDL_DestroyTexture(m_toolpreview);
 }
 
@@ -59,9 +63,15 @@ void FlipnoteDisplay::Render() {
     SDL_SetRenderDrawColor(g_runstate->renderer, 190, 190, 190, 255);   //gray
     SDL_RenderFillRect(g_runstate->renderer, &outline);
     //TODO : don't draw the offscreen parts of the texture
-    SDL_RenderTexture(g_runstate->renderer, m_currentpagetexture, NULL, &dest);
 
-    RenderToolPreview();
+    int i_stop = m_currentframetextures.size();
+    for(int i = 0; i < i_stop; i++) {
+        SDL_RenderTexture(g_runstate->renderer, m_currentframetextures[i], NULL, &dest);
+        if(i == m_editor->m_targetlayer) {
+            RenderToolPreview();
+            //TODO : maybe draw the grid here
+        }
+    }
 
     if(m_scale >= 5) {
         RenderGrid();
@@ -119,14 +129,18 @@ void FlipnoteDisplay::UpdateMouseInput() {
 
 //Load the surface of the current page into the gpu
 void FlipnoteDisplay::RefreshTexture(SDL_Renderer* renderer) {
-    printf("FlipnoteDisplay::RefreshTexture : updating texture\n");
-    SDL_DestroyTexture(m_currentpagetexture);
-    //m_currentpagetexture = SDL_CreateTextureFromSurface(renderer, m_editor->CurrentFrameSurface());
-    m_currentpagetexture = m_editor->CurrentFrame()->CopyToTexture();
+    printf("FlipnoteDisplay::RefreshTexture : updating textures\n");
+    for(SDL_Texture* t : m_currentframetextures) {
+        SDL_DestroyTexture(t);
+    }
+    m_currentframetextures.clear();
+    m_currentframetextures = m_editor->CurrentFrame()->CopyToTextures();
 }
 
-SDL_Texture* FlipnoteDisplay::GetTexture() {
-    return m_currentpagetexture;
+SDL_Texture* FlipnoteDisplay::GetTexture(int layerindex) {
+    int layercount = m_currentframetextures.size();
+    if(layercount == 0 || layerindex < 0 || layerindex >= layercount) return nullptr;
+    return m_currentframetextures[layerindex];
 }
 
 

@@ -72,6 +72,9 @@ class FlipnoteEditor {
     //Is set to true, the animation is playing;
     bool m_animmationplaying;
 
+    //This the layer index selected by the user
+    int m_targetlayer;
+
     private:
 
     //If m_isdrawing is set to true, this will get executed.

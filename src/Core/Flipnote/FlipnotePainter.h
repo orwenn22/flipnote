@@ -15,7 +15,7 @@ class FlipnotePainter {
     //For drawing on a texture only (use Flipnote::GetDefaultPalette() as palette)
     FlipnotePainter(SDL_Texture* texture, PaintCondition paintcondition = DefaultPaintCondition, bool invertpaint = false);
     //For drawing on a texture and a frame at the same time (use frame->m_flipnote->Getpalette() as palette)
-    FlipnotePainter(FlipnoteFrame* frame, SDL_Texture* texture, PaintCondition paintcondition = DefaultPaintCondition, bool invertpaint = false);
+    FlipnotePainter(FlipnoteFrame* frame, int targetlayer, SDL_Texture* texture, PaintCondition paintcondition = DefaultPaintCondition, bool invertpaint = false);
     //For drawing on a texture only (use palette as palette)
     FlipnotePainter(SDL_Color* palette, SDL_Texture* texture, PaintCondition paintcondition = DefaultPaintCondition, bool invertpaint = false);
 
@@ -28,6 +28,7 @@ class FlipnotePainter {
 
     PaintCondition m_paintcondition;
     bool m_invertpaint;
+    int m_targetlayer;
 
     FlipnoteFrame* m_frame;
     SDL_Texture* m_texture;

@@ -84,6 +84,6 @@ void EditorBrushButton::UpdateTexture() {
     SDL_RenderClear(g_runstate->renderer);
     SDL_SetRenderTarget(g_runstate->renderer, NULL);
 
-    FlipnotePainter painter((FlipnoteFrame*)NULL, m_texture, GetBrush(m_displayedbrushkind), m_displayedbrushinverted);
+    FlipnotePainter painter(m_texture, GetBrush(m_displayedbrushkind), m_displayedbrushinverted);
     painter.FillCircle(16, 16, m_displayedbrushsize, 1);    //1 is black
 }

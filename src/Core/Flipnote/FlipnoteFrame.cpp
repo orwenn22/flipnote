@@ -7,6 +7,7 @@
 
 #include "../../Reusable/RunState.h"
 #include "../../Reusable/Utils.h"
+#include "FlipnoteLayer.h"
 #include "Flipnote.h"
 
 
@@ -14,59 +15,64 @@ FlipnoteFrame::FlipnoteFrame(Flipnote* flipnote, int w, int h) {
     m_flipnote = flipnote;
     m_width = w;
     m_height = h;
-    if(w < 0 || h < 0) {
-        m_pixels = NULL;
+
+    if(m_width <= 0 || m_height <= 0) {
+        printf("FlipnoteFrame::FlipnoteFrame : invalid size\n");
         return;
     }
 
-    //Allocate pixels and fill with first color
-    m_pixels = (unsigned char*) malloc(sizeof(unsigned char) * w * h);
-    int pixelcount = w*h;
-    for(int i = 0; i<pixelcount; i++) m_pixels[i] = 0;
+    for(int i = 0; i < 4; i++) {    //FIXME : 4 layers hardcoded
+        m_layers.push_back(new FlipnoteLayer(this, m_width, m_height));
+    }
 }
 
 FlipnoteFrame::FlipnoteFrame(Flipnote* flipnote, int w, int h, FILE* infile) {
     m_flipnote = flipnote;
+    
     m_width = w;
     m_height = h;
-    if(w < 0 || h < 0) {
-        m_pixels = NULL;
+
+    if(m_width <= 0 || m_height <= 0) {
+        printf("FlipnoteFrame::FlipnoteFrame : invalid size\n");
         return;
     }
 
-    //Allocate and load pixels
-    m_pixels = (unsigned char*) malloc(sizeof(unsigned char) * w * h);
-    int pixelcount = w*h;
-    for(int i = 0; i<pixelcount; i++) m_pixels[i] = getc(infile);
+    //Load layers from bottom to top
+    for(int i = 0; i < 4; i++) {    //FIXME : 4 layers hardcoded
+        m_layers.push_back(new FlipnoteLayer(this, m_width, m_height, infile));
+    }
 }
 
 
 FlipnoteFrame::~FlipnoteFrame() {
-    free(m_pixels);
+    for(FlipnoteLayer* l : m_layers) {
+        delete l;
+    }
+    m_layers.clear();
 }
 
 
 SDL_Texture* FlipnoteFrame::CopyToTexture() {
-    SDL_Texture* previousrendertartget = SDL_GetRenderTarget(g_runstate->renderer);
+    SDL_Texture* previousrendertarget = SDL_GetRenderTarget(g_runstate->renderer);
 
+    //Create the texture
     SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_XRGB8888, SDL_TEXTUREACCESS_TARGET, m_width, m_height);
     SDL_SetRenderTarget(g_runstate->renderer, r);
 
-    SDL_SetRenderDrawColor(g_runstate->renderer, 255, 255, 255, 255);
+    //Clear with blank
+    SDL_SetRenderDrawColor(g_runstate->renderer, 255, 0, 0, 0); //"red" for debugging purpose
     SDL_RenderClear(g_runstate->renderer);
 
-    SDL_Color* pal = m_flipnote->GetPalette();
-    int i = 0;
-    for(int y = 0; y < m_height; y++) {
-        for(int x = 0; x < m_width; x++) {
-            unsigned char p = m_pixels[i];    //m_pixels[x+y*m_width];
-            SDL_SetRenderDrawColor(g_runstate->renderer, pal[p].r, pal[p].g, pal[p].b, pal[p].a);
-            SDL_RenderPoint(g_runstate->renderer, x, y);
-            i++;
-        }
+
+    int i_stop = m_layers.size();
+    //Draw all layers to the texture, from bottom to top
+    for(int i = 0; i < i_stop; i++) {
+        SDL_Texture* layer_texture = m_layers[i]->CopyToTexture(i != 0);    //the bottom layer don't have a transparent background
+        SDL_RenderTexture(g_runstate->renderer, layer_texture, NULL, NULL);
+        SDL_DestroyTexture(layer_texture);
     }
 
-    SDL_SetRenderTarget(g_runstate->renderer, previousrendertartget);
+    SDL_SetRenderTarget(g_runstate->renderer, previousrendertarget);
     return r;
 }
 
@@ -74,16 +80,20 @@ SDL_Texture* FlipnoteFrame::CopyToTexture() {
 SDL_Texture* FlipnoteFrame::CopyToTexture(int w, int h) {
     SDL_Texture* previousrendertartget = SDL_GetRenderTarget(g_runstate->renderer);
 
+    //TODO : these should be float ?
     int stepx = m_width/w;
     int stepy = m_height/h;
 
+    //Create the texture
     SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_XRGB8888, SDL_TEXTUREACCESS_TARGET, w, h);
     SDL_SetRenderTarget(g_runstate->renderer, r);
 
     SDL_SetRenderDrawColor(g_runstate->renderer, 255, 255, 255, 255);
     SDL_RenderClear(g_runstate->renderer);
 
+    //Get the palette from the flipnote
     SDL_Color* pal = m_flipnote->GetPalette();
+
     for(int y = 0; y < h; y++) {
         for(int x = 0; x < w; x++) {
             unsigned char p = GetPixel(x*stepx, y*stepy);
@@ -97,12 +107,24 @@ SDL_Texture* FlipnoteFrame::CopyToTexture(int w, int h) {
 }
 
 
+std::vector<SDL_Texture*> FlipnoteFrame::CopyToTextures() {
+    auto r = std::vector<SDL_Texture*>();
 
-void FlipnoteFrame::SetPixel(int x, int y, int colorindex) {
-    if(x < 0 || x >= m_width || y < 0 || y >= m_height) 
-        return;
+    int i_stop = m_layers.size();
 
-    m_pixels[x+y*m_width] = colorindex;
+    //itterate from bottom to top
+    for(int i = 0; i < i_stop; i++) {
+        r.push_back(m_layers[i]->CopyToTexture(i != 0));
+    }
+
+    return r;
+}
+
+
+
+void FlipnoteFrame::SetPixel(int x, int y, int layerindex, int colorindex) {
+    if(layerindex < 0 || layerindex >= m_layers.size()) return;
+    m_layers[layerindex]->SetPixel(x, y, colorindex);
 }
 
 
@@ -110,13 +132,18 @@ unsigned char FlipnoteFrame::GetPixel(int x, int y) {
     if(x < 0 || x >= m_width || y < 0 || y >= m_height) 
         return 0;
 
-    return m_pixels[x+y*m_width];
+    //itterate from top to bottom
+    for(int i = m_layers.size()-1; i >= 0; i--) {
+        int p = m_layers[i]->GetPixel(x, y);
+        if(p != 0) return p;    //non-blank pixel
+    }
+    return 0;
 }
 
 
 void FlipnoteFrame::Save(FILE* file) {
-    int istop = m_width*m_height;
-    for(int i = 0; i < istop; i++) {
-        putc(m_pixels[i], file);
+    //Save layers from bottom to top
+    for(FlipnoteLayer* l : m_layers) {
+        l->Save(file);
     }
 }
