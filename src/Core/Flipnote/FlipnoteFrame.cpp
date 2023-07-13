@@ -21,7 +21,8 @@ FlipnoteFrame::FlipnoteFrame(Flipnote* flipnote, int w, int h) {
         return;
     }
 
-    for(int i = 0; i < 4; i++) {    //FIXME : 4 layers hardcoded
+    int layer_count = m_flipnote->GetLayerCount();
+    for(int i = 0; i < layer_count; i++) {
         m_layers.push_back(new FlipnoteLayer(this, m_width, m_height));
     }
 }
@@ -38,7 +39,8 @@ FlipnoteFrame::FlipnoteFrame(Flipnote* flipnote, int w, int h, FILE* infile) {
     }
 
     //Load layers from bottom to top
-    for(int i = 0; i < 4; i++) {    //FIXME : 4 layers hardcoded
+    int layer_count = m_flipnote->GetLayerCount();
+    for(int i = 0; i < layer_count; i++) {
         m_layers.push_back(new FlipnoteLayer(this, m_width, m_height, infile));
     }
 }
@@ -64,9 +66,9 @@ SDL_Texture* FlipnoteFrame::CopyToTexture() {
     SDL_RenderClear(g_runstate->renderer);
 
 
-    int i_stop = m_layers.size();
     //Draw all layers to the texture, from bottom to top
-    for(int i = 0; i < i_stop; i++) {
+    int layer_count = m_layers.size();
+    for(int i = 0; i < layer_count; i++) {
         SDL_Texture* layer_texture = m_layers[i]->CopyToTexture(i != 0);    //the bottom layer don't have a transparent background
         SDL_RenderTexture(g_runstate->renderer, layer_texture, NULL, NULL);
         SDL_DestroyTexture(layer_texture);
@@ -110,10 +112,9 @@ SDL_Texture* FlipnoteFrame::CopyToTexture(int w, int h) {
 std::vector<SDL_Texture*> FlipnoteFrame::CopyToTextures() {
     auto r = std::vector<SDL_Texture*>();
 
-    int i_stop = m_layers.size();
-
     //itterate from bottom to top
-    for(int i = 0; i < i_stop; i++) {
+    int layer_count = m_layers.size();
+    for(int i = 0; i < layer_count; i++) {
         r.push_back(m_layers[i]->CopyToTexture(i != 0));
     }
 

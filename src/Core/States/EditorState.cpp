@@ -16,7 +16,7 @@ EditorState::EditorState(Flipnote* flipnote) : State() {
     m_flipnote = flipnote;
     if(flipnote == nullptr) {   //if no flipnote is passed to the constructior
         printf("EditorState::EditorState : flipnote is nullptr, creating a new one\n");
-        m_flipnote = new Flipnote(512, 384);
+        m_flipnote = new Flipnote(512, 384, 4); //hardcode 4 layers and res for now
     }
 
     m_editor = new FlipnoteEditor(m_flipnote);

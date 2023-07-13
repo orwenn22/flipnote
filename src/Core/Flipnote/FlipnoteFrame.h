@@ -32,6 +32,8 @@ class FlipnoteFrame {
     //Get a pixel in one of the layer.
     unsigned char GetPixel(int x, int y, int layerindex);
 
+
+    //Save the frame to a file
     void Save(FILE* file);
 
     //The parrent Flipnote of the frame

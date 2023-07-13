@@ -41,10 +41,11 @@ static SDL_Color defaultframepalette[] = {
 static const int defaultframepalettesize = sizeof(defaultframepalette) / sizeof(defaultframepalette[0]);
 
 
-Flipnote::Flipnote(int framewidth, int frameheight) {
+Flipnote::Flipnote(int framewidth, int frameheight, int layercount) {
     printf("Flipnote::Flipnote : creating with size %i x %i\n", framewidth, frameheight);
     m_framewidth = framewidth;
     m_frameheight = frameheight;
+    m_layercount = layercount;
 
     //FIXME : 8 colors hardcoded
     m_colors = (SDL_Color*) malloc(sizeof(SDL_Color) * 8);
@@ -193,6 +194,15 @@ SDL_Color* Flipnote::GetDefaultPalette() {
 
 
 ///////////////////////////////
+// Other
+
+int Flipnote::GetLayerCount() {
+    return m_layercount;
+}
+
+
+
+///////////////////////////////
 // Save and load
 
 void Flipnote::Save(const char* filename) {
@@ -210,15 +220,22 @@ void Flipnote::Save(const char* filename) {
     fputc(m_framewidth & 0xff, outfile);
     fputc((m_frameheight >> 8) & 0xff, outfile);
     fputc(m_frameheight & 0xff, outfile);
+    printf("Flipnote::Save : w (u16) : %i | h (u16) : %i\n", m_framewidth, m_frameheight);
+
+    //Save number of layers in a frame
+    fputc(m_layercount & 0xff, outfile);
+    printf("Flipnote::Save : layer count (u8) : %i\n", m_layercount);
 
     //Save animation speed
-    fputc(m_animationspeed, outfile);
-    
+    fputc(m_animationspeed & 0xff, outfile);
+    printf("Flipnote::Save : animation speed (u8) : %i\n", m_animationspeed);
+
 
     //Save number of frames
     unsigned int framecount = FrameCount();
     fputc((framecount >> 8) & 0xff, outfile);
     fputc(framecount & 0xff, outfile);
+    printf("Flipnote::Save : number of frames (u16) : %i\n", framecount);
 
 
     //Save color palette
@@ -240,6 +257,7 @@ void Flipnote::Save(const char* filename) {
     }
 
     fclose(outfile);
+    printf("Flipnote::Save : Successfull !\n");
 }
 
 Flipnote* Flipnote::Load(const char* filename) {
@@ -286,13 +304,19 @@ Flipnote::Flipnote(int framewidth, int frameheight, FILE* infile) {
     m_framewidth = framewidth;
     m_frameheight = frameheight;
 
+    //Get layer count
+    m_layercount = fgetc(infile);
+    printf("Flipnote::Flipnote : layer count from file : %i\n", m_layercount);
+
     //Get animation speed
     SetAnimationSpeed(fgetc(infile));
+    printf("Flipnote::Flipnote : animation speed from file : %i\n", m_animationspeed);
 
     //Get number of frames
     unsigned int framecount = 0;
     framecount += fgetc(infile) << 8;
     framecount += fgetc(infile);
+    printf("Flipnote::Flipnote : number of frames from file : %i\n", framecount);
 
     //Get colors
     //FIXME : 8 colors hardcoded

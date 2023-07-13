@@ -16,6 +16,7 @@
 #include "EditorButtons/EditorPenButton.h"
 #include "EditorButtons/EditorPlayButton.h"
 #include "EditorButtons/EditorTimelineButton.h"
+#include "EditorButtons/LayerButton.h"
 #include "EditorButtons/FrogMenuButton.h"
 #include "FlipnoteDisplay.h"
 #include "FlipnoteTimeline.h"
@@ -115,6 +116,13 @@ FlipnoteEditor::FlipnoteEditor(Flipnote* fn) {
 
     //Frog Button
     m_editorbuttons->AddWidget(new FrogMenuButton(this, 10, 10, WidgetAllign_Bottom));
+
+    //Layer buttons
+    int layer_count = m_flipnote->GetLayerCount();
+    for(int i = 0; i < layer_count; i++) {
+        m_editorbuttons->AddWidget(new LayerButton(this, i, 10, 65 + 50*i, 50, 50, WidgetAllign_Bottom));
+
+    }
 
     ////Test ChildContiner
     //auto cc = new ChildContainer(30, 30, 200, 200, WidgetAllign_None);

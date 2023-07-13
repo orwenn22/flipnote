@@ -14,7 +14,7 @@ struct SDL_Surface;
 class Flipnote {
     public:
     //Create a flipnote with a blank frame
-    Flipnote(int framewidth, int frameheight);
+    Flipnote(int framewidth, int frameheight, int layercount);
     ~Flipnote();
 
 
@@ -67,6 +67,12 @@ class Flipnote {
     static SDL_Color* GetDefaultPalette();
 
 
+    //////////////////////////////////////////////
+    // Other
+
+    int GetLayerCount();
+
+
     ///////////////////////////////////////////////
     //Saving and loading
 
@@ -82,6 +88,8 @@ class Flipnote {
     std::vector<FlipnoteFrame*> m_frames;
     unsigned int m_framewidth;
     unsigned int m_frameheight;
+    int m_layercount;               //The number of layers in a frame
+
     unsigned char m_animationspeed;  //this is the index corresponding to a value in s_animationspeedfps
 
     SDL_Color* m_colors;    //array of 8 elements  TODO : don't limit to 8 colors
