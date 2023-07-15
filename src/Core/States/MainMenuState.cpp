@@ -16,8 +16,8 @@ MainMenuState::MainMenuState() : State() {
     m_topbar = new TopBar("Flipnote", *g_ressources->col_orange, *g_ressources->col_white);
     m_widgets = new WinWidgetContainer();
 
-    m_widgets->AddWidget(new Label("Create new", 0, -10, WidgetAllign_Center,[&](){ m_manager->SetState(new EditorState()); }));
-    m_widgets->AddWidget(new Label("load", 0, 10, WidgetAllign_Center,[&](){ printf("TODO\n"); }));
+    m_widgets->AddWidget(new Label("Create new", g_reusableressources->font_ubuntumedium16, 0, -10, WidgetAllign_Center,[&](){ m_manager->SetState(new EditorState()); }));
+    m_widgets->AddWidget(new Label("load", g_reusableressources->font_ubuntumedium16, 0, 10, WidgetAllign_Center,[&](){ printf("TODO\n"); }));
 }
 
 MainMenuState::~MainMenuState() {

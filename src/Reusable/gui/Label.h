@@ -6,11 +6,12 @@
 #include <string>
 
 struct SDL_Texture;
+struct _TTF_Font;
 
 class Label : public ClickableWidget {
     public:
     Label(
-        std::string text,
+        std::string text, _TTF_Font* font,
         int x, int y, WidgetAllign allignment, 
         ClickabbleWidgetCallback callback = [](){}
     );
