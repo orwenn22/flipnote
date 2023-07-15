@@ -26,6 +26,8 @@ struct FlipnoteRessources : Ressources {
     SDL_Texture* txtr_icon_left;
     SDL_Texture* txtr_icon_right_double;
     SDL_Texture* txtr_icon_left_double;
+    SDL_Texture* txtr_icon_red_arrow;
+    SDL_Texture* txtr_icon_yellow_arrow;
 
 
     

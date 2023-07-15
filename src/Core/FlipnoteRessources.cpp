@@ -31,6 +31,8 @@ FlipnoteRessources::FlipnoteRessources(SDL_Renderer* renderer)
     txtr_button_frog = LoadImageAsTexture(renderer, "./res/frog_menu_plain.png");
     txtr_button_layer_active = LoadImageAsTexture(renderer, "./res/button_layer_active.png");
     txtr_button_layer_inactive = LoadImageAsTexture(renderer, "./res/button_layer_inactive.png");
+    txtr_icon_red_arrow = LoadImageAsTexture(renderer, "./res/redarrow.png");
+    txtr_icon_yellow_arrow = LoadImageAsTexture(renderer, "./res/yellowarrow.png");
 }
 
 FlipnoteRessources::~FlipnoteRessources() {
@@ -54,4 +56,6 @@ FlipnoteRessources::~FlipnoteRessources() {
     SDL_DestroyTexture(txtr_button_frog);
     SDL_DestroyTexture(txtr_button_layer_active);
     SDL_DestroyTexture(txtr_button_layer_inactive);
+    SDL_DestroyTexture(txtr_icon_red_arrow);
+    SDL_DestroyTexture(txtr_icon_yellow_arrow);
 }
