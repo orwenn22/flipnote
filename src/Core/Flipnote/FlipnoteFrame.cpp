@@ -90,6 +90,7 @@ SDL_Texture* FlipnoteFrame::CopyToTexture(int w, int h) {
     SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_XRGB8888, SDL_TEXTUREACCESS_TARGET, w, h);
     SDL_SetRenderTarget(g_runstate->renderer, r);
 
+    //Clear with white (all pixels are going to be written anyway)
     SDL_SetRenderDrawColor(g_runstate->renderer, 255, 255, 255, 255);
     SDL_RenderClear(g_runstate->renderer);
 
@@ -98,7 +99,10 @@ SDL_Texture* FlipnoteFrame::CopyToTexture(int w, int h) {
 
     for(int y = 0; y < h; y++) {
         for(int x = 0; x < w; x++) {
+            //Get the color index of the highest set pixel
             unsigned char p = GetPixel(x*stepx, y*stepy);
+
+            //Draw the pixel on the texture with the color from the palette
             SDL_SetRenderDrawColor(g_runstate->renderer, pal[p].r, pal[p].g, pal[p].b, pal[p].a);
             SDL_RenderPoint(g_runstate->renderer, x, y);
         }
@@ -115,7 +119,7 @@ std::vector<SDL_Texture*> FlipnoteFrame::CopyToTextures() {
     //itterate from bottom to top
     int layer_count = m_layers.size();
     for(int i = 0; i < layer_count; i++) {
-        r.push_back(m_layers[i]->CopyToTexture(i != 0));
+        r.push_back(m_layers[i]->CopyToTexture(true));
     }
 
     return r;

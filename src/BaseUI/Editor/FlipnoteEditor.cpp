@@ -78,7 +78,7 @@ int GetBrushCount() { return brushcount; }
 
 FlipnoteEditor::FlipnoteEditor(Flipnote* fn) {
     m_flipnote = fn;
-    //m_flipnote->GetFrame(0)->SetColor(0, {255, 0, 0, 255});
+    //m_flipnote->SetColor(0, {255, 0, 0, 255});
     
     m_page = 0;
     m_currentcolorindex = 1;

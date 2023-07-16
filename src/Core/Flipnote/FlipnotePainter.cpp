@@ -162,15 +162,15 @@ void FlipnotePainter::InternalFillCircle(int x, int y, int r, int colorindex) {
 SDL_Texture* FlipnotePainter::PrepareRender(int colorindex) {
     SDL_Texture* previoustarget = SDL_GetRenderTarget(g_runstate->renderer);
 
-    SDL_SetRenderDrawBlendMode(g_runstate->renderer, SDL_BLENDMODE_NONE);   //Necessary for the "eraser" effect
+    SDL_SetRenderDrawBlendMode(g_runstate->renderer, SDL_BLENDMODE_NONE);   //Necessary for the "eraser" effect on the texture
     SDL_SetRenderTarget(g_runstate->renderer, m_texture);
 
     SDL_Color c;
 
-    if(m_targetlayer > 0 && colorindex == 0) {  //Not drawing on the bottom layer AND drawing with first color
+    if(colorindex == 0 && m_frame != nullptr) {  // drawing with first color (eraser) and a frame is defined
         c = {0, 0, 0, 0};  //transparent / blank / "eraser"
     }
-    else {  //Drawing on bottom layer or not drawing with first color = always fill with color from palette  (or when m_frame is not defiined)
+    else {  //not drawing with first color = always fill with color from palette  (or when m_frame is not defined)
         c = m_palette[colorindex];
     }
 

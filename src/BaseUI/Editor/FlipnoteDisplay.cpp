@@ -50,6 +50,7 @@ void FlipnoteDisplay::Update() {
 }
 
 
+//TODO : don't draw the offscreen parts of the texture
 void FlipnoteDisplay::Render() {
     SDL_FRect dest = {(float)m_x, (float)m_y, (float)m_unzoomedwidth * m_scale, (float)m_unzoomedheight * m_scale};
     SDL_FRect outline;
@@ -60,13 +61,21 @@ void FlipnoteDisplay::Render() {
         outline = {dest.x - 1, dest.y - 1, dest.w + 2, dest.h + 2};
     }
 
-    SDL_SetRenderDrawColor(g_runstate->renderer, 190, 190, 190, 255);   //gray
+    //draw a gray outline
+    SDL_SetRenderDrawColor(g_runstate->renderer, 190, 190, 190, 255);
     SDL_RenderFillRect(g_runstate->renderer, &outline);
-    //TODO : don't draw the offscreen parts of the texture
+
+    //We want to draw the background color first
+    SDL_Color c = m_editor->GetFlipnote()->GetColor(0);
+    SDL_SetRenderDrawColor(g_runstate->renderer, c.r, c.g, c.b, 255);   // c.a ?
+    SDL_RenderFillRect(g_runstate->renderer, &dest);
 
     int i_stop = m_currentframetextures.size();
     for(int i = 0; i < i_stop; i++) {
+        //Then draw the textures of the layers
         SDL_RenderTexture(g_runstate->renderer, m_currentframetextures[i], NULL, &dest);
+
+        //Draw the tool preview on top of the selected layer
         if(i == m_editor->m_targetlayer) {
             RenderToolPreview();
             //TODO : maybe draw the grid here

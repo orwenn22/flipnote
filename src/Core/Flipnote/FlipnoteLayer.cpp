@@ -55,7 +55,9 @@ SDL_Texture* FlipnoteLayer::CopyToTexture(bool transparentbackground) {
     SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, m_width, m_height);
     SDL_SetRenderTarget(g_runstate->renderer, r);
     SDL_SetTextureBlendMode(r, SDL_BLENDMODE_BLEND);    //Textures can have transparency
-    //TODO : maybe a SDL_SetRenderDrawBlendMode is necessary here
+
+    //TODO : Check if this is working and/or necessary
+    SDL_SetRenderDrawBlendMode(g_runstate->renderer, SDL_BLENDMODE_NONE);
 
 
     //Get the palette from the flipnote
@@ -98,7 +100,9 @@ SDL_Texture* FlipnoteLayer::CopyToTexture(int w, int h, bool transparentbackgrou
     SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_XRGB8888, SDL_TEXTUREACCESS_TARGET, w, h);
     SDL_SetRenderTarget(g_runstate->renderer, r);
     SDL_SetTextureBlendMode(r, SDL_BLENDMODE_BLEND);
-    //TODO : maybe a SDL_SetRenderDrawBlendMode is necessary here
+
+    //TODO : Check if this is working and/or necessary
+    SDL_SetRenderDrawBlendMode(g_runstate->renderer, SDL_BLENDMODE_NONE);
     
 
     //Get the palette from the flipnote
