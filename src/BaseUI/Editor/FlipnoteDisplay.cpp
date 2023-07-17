@@ -20,7 +20,9 @@ FlipnoteDisplay::FlipnoteDisplay(FlipnoteEditor* editor) {
     m_mouseoffsetx = 0;
     m_mouseoffsety = 0;
 
-    m_currentframetextures = m_editor->CurrentFrame()->CopyToTextures();
+    m_previousframepreview = NULL;
+    m_showpreviousframepreview = true;
+    RefreshTexture(g_runstate->renderer);
 
     m_toolpreview = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, m_unzoomedwidth, m_unzoomedheight);
     SDL_SetTextureBlendMode(m_toolpreview, SDL_BLENDMODE_BLEND);
@@ -61,18 +63,26 @@ void FlipnoteDisplay::Render() {
         outline = {dest.x - 1, dest.y - 1, dest.w + 2, dest.h + 2};
     }
 
+
     //draw a gray outline
     SDL_SetRenderDrawColor(g_runstate->renderer, 190, 190, 190, 255);
     SDL_RenderFillRect(g_runstate->renderer, &outline);
+
 
     //We want to draw the background color first
     SDL_Color c = m_editor->GetFlipnote()->GetColor(0);
     SDL_SetRenderDrawColor(g_runstate->renderer, c.r, c.g, c.b, 255);   // c.a ?
     SDL_RenderFillRect(g_runstate->renderer, &dest);
 
+
+    //Draw the preview of the previous frame
+    if(m_previousframepreview != NULL && m_showpreviousframepreview) 
+        SDL_RenderTexture(g_runstate->renderer, m_previousframepreview, NULL, &dest);
+
+
+    //Then draw the textures of the layers
     int i_stop = m_currentframetextures.size();
     for(int i = 0; i < i_stop; i++) {
-        //Then draw the textures of the layers
         SDL_RenderTexture(g_runstate->renderer, m_currentframetextures[i], NULL, &dest);
 
         //Draw the tool preview on top of the selected layer
@@ -105,6 +115,10 @@ bool FlipnoteDisplay::IsMouseOnDisplay() {
     && g_runstate->mousey < m_y + (int)((float)m_unzoomedheight*m_scale));
 }
 
+
+bool* FlipnoteDisplay::GetShowPreviousFramePreviewPtr() {
+    return &m_showpreviousframepreview;
+}
 
 
 ////////////////////////
@@ -139,11 +153,25 @@ void FlipnoteDisplay::UpdateMouseInput() {
 //Load the surface of the current page into the gpu
 void FlipnoteDisplay::RefreshTexture(SDL_Renderer* renderer) {
     printf("FlipnoteDisplay::RefreshTexture : updating textures\n");
+
+    //Clear all previous data
     for(SDL_Texture* t : m_currentframetextures) {
         SDL_DestroyTexture(t);
     }
     m_currentframetextures.clear();
+
+    if(m_previousframepreview != NULL) {
+        SDL_DestroyTexture(m_previousframepreview);
+        m_previousframepreview = NULL;
+    }
+
+    //Get the new data
     m_currentframetextures = m_editor->CurrentFrame()->CopyToTextures();
+    int currentframeindex = m_editor->GetCurrentFrame();
+    if(currentframeindex > 0) {
+        m_previousframepreview = m_editor->GetFlipnote()->GetFrame(currentframeindex-1)->CopyToTexture(true);
+        SDL_SetTextureAlphaMod(m_previousframepreview, 100);
+    }
 }
 
 SDL_Texture* FlipnoteDisplay::GetTexture(int layerindex) {

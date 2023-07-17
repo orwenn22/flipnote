@@ -3,9 +3,11 @@
 #include <SDL.h>
 
 #include "../../../Core/FlipnoteRessources.h"
+#include "../../../Reusable/gui/CheckBox.h"
 #include "../../../Reusable/gui/Label.h"
 #include "../../../Reusable/gui/PopupMenu.h"
 #include "../../../Reusable/RunState.h"
+#include "../FlipnoteDisplay.h"
 #include "../FlipnoteEditor.h"
 #include "../FrogMenu/SpeedSetting.h"
 #include "../Menu/MenuAligner.h"
@@ -23,6 +25,8 @@ FrogMenuButton::FrogMenuButton(
 
         pm->AddWidget(new MenuAligner(this, 0, -10));
         pm->AddWidget(new Label("Frog Menu", g_reusableressources->font_ubuntumedium24, 5, 5, WidgetAllign_None));
+        
+        pm->AddWidget(new CheckBox(5, 32, m_editor->GetDisplay()->GetShowPreviousFramePreviewPtr(), "Show previous frame"));
 
         pm->AddWidget(new Label("Animation speed", g_reusableressources->font_ubuntumedium16, 5, 38, WidgetAllign_Bottom));
         pm->AddWidget(new SpeedSetting(m_editor->GetFlipnote(), 5, 5, WidgetAllign_Bottom));

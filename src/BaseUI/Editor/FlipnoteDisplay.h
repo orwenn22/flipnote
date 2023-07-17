@@ -27,22 +27,24 @@ class FlipnoteDisplay {
     //Fully reload the texture of the display (when the user switch frame for exemple)
     void RefreshTexture(SDL_Renderer* renderer);
 
+    //Get a texture of the display.
+    //Used by the editor in order to pass a texture to FlipnotePainter
     SDL_Texture* GetTexture(int layerindex);
 
-
+    //True if the mouse is overring the display
     bool IsMouseOnDisplay();
+
+    //Used to link m_showpreviousframepreview to a checkbox
+    bool* GetShowPreviousFramePreviewPtr();
 
     private:
     //Check all the mouse interactions
     void UpdateMouseInput();
 
-
     //Check the mousewheel's movements and handle them.
     void HandleZoom();
 
-
     void RenderGrid();
-
 
     void RenderToolPreview();
 
@@ -55,6 +57,9 @@ class FlipnoteDisplay {
     std::vector<SDL_Texture*> m_currentframetextures;
 
     SDL_Texture* m_toolpreview;
+
+    SDL_Texture* m_previousframepreview;
+    bool m_showpreviousframepreview;
 
     int m_x;
     int m_y;

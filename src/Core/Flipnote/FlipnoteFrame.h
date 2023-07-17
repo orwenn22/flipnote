@@ -23,10 +23,11 @@ class FlipnoteFrame {
     // Texture related things
 
     //Copy all layers stacked together to a SDL_Texture.
-    //The background is the same color as the one at index 0 of the palette
-    SDL_Texture* CopyToTexture();
+    //The background is the same color as the one at index 0 of the palette if transparent is set to false
+    SDL_Texture* CopyToTexture(bool transparent = false);
 
     //Same as above, but with a width and height for the target texture
+    //There is no transparency, the background will always be the color at index 0 of the palette
     SDL_Texture* CopyToTexture(int w, int h);
 
     //Copy all layers (from bottom to top) to SDL_Textures and returns them in a vector

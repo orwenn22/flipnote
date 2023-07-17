@@ -42,6 +42,7 @@ class FlipnoteEditor {
 
     //Return a pointer to the flipnote being edited
     Flipnote* GetFlipnote();
+    FlipnoteDisplay* GetDisplay();
 
 
     //Get or change the current drawing color (m_currentcolorindex).

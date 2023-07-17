@@ -219,6 +219,9 @@ Flipnote* FlipnoteEditor::GetFlipnote() {
     return m_flipnote;
 }
 
+FlipnoteDisplay* FlipnoteEditor::GetDisplay() {
+    return m_display;
+}
 
 int FlipnoteEditor::GetCurrentColorIndex() {
     return m_currentcolorindex;

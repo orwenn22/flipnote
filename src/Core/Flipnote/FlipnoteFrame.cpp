@@ -54,22 +54,23 @@ FlipnoteFrame::~FlipnoteFrame() {
 }
 
 
-SDL_Texture* FlipnoteFrame::CopyToTexture() {
+SDL_Texture* FlipnoteFrame::CopyToTexture(bool transparent) {
     SDL_Texture* previousrendertarget = SDL_GetRenderTarget(g_runstate->renderer);
 
     //Create the texture
-    SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_XRGB8888, SDL_TEXTUREACCESS_TARGET, m_width, m_height);
+    SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, m_width, m_height);
+    SDL_SetTextureBlendMode(r, SDL_BLENDMODE_BLEND);    //the texture can have transparency
     SDL_SetRenderTarget(g_runstate->renderer, r);
 
     //Clear with blank
-    SDL_SetRenderDrawColor(g_runstate->renderer, 255, 0, 0, 0); //"red" for debugging purpose
+    SDL_SetRenderDrawBlendMode(g_runstate->renderer, SDL_BLENDMODE_NONE);   //Because we are filling with blank
+    SDL_SetRenderDrawColor(g_runstate->renderer, 255, 255, 0, 0);           //"yellow" for debugging purpose
     SDL_RenderClear(g_runstate->renderer);
-
 
     //Draw all layers to the texture, from bottom to top
     int layer_count = m_layers.size();
     for(int i = 0; i < layer_count; i++) {
-        SDL_Texture* layer_texture = m_layers[i]->CopyToTexture(i != 0);    //the bottom layer don't have a transparent background
+        SDL_Texture* layer_texture = m_layers[i]->CopyToTexture(transparent == true || i != 0);    //the bottom layer don't have a transparent background if transparent = false
         SDL_RenderTexture(g_runstate->renderer, layer_texture, NULL, NULL);
         SDL_DestroyTexture(layer_texture);
     }
