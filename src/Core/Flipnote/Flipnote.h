@@ -1,7 +1,7 @@
 #ifndef FLIPNOTE_H
 #define FLIPNOTE_H
 
-#include <bits/types/FILE.h>
+#include <cstdio>
 #include <vector>
 
 class FlipnoteFrame;

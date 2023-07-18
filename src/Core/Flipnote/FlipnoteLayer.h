@@ -1,7 +1,7 @@
 #ifndef FLIPNOTELAYER_H
 #define FLIPNOTELAYER_H
 
-#include <bits/types/FILE.h>
+#include <cstdio>
 
 class FlipnoteFrame;
 
