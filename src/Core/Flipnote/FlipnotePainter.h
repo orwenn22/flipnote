@@ -37,7 +37,7 @@ class FlipnotePainter {
     private:
     //All of these WON'T call PrepareRender
     void InternalSetPixel(int x, int y, int colorindex);
-    void InternalDrawCircle(int x, int y, int r, int colorindex);
+    void InternalDrawCircle(int centerx, int centery, int r, int colorindex);
     void InternalFillCircle(int x, int y, int r, int colorindex);
 
     //Will set the renderer's draw color. Called at the beginning of each public draw function.

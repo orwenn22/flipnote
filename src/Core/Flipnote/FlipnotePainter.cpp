@@ -89,6 +89,7 @@ void FlipnotePainter::DrawLineEx(int x0, int y0, int x1, int y1, int thickness, 
 	
     InternalFillCircle(x, y, thickness, colorindex);
 	for ( i = 0; i < length; i += 1) { 
+        InternalSetPixel(x, y, colorindex);
 		InternalDrawCircle(x, y, thickness, colorindex);
         InternalDrawCircle(x, y, thickness-1, colorindex);  //without this there are pixel that are not being painted
 		x += addx; 
@@ -126,36 +127,85 @@ void FlipnotePainter::InternalSetPixel(int x, int y, int colorindex) {
     }
 }
 
-void FlipnotePainter::InternalDrawCircle(int x, int y, int r, int colorindex) {
+void FlipnotePainter::InternalDrawCircle(int centerx, int centery, int r, int colorindex) {
     if(r<0)return;
 
-    //fun fact : before there wass a mistake here : step = (M_PI*2)/(r*r*M_PI)
-    //which caused the function to be super slow lol
-    
     //float step = (M_PI*2)/(2*r*M_PI);
     float step = 1.0f/r;
-	step /= 4;
+    step /= 2;
 
-
-    //printf("wow\n%f\n", (M_PI/2)/step);
-
-	//for(float i = 0; i < M_PI*2; i+= step) {
     for(float i = 0; i < M_PI/2; i+= step) {
 		float c = cos(i) * (float)r;
 		float s = sin(i) * (float)r;
-
-		InternalSetPixel(x+(int)round(c), y+(int)round(s), colorindex);
-        InternalSetPixel(x-(int)round(c), y+(int)round(s), colorindex);
-        InternalSetPixel(x+(int)round(c), y-(int)round(s), colorindex);
-        InternalSetPixel(x-(int)round(c), y-(int)round(s), colorindex);
+    
+		InternalSetPixel(centerx+(int)round(c), centery+(int)round(s), colorindex);
+        InternalSetPixel(centerx-(int)round(c), centery+(int)round(s), colorindex);
+        InternalSetPixel(centerx+(int)round(c), centery-(int)round(s), colorindex);
+        InternalSetPixel(centerx-(int)round(c), centery-(int)round(s), colorindex);
 	}
+    
+    
+
+    
+    /*
+    //from https://stackoverflow.com/questions/38334081/how-to-draw-circles-arcs-and-vector-graphics-in-sdl
+    const int32_t diameter = (r * 2);
+
+   int32_t x = (r - 1);
+   int32_t y = 0;
+   int32_t tx = 1;
+   int32_t ty = 1;
+   int32_t error = (tx - diameter);
+
+   while (x >= y)
+   {
+      //  Each of the following renders an octant of the circle
+      InternalSetPixel(centerx + x, centery - y, colorindex);
+      InternalSetPixel(centerx + x, centery + y, colorindex);
+      InternalSetPixel(centerx - x, centery - y, colorindex);
+      InternalSetPixel(centerx - x, centery + y, colorindex);
+      InternalSetPixel(centerx + y, centery - x, colorindex);
+      InternalSetPixel(centerx + y, centery + x, colorindex);
+      InternalSetPixel(centerx - y, centery - x, colorindex);
+      InternalSetPixel(centerx - y, centery + x, colorindex);
+
+      if (error <= 0)
+      {
+         ++y;
+         error += ty;
+         ty += 2;
+      }
+
+      if (error > 0)
+      {
+         --x;
+         tx += 2;
+         error += (tx - diameter);
+      }
+   }
+    */
 }
 
-void FlipnotePainter::InternalFillCircle(int x, int y, int r, int colorindex) {
-    InternalSetPixel(x, y, colorindex);
+void FlipnotePainter::InternalFillCircle(int centerx, int centery, int r, int colorindex) {
+    InternalSetPixel(centerx, centery, colorindex);
     for(int current_r = 1; current_r <= r; current_r++) {
-		InternalDrawCircle(x, y, current_r, colorindex);
+		InternalDrawCircle(centerx, centery, current_r, colorindex);
 	}
+
+    //r+=1;
+    //for (int w = 0; w < r+1; w++) {
+    //    for (int h = 0; h < r+1; h++) {
+    //        int dx = r - w; // horizontal offset
+    //        int dy = r - h; // vertical offset
+    //        if ((dx*dx + dy*dy) < (r * r)) {
+    //            //One pixel for each "quarter" of the circle
+    //            InternalSetPixel(centerx + dx, centery + dy, colorindex);
+    //            InternalSetPixel(centerx - dx, centery + dy, colorindex);
+    //            InternalSetPixel(centerx + dx, centery - dy, colorindex);
+    //            InternalSetPixel(centerx - dx, centery - dy, colorindex);
+    //        }
+    //    }
+    //}
 }
 
 
