@@ -154,23 +154,35 @@ void FlipnoteDisplay::UpdateMouseInput() {
 void FlipnoteDisplay::RefreshTexture(SDL_Renderer* renderer) {
     printf("FlipnoteDisplay::RefreshTexture : updating textures\n");
 
-    //Clear all previous data
-    for(SDL_Texture* t : m_currentframetextures) {
-        SDL_DestroyTexture(t);
+    //First time initialisation of the layer textures
+    if(m_currentframetextures.size() == 0) {
+        //printf("FlipnoteDisplay::RefreshTexture : no existing texture for layers, creating new ones\n");
+        m_currentframetextures = m_editor->CurrentFrame()->CopyToTextures();
     }
-    m_currentframetextures.clear();
-
-    if(m_previousframepreview != NULL) {
-        SDL_DestroyTexture(m_previousframepreview);
-        m_previousframepreview = NULL;
+    else {      //Texture already initialised, so we can just write the new data to them instead of creating new ones
+        //printf("FlipnoteDisplay::RefreshTexture : overwritting existing layer textures\n");
+        m_editor->CurrentFrame()->OverwriteTextures(m_currentframetextures);
     }
 
-    //Get the new data
-    m_currentframetextures = m_editor->CurrentFrame()->CopyToTextures();
+
     int currentframeindex = m_editor->GetCurrentFrame();
     if(currentframeindex > 0) {
-        m_previousframepreview = m_editor->GetFlipnote()->GetFrame(currentframeindex-1)->CopyToTexture(true);
-        SDL_SetTextureAlphaMod(m_previousframepreview, 100);
+        if(m_previousframepreview == NULL) {
+            //printf("FlipnoteDisplay::RefreshTexture : m_previousframepreview is NULL, creating a new texture\n");
+            m_previousframepreview = m_editor->GetFlipnote()->GetFrame(currentframeindex-1)->CopyToTexture(true);
+            SDL_SetTextureAlphaMod(m_previousframepreview, 100);
+        }
+        else {
+            //printf("FlipnoteDisplay::RefreshTexture : m_previousframepreview is not NULL, updating the texture\n");
+            m_editor->GetFlipnote()->GetFrame(currentframeindex-1)->OverwriteTexture(m_previousframepreview, true);
+        }
+    }
+    else {
+        if(m_previousframepreview != NULL) {
+            //printf("FlipnoteDisplay::RefreshTexture : current frame is 0, destroying m_previousframepreview\n");
+            SDL_DestroyTexture(m_previousframepreview);
+            m_previousframepreview = NULL;
+        }
     }
 }
 

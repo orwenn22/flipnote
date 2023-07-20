@@ -19,6 +19,10 @@ class FlipnoteLayer {
     SDL_Texture* CopyToTexture(bool transparentbackground);
     SDL_Texture* CopyToTexture(int w, int h, bool transparentbackground);   //w and h are the size of the created texture
 
+    //Will copy the pixel data to the texture
+    //Must be the same size of the frame
+    int OverwriteTexture(SDL_Texture* texture, bool transparentbackground);
+
 
     //Set a pixel in m_pixels.
     void SetPixel(int x, int y, int colorindex);

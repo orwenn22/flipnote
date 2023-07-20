@@ -33,6 +33,17 @@ class FlipnoteFrame {
     //Copy all layers (from bottom to top) to SDL_Textures and returns them in a vector
     //All pixel with color of index 0 are transparent.
     std::vector<SDL_Texture*> CopyToTextures();
+
+
+    //Overwrite the texture with all the layers of the frame stacked together
+    //This won't allocate additional textures.
+    //The texture passed as a parameter must be the correct size
+    int OverwriteTexture(SDL_Texture* texture, bool transparent);
+
+    //Overwrite the textures with the layers of the frame.
+    //This won't allocate additional textures, it will use the existing ones.
+    //They must be the correct size. All terxtures are cleared with treansparency
+    int OverwriteTextures(std::vector<SDL_Texture*>& textures);
     
 
     ///////////////////////////////////

@@ -55,27 +55,17 @@ FlipnoteFrame::~FlipnoteFrame() {
 
 
 SDL_Texture* FlipnoteFrame::CopyToTexture(bool transparent) {
-    SDL_Texture* previousrendertarget = SDL_GetRenderTarget(g_runstate->renderer);
-
     //Create the texture
     SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, m_width, m_height);
     SDL_SetTextureBlendMode(r, SDL_BLENDMODE_BLEND);    //the texture can have transparency
-    SDL_SetRenderTarget(g_runstate->renderer, r);
+    printf("FlipnoteFrame::CopyToTexture : allocated texture\n");
 
-    //Clear with blank
-    SDL_SetRenderDrawBlendMode(g_runstate->renderer, SDL_BLENDMODE_NONE);   //Because we are filling with blank
-    SDL_SetRenderDrawColor(g_runstate->renderer, 255, 255, 0, 0);           //"yellow" for debugging purpose
-    SDL_RenderClear(g_runstate->renderer);
-
-    //Draw all layers to the texture, from bottom to top
-    int layer_count = m_layers.size();
-    for(int i = 0; i < layer_count; i++) {
-        SDL_Texture* layer_texture = m_layers[i]->CopyToTexture(transparent == true || i != 0);    //the bottom layer don't have a transparent background if transparent = false
-        SDL_RenderTexture(g_runstate->renderer, layer_texture, NULL, NULL);
-        SDL_DestroyTexture(layer_texture);
+    //Actually copy pixel data to the texture
+    int return_code = OverwriteTexture(r, transparent);
+    if(return_code != 0) {
+        printf("FlipnoteFrame::CopyToTexture : OverwriteTexture did not return 0\n");
     }
 
-    SDL_SetRenderTarget(g_runstate->renderer, previousrendertarget);
     return r;
 }
 
@@ -124,6 +114,69 @@ std::vector<SDL_Texture*> FlipnoteFrame::CopyToTextures() {
     }
 
     return r;
+}
+
+
+
+int FlipnoteFrame::OverwriteTexture(SDL_Texture* texture, bool transparent) {
+    int w, h;
+    SDL_QueryTexture(texture, NULL, NULL, &w, &h);
+    if(w != m_width || h != m_height) {
+        return 1;   //not correct size
+    }
+
+    SDL_Texture* previousrendertarget = SDL_GetRenderTarget(g_runstate->renderer);
+    SDL_SetRenderTarget(g_runstate->renderer, texture);
+
+    //Clear with blank
+    SDL_SetRenderDrawBlendMode(g_runstate->renderer, SDL_BLENDMODE_NONE);   //Because we are filling with blank
+    SDL_SetRenderDrawColor(g_runstate->renderer, 255, 255, 0, 0);           //"yellow" for debugging purpose
+    SDL_RenderClear(g_runstate->renderer);
+
+    //Get the palette from the flipnote
+    SDL_Color* pal = m_flipnote->GetPalette();
+
+    //Copy pixel data
+    for(int y = 0; y < m_height; y++) {
+        for(int x = 0; x < m_width; x++) {
+            //Get the color index of the highest set pixel
+            unsigned char p = GetPixel(x, y);
+
+            if(p == 0 && transparent == true) continue;
+
+            //Draw the pixel on the texture with the color from the palette
+            SDL_SetRenderDrawColor(g_runstate->renderer, pal[p].r, pal[p].g, pal[p].b, pal[p].a);
+            SDL_RenderPoint(g_runstate->renderer, x, y);
+        }
+    }
+
+    SDL_SetRenderTarget(g_runstate->renderer, previousrendertarget);
+    return 0;
+}
+
+
+int FlipnoteFrame::OverwriteTextures(std::vector<SDL_Texture*>& textures) {
+    int textures_count = textures.size();
+    if(textures_count != m_flipnote->GetLayerCount() || textures_count == 0) {
+        return 1;   //invalid count
+    }
+
+    int w, h;
+    SDL_QueryTexture(textures[0], NULL, NULL, &w, &h);
+    if(w != m_width || h != m_height) {
+        return 2;   //not correct size
+    }
+
+    //itterate from bottom to top
+    int layer_count = m_layers.size();
+    for(int i = 0; i < layer_count; i++) {
+        int return_code = m_layers[i]->OverwriteTexture(textures[i], true);
+        if(return_code != 0) {
+            printf("FlipnoteFrame::OverwriteTextures : OverwriteTexture did not return 0\n");
+        }
+    }
+
+    return 0;   //success
 }
 
 
