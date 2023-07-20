@@ -196,7 +196,10 @@ void FlipnoteEditor::SetCurrentFrame(int index) {
 
     m_page = index;
 
+    auto ms = SDL_GetTicks();
     m_display->RefreshTexture(g_runstate->renderer);
+    auto t = SDL_GetTicks() - ms;
+    printf("time to switch frame : %li ms\n", t);
 }
 
 int FlipnoteEditor::GetCurrentFrame() {
@@ -337,18 +340,24 @@ void FlipnoteEditor::UpdateDraw() {
 void FlipnoteEditor::UpdateAnimation() {
     float animationdelay = m_flipnote->GetAnimationDelay();
 
+    int current_frame = GetCurrentFrame();
+
     m_animationcooldown+=g_deltatime;
     while(m_animationcooldown >= animationdelay) {
         m_animationcooldown -= animationdelay;
         //Go to next frame
         //(Check if we reached the end of the animation, if so loop to the beginning)
         if(m_page+1 >= m_flipnote->FrameCount()) {
-            SetCurrentFrame(0);
+            current_frame = 0;
         }
         else {
-            SetCurrentFrame(m_page+1);
+            current_frame += 1;
         }
         m_animationcooldown = 0;
+    }
+
+    if(current_frame != GetCurrentFrame()) {
+        SetCurrentFrame(current_frame);
     }
 }
 
