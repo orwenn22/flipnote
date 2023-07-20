@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 project(Flipnote)
 
-set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_BUILD_TYPE Debug)
 
 file(COPY ./res DESTINATION ./)
 
