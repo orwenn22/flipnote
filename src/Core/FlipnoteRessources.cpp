@@ -58,4 +58,6 @@ FlipnoteRessources::~FlipnoteRessources() {
     SDL_DestroyTexture(txtr_button_layer_inactive);
     SDL_DestroyTexture(txtr_icon_red_arrow);
     SDL_DestroyTexture(txtr_icon_yellow_arrow);
+
+    printf("FlipnoteRessources::~FlipnoteRessources : unloaded everything\n");
 }

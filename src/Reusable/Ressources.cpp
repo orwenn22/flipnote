@@ -60,4 +60,9 @@ Ressources::~Ressources() {
 
     delete tileset_popupmenu;
     delete rectdata_popupmenu;
+
+    delete col_orange;
+    delete col_white;
+
+    printf("Ressources::~Ressources : unloaded everything\n");
 }
