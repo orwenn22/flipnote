@@ -60,6 +60,14 @@ class FlipnoteFrame {
     unsigned char GetPixel(int x, int y, int layerindex);
 
 
+    //This one is time consuming and should not be used whenever possible.
+    //Instead, the cached texture should be manually updated by what is editing the frame
+    void UpdateCachedTexture();
+
+    //Returns m_cachedtexture
+    SDL_Texture* GetCachedTexture();
+
+
     ///////////////////////////////////
     // Other
 
@@ -77,6 +85,8 @@ class FlipnoteFrame {
 
     //m_layers[0] is the layer at the bottom
     std::vector<FlipnoteLayer*> m_layers;
+
+    SDL_Texture* m_cachedtexture;
 };
 
 

@@ -168,6 +168,12 @@ void Flipnote::SetColor(int index, SDL_Color c) {
     if(index < 0) index = 0;
     if(index > 7) index = 7;
     m_colors[index] = c;
+
+    //FIXME : this is VERY unoptimised.
+    //        it would be better to "dinamicly" update cashed textures when needed
+    for(FlipnoteFrame* f : m_frames) {
+        f->UpdateCachedTexture();
+    }
 }
 
 SDL_Color Flipnote::GetColor(int index) {

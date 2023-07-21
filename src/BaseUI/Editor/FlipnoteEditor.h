@@ -67,6 +67,10 @@ class FlipnoteEditor {
     //It is set to true by m_display->UpdateMouseInput
     bool m_isdrawing;
 
+    //If set to true, it means the cached texture of current frame need to be reloaded.
+    //This will be done when the user finish drawing
+    bool m_needcachedtextureupdate;
+
     //If set to true, the brush will be inversed
     bool m_invertpaint;
 

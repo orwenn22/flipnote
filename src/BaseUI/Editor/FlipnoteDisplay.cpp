@@ -22,6 +22,7 @@ FlipnoteDisplay::FlipnoteDisplay(FlipnoteEditor* editor) {
 
     m_previousframepreview = NULL;
     m_showpreviousframepreview = true;
+    m_needrefresh = false;
     RefreshTexture(g_runstate->renderer);
 
     m_toolpreview = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, m_unzoomedwidth, m_unzoomedheight);
@@ -39,6 +40,10 @@ FlipnoteDisplay::~FlipnoteDisplay() {
 
 
 void FlipnoteDisplay::Update() {
+    if(m_editor->m_animmationplaying == false && m_needrefresh) {
+        RefreshTexture(g_runstate->renderer);
+    }
+    
     //Dragging the canvas
     if(m_followmouse) {
         m_x = g_runstate->mousex - m_mouseoffsetx;
@@ -75,21 +80,19 @@ void FlipnoteDisplay::Render() {
     SDL_RenderFillRect(g_runstate->renderer, &dest);
 
 
-    //Draw the preview of the previous frame
-    if(m_previousframepreview != NULL && m_showpreviousframepreview) 
-        SDL_RenderTexture(g_runstate->renderer, m_previousframepreview, NULL, &dest);
-
-
-    //Then draw the textures of the layers
-    int i_stop = m_currentframetextures.size();
-    for(int i = 0; i < i_stop; i++) {
-        SDL_RenderTexture(g_runstate->renderer, m_currentframetextures[i], NULL, &dest);
-
-        //Draw the tool preview on top of the selected layer
-        if(i == m_editor->m_targetlayer) {
-            RenderToolPreview();
-            //TODO : maybe draw the grid here
+    //If animation is playing...
+    if(m_editor->m_animmationplaying) {
+        //...draw from the cached texture for optimisation
+        SDL_RenderTexture(g_runstate->renderer, m_editor->CurrentFrame()->GetCachedTexture(), NULL, &dest);
+    }
+    else {  //animation not playing (can edit)
+        //Draw the preview of the previous frame
+        if(m_previousframepreview != NULL && m_showpreviousframepreview) {
+            SDL_RenderTexture(g_runstate->renderer, m_previousframepreview, NULL, &dest);
         }
+
+        //Draw the layers
+        RenderLayers(&dest);
     }
 
     if(m_scale >= 5) {
@@ -150,9 +153,15 @@ void FlipnoteDisplay::UpdateMouseInput() {
 
 
 
-//Load the surface of the current page into the gpu
 void FlipnoteDisplay::RefreshTexture(SDL_Renderer* renderer) {
+    if(m_editor->m_animmationplaying) {
+        printf("FlipnoteDisplay::RefreshTexture : delaying reloading because animation is playing\n");
+        m_needrefresh = true;
+        return;
+    }
+    
     printf("FlipnoteDisplay::RefreshTexture : updating textures\n");
+    m_needrefresh = false;
 
     //First time initialisation of the layer textures
     if(m_currentframetextures.size() == 0) {
@@ -190,6 +199,21 @@ SDL_Texture* FlipnoteDisplay::GetTexture(int layerindex) {
     int layercount = m_currentframetextures.size();
     if(layercount == 0 || layerindex < 0 || layerindex >= layercount) return nullptr;
     return m_currentframetextures[layerindex];
+}
+
+void FlipnoteDisplay::OverwriteTexture(SDL_Texture* texture) {
+    SDL_Texture* previousrendertarget = SDL_GetRenderTarget(g_runstate->renderer);
+    SDL_SetRenderTarget(g_runstate->renderer, texture);
+    SDL_SetRenderDrawBlendMode(g_runstate->renderer, SDL_BLENDMODE_NONE);
+    
+    SDL_SetRenderDrawColor(g_runstate->renderer, 255, 0, 0, 0); //"red" for debugging
+    SDL_RenderClear(g_runstate->renderer);
+
+    for(SDL_Texture* t : m_currentframetextures) {
+        SDL_RenderTexture(g_runstate->renderer, t, NULL, NULL);
+    }
+
+    SDL_SetRenderTarget(g_runstate->renderer, previousrendertarget);
 }
 
 
@@ -230,6 +254,20 @@ void FlipnoteDisplay::HandleZoom() {
     }
 }
 
+
+void FlipnoteDisplay::RenderLayers(SDL_FRect* dest) {
+    //Then draw the textures of the layers
+    int i_stop = m_currentframetextures.size();
+    for(int i = 0; i < i_stop; i++) {
+        SDL_RenderTexture(g_runstate->renderer, m_currentframetextures[i], NULL, dest);
+
+        //Draw the tool preview on top of the selected layer
+        if(i == m_editor->m_targetlayer) {
+            RenderToolPreview();
+            //TODO : maybe draw the grid here
+        }
+    }
+}
 
 void FlipnoteDisplay::RenderGrid() {
     //Find the position of the right and the bottom of the display

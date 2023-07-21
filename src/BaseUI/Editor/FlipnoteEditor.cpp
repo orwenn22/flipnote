@@ -84,6 +84,7 @@ FlipnoteEditor::FlipnoteEditor(Flipnote* fn) {
     m_currentcolorindex = 1;
     
     m_isdrawing = false;
+    m_needcachedtextureupdate = false;
     m_invertpaint = false;
     m_previousx = -1;
     m_previousy = -1;
@@ -180,7 +181,11 @@ void FlipnoteEditor::Render() {
     if(m_popupmenu != NULL) m_popupmenu->Render();
     
     //TODO : replace this bu UI buttons
-    RenderText((std::string("current layer : ") + std::to_string(m_targetlayer)).c_str(), 50, 50, g_ressources->font_ubuntumedium24, {0, 255, 0, 255});
+    //RenderText((std::string("current layer : ") + std::to_string(m_targetlayer)).c_str(), 50, 50, g_ressources->font_ubuntumedium24, {0, 255, 0, 255});
+
+    if(g_runstate->IsKeyDown(SDLK_TAB)) {
+        SDL_RenderTexture(g_runstate->renderer, CurrentFrame()->GetCachedTexture(), NULL, NULL);
+    }
 }
 
 
@@ -190,6 +195,8 @@ FlipnoteFrame* FlipnoteEditor::CurrentFrame() {
 
 
 void FlipnoteEditor::SetCurrentFrame(int index) {
+    if(m_isdrawing) return;     //we can't switch frame while drawing (this would cause problems with caching)
+
     int framecount = m_flipnote->FrameCount();
     if(index < 0) index = 0;
     else if(index >= framecount) index = framecount-1;
@@ -292,6 +299,9 @@ bool FlipnoteEditor::IsTimelineOpen() {
 //Private
 
 void FlipnoteEditor::UpdateDraw() {
+    //prevent drawing if animation is playing
+    if(m_animmationplaying) return;
+
     if(m_isdrawing) {
         //Get the pixel being overed by the mouse on the canvas
         int pixelx, pixely;
@@ -314,28 +324,25 @@ void FlipnoteEditor::UpdateDraw() {
         //Save the current mouse position for next frame
         m_previousx = pixelx;
         m_previousy = pixely;
+
+        //We need to reload the cached texture of current frame when the user finish drawing
+        m_needcachedtextureupdate = true;
     }
     else {
         m_previousx = -1;
         m_previousy = -1;
+
+        if(m_needcachedtextureupdate) {
+            printf("FlipnoteEditor::UpdateDraw : updated current frame's cached texture\n");
+            m_needcachedtextureupdate = false;
+            //CurrentFrame()->UpdateCachedTexture();
+            //we use the display to update the cashed texture because layers are already loaded as textures
+            m_display->OverwriteTexture(CurrentFrame()->GetCachedTexture());
+        }
     }
 }
 
 
-/*
-    m_animationcooldown++;
-    if(m_animationcooldown >= m_animationinterval) {
-        m_animationcooldown = 0;
-
-        //Check if we reached the end of the animation
-        if(m_page+1 >= m_flipnote->FrameCount()) {
-            SetCurrentFrame(0);
-        }
-        else {
-            SetCurrentFrame(m_page+1);
-        }
-    }
-*/
 
 void FlipnoteEditor::UpdateAnimation() {
     float animationdelay = m_flipnote->GetAnimationDelay();

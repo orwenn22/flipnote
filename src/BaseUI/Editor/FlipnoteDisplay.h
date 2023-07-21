@@ -4,6 +4,7 @@
 #include <vector>
 
 class FlipnoteEditor;
+struct SDL_FRect;
 struct SDL_Renderer;
 struct SDL_Surface;
 struct SDL_Texture;
@@ -24,12 +25,24 @@ class FlipnoteDisplay {
     //Get the x and y position of the mouse from the canvas's top left
     void GetMousePosRelative(int* x, int* y);
 
+
+    /////////////////////////////
+    //Texture related stuff
+
     //Fully reload the texture of the display (when the user switch frame for exemple)
     void RefreshTexture(SDL_Renderer* renderer);
 
     //Get a texture of the display.
     //Used by the editor in order to pass a texture to FlipnotePainter
     SDL_Texture* GetTexture(int layerindex);
+
+    //This will copy all the layers loaded in the display stacked together to an existing texture.
+    //This is used by FlipnoteEditor to update the cached texture of current frame
+    void OverwriteTexture(SDL_Texture* texture);
+
+
+    ////////////////////////////
+    //Other stuff
 
     //True if the mouse is overring the display
     bool IsMouseOnDisplay();
@@ -43,6 +56,8 @@ class FlipnoteDisplay {
 
     //Check the mousewheel's movements and handle them.
     void HandleZoom();
+
+    void RenderLayers(SDL_FRect* dest);
 
     void RenderGrid();
 
@@ -60,6 +75,10 @@ class FlipnoteDisplay {
 
     SDL_Texture* m_previousframepreview;
     bool m_showpreviousframepreview;
+
+    //Used when the user stop playing the animation to indicate that we need to reload all the layers
+    //not used when animation is not playing animation
+    bool m_needrefresh;
 
     int m_x;
     int m_y;

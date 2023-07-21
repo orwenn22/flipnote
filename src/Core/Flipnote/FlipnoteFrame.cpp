@@ -15,6 +15,7 @@ FlipnoteFrame::FlipnoteFrame(Flipnote* flipnote, int w, int h) {
     m_flipnote = flipnote;
     m_width = w;
     m_height = h;
+    m_cachedtexture = NULL;
 
     if(m_width <= 0 || m_height <= 0) {
         printf("FlipnoteFrame::FlipnoteFrame : invalid size\n");
@@ -25,6 +26,11 @@ FlipnoteFrame::FlipnoteFrame(Flipnote* flipnote, int w, int h) {
     for(int i = 0; i < layer_count; i++) {
         m_layers.push_back(new FlipnoteLayer(this, m_width, m_height));
     }
+
+    m_cachedtexture = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, m_width, m_height);
+    SDL_SetTextureBlendMode(m_cachedtexture, SDL_BLENDMODE_BLEND);
+    UpdateCachedTexture();
+
 }
 
 FlipnoteFrame::FlipnoteFrame(Flipnote* flipnote, int w, int h, FILE* infile) {
@@ -32,6 +38,8 @@ FlipnoteFrame::FlipnoteFrame(Flipnote* flipnote, int w, int h, FILE* infile) {
     
     m_width = w;
     m_height = h;
+
+    m_cachedtexture = NULL;
 
     if(m_width <= 0 || m_height <= 0) {
         printf("FlipnoteFrame::FlipnoteFrame : invalid size\n");
@@ -43,6 +51,10 @@ FlipnoteFrame::FlipnoteFrame(Flipnote* flipnote, int w, int h, FILE* infile) {
     for(int i = 0; i < layer_count; i++) {
         m_layers.push_back(new FlipnoteLayer(this, m_width, m_height, infile));
     }
+
+    m_cachedtexture = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, m_width, m_height);
+    SDL_SetTextureBlendMode(m_cachedtexture, SDL_BLENDMODE_BLEND);
+    UpdateCachedTexture();
 }
 
 
@@ -51,6 +63,11 @@ FlipnoteFrame::~FlipnoteFrame() {
         delete l;
     }
     m_layers.clear();
+
+    if(m_cachedtexture != NULL) {
+        SDL_DestroyTexture(m_cachedtexture);
+        m_cachedtexture = NULL;
+    }
 }
 
 
@@ -207,6 +224,15 @@ unsigned char FlipnoteFrame::GetPixel(int x, int y) {
     return 0;
 }
 
+
+void FlipnoteFrame::UpdateCachedTexture() {
+    OverwriteTexture(m_cachedtexture, true);
+    printf("FlipnoteFrame::UpdateCachedTexture : done\n");
+}
+
+SDL_Texture* FlipnoteFrame::GetCachedTexture() {
+    return m_cachedtexture;
+}
 
 void FlipnoteFrame::Save(FILE* file) {
     //Save layers from bottom to top
