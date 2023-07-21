@@ -168,6 +168,7 @@ unsigned char FlipnoteLayer::GetPixel(int x, int y) {
     return m_pixels[x+y*m_width];
 }
 
+
 void FlipnoteLayer::Save(FILE* file) {
     int istop = m_width*m_height;
     for(int i = 0; i < istop; i++) {

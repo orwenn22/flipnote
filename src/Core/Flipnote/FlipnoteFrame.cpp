@@ -136,18 +136,26 @@ int FlipnoteFrame::OverwriteTexture(SDL_Texture* texture, bool transparent) {
     //Get the palette from the flipnote
     SDL_Color* pal = m_flipnote->GetPalette();
 
-    //Copy pixel data
-    for(int y = 0; y < m_height; y++) {
-        for(int x = 0; x < m_width; x++) {
-            //Get the color index of the highest set pixel
-            unsigned char p = GetPixel(x, y);
+    ////Copy pixel data
+    //for(int y = 0; y < m_height; y++) {
+    //    for(int x = 0; x < m_width; x++) {
+    //        //Get the color index of the highest set pixel
+    //        unsigned char p = GetPixel(x, y);
+    //
+    //        if(p == 0 && transparent == true) continue;
+    //
+    //        //Draw the pixel on the texture with the color from the palette
+    //        SDL_SetRenderDrawColor(g_runstate->renderer, pal[p].r, pal[p].g, pal[p].b, pal[p].a);
+    //        SDL_RenderPoint(g_runstate->renderer, x, y);
+    //    }
+    //}
 
-            if(p == 0 && transparent == true) continue;
-
-            //Draw the pixel on the texture with the color from the palette
-            SDL_SetRenderDrawColor(g_runstate->renderer, pal[p].r, pal[p].g, pal[p].b, pal[p].a);
-            SDL_RenderPoint(g_runstate->renderer, x, y);
-        }
+    //Draw all layers to the texture, from bottom to top
+    int layer_count = m_layers.size();
+    for(int i = 0; i < layer_count; i++) {
+        SDL_Texture* layer_texture = m_layers[i]->CopyToTexture(transparent == true || i != 0);    //the bottom layer don't have a transparent background if transparent = false
+        SDL_RenderTexture(g_runstate->renderer, layer_texture, NULL, NULL);
+        SDL_DestroyTexture(layer_texture);
     }
 
     SDL_SetRenderTarget(g_runstate->renderer, previousrendertarget);
@@ -193,7 +201,7 @@ unsigned char FlipnoteFrame::GetPixel(int x, int y) {
 
     //itterate from top to bottom
     for(int i = m_layers.size()-1; i >= 0; i--) {
-        int p = m_layers[i]->GetPixel(x, y);
+        int p = m_layers[i]->GetPixel(x, y);     //No need for check becasue we already do it above
         if(p != 0) return p;    //non-blank pixel
     }
     return 0;
