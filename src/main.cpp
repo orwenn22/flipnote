@@ -31,13 +31,20 @@ int main(int argc, const char* argv[]) {
     IMG_Init(IMG_INIT_PNG);
     TTF_Init();
 
-    SDL_Window *window = SDL_CreateWindow("Flipnote", 1280, 720, SDL_WINDOW_BORDERLESS | SDL_WINDOW_RESIZABLE);
+    Uint32 win_flags = SDL_WINDOW_RESIZABLE;
+#ifndef WIN32
+    win_flags |= SDL_WINDOW_BORDERLESS;
+#endif
+    SDL_Window *window = SDL_CreateWindow("Flipnote", 1280, 720, win_flags);
     if(!window) {
         std::cout << "win creation failed\n";
         return -1;
     }
     if(SDL_SetWindowMinimumSize(window, 256, 256) < 0) return -1;
+
+#ifndef WIN32
     if(SDL_SetWindowHitTest(window, BorderlessHitTest, 0) != 0) return -1;
+#endif
 
     SDL_Renderer* renderer = SDL_CreateRenderer(window, NULL, SDL_RENDERER_ACCELERATED);
     if(!renderer) {
@@ -97,7 +104,7 @@ int main(int argc, const char* argv[]) {
         //EndTimingFrame();       //for uncapped framerate
         EndTimingFrameCappedFramerate(120);
 
-        
+
         //const float secperframe = (1.0/120.0);  //time in second between each frame to get 120 fps
         //printf("main : time waited : %fs  |  target : %fs\n", g_deltatime, secperframe);
     }
