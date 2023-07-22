@@ -1,25 +1,16 @@
 #ifndef MAINMENUSTATE_H
 #define MAINMENUSTATE_H
 
-#include "../../Reusable/State/State.h"
+#include "../../Reusable/State/SimpleState.h"
 
 class Background;
 class TopBar;
 class WinWidgetContainer;
 
-class MainMenuState : public State {
+class MainMenuState : public SimpleState {
     public:
     MainMenuState();
-    ~MainMenuState();
-
-    void Update();
-    void Render();
-
-    private:
-    Background* m_background;
-    TopBar* m_topbar;
-
-    WinWidgetContainer* m_widgets;
+    virtual ~MainMenuState();
 };
 
 #endif

@@ -1,11 +1,13 @@
 #ifndef BACKGROUND_H
 #define BACKGROUND_H
 
+#include "../GraphicalObject.h"
+
 struct SDL_Renderer;
 struct SDL_Texture;
 
 //This provides a simple way to add a tiled background.
-class Background {
+class Background : public GraphicalObject {
     public:
     Background(SDL_Texture* tiletexture);
     ~Background();

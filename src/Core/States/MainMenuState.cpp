@@ -11,30 +11,19 @@
 #include <SDL.h>
 
 
-MainMenuState::MainMenuState() : State() {
-    m_background = new Background(g_ressources->txtr_bgtile);
-    m_topbar = new TopBar("Flipnote", *g_ressources->col_orange, *g_ressources->col_white);
-    m_widgets = new WinWidgetContainer();
+MainMenuState::MainMenuState() : SimpleState() {
+    auto background = new Background(g_ressources->txtr_bgtile);
+    auto widgets = new WinWidgetContainer();
+    auto topbar = new TopBar("Flipnote", *g_ressources->col_orange, *g_ressources->col_white);
 
-    m_widgets->AddWidget(new Label("Create new", g_reusableressources->font_ubuntumedium16, 0, -10, WidgetAllign_Center,[&](){ m_manager->SetState(new EditorState()); }));
-    m_widgets->AddWidget(new Label("load", g_reusableressources->font_ubuntumedium16, 0, 10, WidgetAllign_Center,[&](){ printf("TODO\n"); }));
+    widgets->AddWidget(new Label("Create new", g_reusableressources->font_ubuntumedium16, 0, -10, WidgetAllign_Center,[&](){ m_manager->SetState(new EditorState()); }));
+    widgets->AddWidget(new Label("load", g_reusableressources->font_ubuntumedium16, 0, 10, WidgetAllign_Center,[&](){ printf("TODO\n"); }));
+
+    AddComponant(background);
+    AddComponant(widgets);
+    AddComponant(topbar);
 }
 
 MainMenuState::~MainMenuState() {
-    delete m_widgets;
-    delete m_background;
-    delete m_topbar;
-}
 
-
-void MainMenuState::Update() {
-    m_topbar->Update();
-    m_widgets->Update();
-    m_background->Update();
-}
-
-void MainMenuState::Render() {
-    m_background->Render();
-    m_widgets->Render();
-    m_topbar->Render();
 }

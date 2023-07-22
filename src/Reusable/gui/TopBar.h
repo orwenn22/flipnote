@@ -1,13 +1,15 @@
 #ifndef TOPBAR_H
 #define TOPBAR_H
 
+#include "../GraphicalObject.h"
+
 #include <string>
 
 struct SDL_Color;
 struct SDL_Renderer;
 struct SDL_Texture;
 
-class TopBar {
+class TopBar : public GraphicalObject {
     public:
     TopBar(std::string text, SDL_Color bg, SDL_Color fg);
     ~TopBar();

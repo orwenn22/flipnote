@@ -1,6 +1,8 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
+#include "../GraphicalObject.h"
+
 class WidgetContainer;
 
 
@@ -17,7 +19,7 @@ enum WidgetAllign {
     WidgetAllign_BottomLeft = WidgetAllign_Left | WidgetAllign_Bottom,
 };
 
-class Widget {
+class Widget : public GraphicalObject {
     public:
     Widget(
         int x, int y, int w = 0, int h = 0,
@@ -25,8 +27,9 @@ class Widget {
     );
     virtual ~Widget();
 
-    virtual void Update()=0;
-    virtual void Render()=0;
+    //TODO : Already declared in GraphicalObject.h, might be a problem ?
+    virtual void Update() = 0;
+    virtual void Render() = 0;
 
     bool IsOvered();
 

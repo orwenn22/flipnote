@@ -66,6 +66,7 @@ add_executable(Flipnote
     src/Reusable/gui/WinWidgetContainer.cpp
     src/Reusable/Ressources.cpp 
     src/Reusable/RunState.cpp 
+    src/Reusable/State/SimpleState.cpp 
     src/Reusable/State/State.cpp 
     src/Reusable/State/StateManager.cpp 
     src/Reusable/Tileset.cpp
