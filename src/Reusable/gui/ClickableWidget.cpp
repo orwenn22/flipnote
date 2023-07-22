@@ -28,7 +28,7 @@ void ClickableWidget::Update() {
     if(g_runstate->mouseused) return;
 
     //This is for when the popupmenu is not fully deployed (the animation is not over)
-    if(!m_container->IsMouseOvering()) return;
+    if(m_container != nullptr && !m_container->IsMouseOvering()) return;
 
     if(IsOvered()) {
         g_runstate->mouseused = true;
