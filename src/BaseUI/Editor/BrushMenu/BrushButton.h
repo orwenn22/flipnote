@@ -19,7 +19,7 @@ class BrushButton : public ClickableWidget {
 
     void InitTexture();
 
-    int m_displayedbrushinverted;
+    bool m_displayedbrushinverted;
     int m_brushindex;
     FlipnoteEditor* m_editor;
     SDL_Texture* m_brushtexture;
