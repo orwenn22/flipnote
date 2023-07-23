@@ -2,7 +2,12 @@
 
 #include <math.h>
 #include <SDL_ttf.h>
+
+#ifdef WIN32
+#include <windows.h>
+#else
 #include <unistd.h>
+#endif
 
 #include "../Reusable/RunState.h"
 
@@ -83,8 +88,17 @@ BorderlessHitTest(SDL_Window *win, const SDL_Point *area, void *data) {
 
 std::string GetCWD() {
 	char buf[1024];
+#ifdef WIN32
+    //https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getcurrentdirectory
+    if(GetCurrentDirectoryA(1024, buf) > 0) {
+        return std::string(buf);
+    }
+
+#else
 	if(getcwd(buf, 1024) != NULL) {
 		return std::string(buf);
 	}
-	else return "getcwd error";
+#endif
+
+    else return "GetCWD error";
 }
