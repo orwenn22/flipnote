@@ -1,5 +1,7 @@
 #include "StateManager.h"
 
+#include <stdio.h>
+
 #include "State.h"
 
 StateManager::StateManager(State* state) {
@@ -22,7 +24,9 @@ void StateManager::Update() {
         m_state->Update();
     
     //switch to the new state (if there is one) only once m_state->Update is done
+    //FIXME (?) : do this before updating ?
     if(m_futurestate != nullptr) {
+        printf("StateManager::Update : switching state\n");
         delete m_state;
         m_state = m_futurestate;
         m_state->SetManager(this);
@@ -42,6 +46,12 @@ void StateManager::SetState(State* state) {
     state->SetManager(this);
 
     //This system is used to make sure current state finish its Update before switching to the new state
-    if(m_state == nullptr) m_state = state;
-    else m_futurestate = state;
+    if(m_state == nullptr) {
+        printf("StateManager::SetState : setting state\n");
+        m_state = state;
+    }
+    else {
+        printf("StateManager::SetState : switching state when returning to StateManager::Update\n");
+        m_futurestate = state;
+    }
 }
