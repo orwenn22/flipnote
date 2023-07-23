@@ -1,6 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <string>
 #include <SDL.h>
 
 struct _TTF_Font;
@@ -16,5 +17,7 @@ SDL_Texture* MakeTextTexture(const char* str, _TTF_Font* font, SDL_Color fg);   
 
 //Hittest that can be used with topbar
 SDL_HitTestResult SDLCALL BorderlessHitTest(SDL_Window *win, const SDL_Point *area, void *data);
+
+std::string GetCWD();
 
 #endif

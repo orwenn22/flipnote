@@ -5,13 +5,14 @@
 
 #include <string>
 
+struct SDL_Color;
 struct SDL_Texture;
 struct _TTF_Font;
 
 class Label : public ClickableWidget {
     public:
     Label(
-        std::string text, _TTF_Font* font,
+        std::string text, _TTF_Font* font, SDL_Color color,
         int x, int y, WidgetAllign allignment, 
         ClickabbleWidgetCallback callback = [](){}
     );

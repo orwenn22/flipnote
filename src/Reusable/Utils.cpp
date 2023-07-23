@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include <SDL_ttf.h>
+#include <unistd.h>
 
 #include "../Reusable/RunState.h"
 
@@ -77,4 +78,13 @@ BorderlessHitTest(SDL_Window *win, const SDL_Point *area, void *data) {
         return SDL_HITTEST_DRAGGABLE;
     }
     return SDL_HITTEST_NORMAL;
+}
+
+
+std::string GetCWD() {
+	char buf[1024];
+	if(getcwd(buf, 1024) != NULL) {
+		return std::string(buf);
+	}
+	else return "getcwd error";
 }

@@ -48,6 +48,7 @@ add_executable(Flipnote
     src/Core/Flipnote/FlipnoteLayer.cpp
     src/Core/Flipnote/FlipnotePainter.cpp
     src/Core/States/EditorState.cpp
+    src/Core/States/GalleryState.cpp
     src/Core/States/MainMenuState.cpp
     
     src/Reusable/DebugOverlay.cpp

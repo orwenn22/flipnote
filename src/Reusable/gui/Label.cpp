@@ -8,11 +8,11 @@
 #include "../Utils.h"
 
 Label::Label(
-    std::string text, _TTF_Font* font,
+    std::string text, _TTF_Font* font, SDL_Color color,
     int x, int y, WidgetAllign allignment, 
     ClickabbleWidgetCallback callback
 ) : ClickableWidget(x, y, 0, 0, allignment) {
-    m_texture = MakeTextTexture(text.c_str(), font, *g_reusableressources->col_orange);
+    m_texture = MakeTextTexture(text.c_str(), font, color);
 
     SDL_QueryTexture(m_texture, NULL, NULL, &m_w, &m_h);
     m_callback = callback;

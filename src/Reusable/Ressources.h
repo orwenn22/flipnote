@@ -26,6 +26,7 @@ struct Ressources {
     TilesetRectData* rectdata_popupmenu;    //for Tileset->DrawRectangle
 
     SDL_Color* col_orange;
+    SDL_Color* col_green;
     SDL_Color* col_white;
 
     Ressources(SDL_Renderer* renderer);

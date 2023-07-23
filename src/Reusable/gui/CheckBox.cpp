@@ -18,7 +18,7 @@ CheckBox::CheckBox(int x, int y, bool* target, std::string label, WidgetAllign a
         }
     };
 
-    if(!label.empty()) m_label = new Label(label, g_reusableressources->font_ubuntumedium16, x+20, y, allignment, m_callback);
+    if(!label.empty()) m_label = new Label(label, g_reusableressources->font_ubuntumedium16, *g_reusableressources->col_orange, x+20, y, allignment, m_callback);
     else m_label = nullptr;
 }
 

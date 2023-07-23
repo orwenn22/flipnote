@@ -7,6 +7,7 @@
 #include "../../Reusable/State/StateManager.h"
 #include "../FlipnoteRessources.h"
 #include "EditorState.h"
+#include "GalleryState.h"
 
 #include <SDL.h>
 
@@ -16,8 +17,8 @@ MainMenuState::MainMenuState() : SimpleState() {
     auto widgets = new WinWidgetContainer();
     auto topbar = new TopBar("Flipnote", *g_ressources->col_orange, *g_ressources->col_white);
 
-    widgets->AddWidget(new Label("Create new", g_reusableressources->font_ubuntumedium16, 0, -10, WidgetAllign_Center,[&](){ m_manager->SetState(new EditorState()); }));
-    widgets->AddWidget(new Label("load", g_reusableressources->font_ubuntumedium16, 0, 10, WidgetAllign_Center,[&](){ printf("TODO\n"); }));
+    widgets->AddWidget(new Label("Create new", g_reusableressources->font_ubuntumedium16, *g_reusableressources->col_orange, 0, -10, WidgetAllign_Center,[&](){ m_manager->SetState(new EditorState()); }));
+    widgets->AddWidget(new Label("load", g_reusableressources->font_ubuntumedium16, *g_reusableressources->col_orange, 0, 10, WidgetAllign_Center,[&](){ m_manager->SetState(new GalleryState()); }));
 
     AddComponant(background);
     AddComponant(widgets);
