@@ -25,6 +25,7 @@ link_directories(
 
 add_executable(Flipnote 
     src/main.cpp 
+    
     src/BaseUI/DSThumbnail.cpp
     src/BaseUI/Editor/BrushMenu/BrushButton.cpp
     src/BaseUI/Editor/BrushMenu/BrushSizeButton.cpp
@@ -41,6 +42,7 @@ add_executable(Flipnote
     src/BaseUI/Editor/FlipnoteTimeline.cpp
     src/BaseUI/Editor/Menu/MenuAligner.cpp
     src/BaseUI/Editor/PenMenu/ColorButton.cpp
+    src/BaseUI/Gallery/FlipnoteGallery.cpp
     
     src/Core/FlipnoteRessources.cpp 
     src/Core/Flipnote/Flipnote.cpp

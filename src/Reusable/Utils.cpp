@@ -100,5 +100,5 @@ std::string GetCWD() {
 	}
 #endif
 
-    else return "GetCWD error";
+    else return std::string();
 }
