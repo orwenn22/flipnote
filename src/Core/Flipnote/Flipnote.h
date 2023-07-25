@@ -2,6 +2,7 @@
 #define FLIPNOTE_H
 
 #include <cstdio>
+#include <string>
 #include <vector>
 
 class FlipnoteFrame;
@@ -94,5 +95,8 @@ class Flipnote {
 
     SDL_Color* m_colors;    //array of 8 elements  TODO : don't limit to 8 colors
 };
+
+//Check if the file have the .fnt extension and if the Fnt signature is present at the beginning
+bool CheckFlipnoteFile(std::string path);
 
 #endif

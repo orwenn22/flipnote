@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string>
 
+#include "../../Reusable/Utils.h"
 #include "FlipnoteFrame.h"
 
 
@@ -341,4 +342,21 @@ Flipnote::Flipnote(int framewidth, int frameheight, FILE* infile) {
     for(unsigned int i =  0; i < framecount; i++) {
         m_frames.push_back(new FlipnoteFrame(this, framewidth, frameheight, infile));
     }
+}
+
+
+bool CheckFlipnoteFile(std::string path) {
+	if(path.size() <= 4) return false;
+	if(path.substr(path.size()-4) != ".fnt") return false;
+	
+	FILE* infile = fopen(path.c_str(), "r");
+	if(infile == NULL) return false;
+
+	char buf[4] = { 0 };
+	freadbytes(buf, 4, infile);
+	fclose(infile);
+
+	if(std::string(buf) != "Fnt") return false;
+
+	return true;	
 }

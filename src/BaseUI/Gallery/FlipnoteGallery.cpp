@@ -2,6 +2,7 @@
 
 #include <filesystem>
 
+#include "../../Core/Flipnote/Flipnote.h"
 #include "../../Reusable/gui/WinWidgetContainer.h"
 
 FlipnoteGallery::FlipnoteGallery(std::string directory, State* parrentstate) {
@@ -36,9 +37,9 @@ void FlipnoteGallery::ReloadFiles() {
 
     printf("FlipnoteGallery::ReloadFiles : listing files :\n");
     for(auto entry : std::filesystem::directory_iterator(m_cwd)) {
-        auto filename = entry.path().string();
+        std::string filename = entry.path().string();
         //TODO : check if the file content is valid
-        if(filename.size() > 4 && filename.substr(filename.size()-4) == ".fnt") {
+        if(CheckFlipnoteFile(filename)) {
             printf("                             | %s\n", filename.c_str());
             m_filenames.push_back(filename);
         }

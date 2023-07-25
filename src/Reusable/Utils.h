@@ -20,4 +20,7 @@ SDL_HitTestResult SDLCALL BorderlessHitTest(SDL_Window *win, const SDL_Point *ar
 
 std::string GetCWD();
 
+//Will put a NULL at the last byte of buf
+void freadbytes(char* buf, size_t byteccount, FILE* infine);
+
 #endif

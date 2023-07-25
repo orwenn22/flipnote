@@ -102,3 +102,12 @@ std::string GetCWD() {
 
     else return std::string();
 }
+
+//Will put a NULL at the last byte of buf
+void freadbytes(char* buf, size_t byteccount, FILE* infine) {
+	size_t i;
+	for(i = 0; i < byteccount-1; i++) {
+		buf[i] = getc(infine);
+	}
+	buf[i] = 0;
+}
