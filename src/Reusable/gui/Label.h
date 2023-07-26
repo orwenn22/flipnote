@@ -20,8 +20,14 @@ class Label : public ClickableWidget {
 
     void Render() override;
 
+    void SetText(std::string text);
+
     private:
+
     SDL_Texture* m_texture;
+
+    _TTF_Font* m_font;
+    SDL_Color* m_color;
 };
 
 #endif
