@@ -23,4 +23,6 @@ std::string GetCWD();
 //Will put a NULL at the last byte of buf
 void freadbytes(char* buf, size_t byteccount, FILE* infine);
 
+std::string RemovePath(std::string& s);
+
 #endif

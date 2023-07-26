@@ -33,6 +33,7 @@ target_sources( Flipnote PRIVATE
     src/BaseUI/Editor/Menu/MenuAligner.cpp
     src/BaseUI/Editor/PenMenu/ColorButton.cpp
     src/BaseUI/Gallery/FlipnoteGallery.cpp
+    src/BaseUI/Gallery/GalleryEntry.cpp
     
     src/Core/FlipnoteRessources.cpp 
     src/Core/Flipnote/Flipnote.cpp

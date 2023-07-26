@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+class Label;
 class State;
 class WinWidgetContainer;
 
@@ -19,7 +20,13 @@ class FlipnoteGallery : public GraphicalObject {
 
     void ReloadFiles();
 
+    int GetFileCount();
+    std::string GetFileName(int index);
     int GetPageCount();
+    int GetCurrentPage();
+    void SetCurrentPage(int index);
+
+    int ElementPerPage();
 
     private:
     std::string m_cwd;
@@ -28,7 +35,12 @@ class FlipnoteGallery : public GraphicalObject {
 
     std::vector<std::string> m_filenames;
 
+    //Unloaded by m_widgets
+    Label* m_pageinfo;
+
+
     int m_currentpageindex;
+    int m_elementperpage;
 };
 
 #endif

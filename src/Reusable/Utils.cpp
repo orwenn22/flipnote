@@ -111,3 +111,16 @@ void freadbytes(char* buf, size_t byteccount, FILE* infine) {
 	}
 	buf[i] = 0;
 }
+
+
+std::string RemovePath(std::string& s) {
+#ifdef WIN32
+	int slash_pos = s.find_last_of('\\');
+#else
+	int slash_pos = s.find_last_of('/');
+#endif
+
+	if(slash_pos == std::string::npos) return s;
+	
+	return s.substr(slash_pos+1);
+}
