@@ -1,7 +1,7 @@
 #include "Label.h"
 
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_ttf.h>
 
 #include "../Ressources.h"
 #include "../RunState.h"

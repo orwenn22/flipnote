@@ -6,7 +6,7 @@
 #include "../Flipnote/Flipnote.h"
 #include "../FlipnoteRessources.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 
 EditorState::EditorState(Flipnote* flipnote) : State() {

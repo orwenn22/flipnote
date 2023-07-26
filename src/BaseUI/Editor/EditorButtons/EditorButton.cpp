@@ -2,7 +2,7 @@
 
 #include "../../../Reusable/RunState.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 EditorButton::EditorButton(
     FlipnoteEditor* editor, 

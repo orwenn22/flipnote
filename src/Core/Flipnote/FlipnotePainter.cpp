@@ -2,7 +2,7 @@
 
 #define _USE_MATH_DEFINES
 #include <cmath>
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "../../Reusable/RunState.h"
 #include "FlipnoteFrame.h"

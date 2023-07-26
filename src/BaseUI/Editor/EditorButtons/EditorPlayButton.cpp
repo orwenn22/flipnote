@@ -5,7 +5,7 @@
 #include "../../../Reusable/RunState.h"
 #include "../FlipnoteEditor.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 EditorPlayButton::EditorPlayButton(
     FlipnoteEditor* editor,

@@ -1,6 +1,6 @@
 #include "GalleryState.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "../../BaseUI/Gallery/FlipnoteGallery.h"
 #include "../../Reusable/gui/Background.h"

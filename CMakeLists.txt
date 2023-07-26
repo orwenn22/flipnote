@@ -6,24 +6,14 @@ project(Flipnote)
 
 file(COPY ./res DESTINATION ./)
 
+# Add directories of libraries
 add_subdirectory(./SDL)
 add_subdirectory(./SDL_ttf)
 add_subdirectory(./SDL_image)
 
-include_directories(
-    ./SDL/include/SDL3
-    ./SDL/include
-    ./SDL_ttf/include/SDL3
-    ./SDL_image/include/SDL3
-)
+add_executable(Flipnote)
 
-link_directories(
-    ./build/SDL
-    ./build/SDL_ttf
-    ./build/SDL_image
-)
-
-add_executable(Flipnote 
+target_sources( Flipnote PRIVATE
     src/main.cpp 
     
     src/BaseUI/DSThumbnail.cpp
@@ -75,6 +65,7 @@ add_executable(Flipnote
     src/Reusable/Tileset.cpp
     src/Reusable/Utils.cpp
 )
-    
 
-target_link_libraries(Flipnote SDL3 SDL3_ttf SDL3_image)
+# SDL3::SDL3, SDL3_ttf::SDL3_ttf, SDL3_image::SDL3_image are defined in their respective CMakeList
+# registered by the add_library calls previously
+target_link_libraries(Flipnote SDL3::SDL3 SDL3_ttf::SDL3_ttf SDL3_image::SDL3_image)

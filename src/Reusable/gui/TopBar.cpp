@@ -1,7 +1,7 @@
 #include "TopBar.h"
 
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_ttf.h>
 
 #include "../DeltaTime.h"
 #include "../Ressources.h"

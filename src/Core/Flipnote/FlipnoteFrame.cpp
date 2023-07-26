@@ -1,7 +1,7 @@
 #include "FlipnoteFrame.h"
 
 #include <math.h>
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
 

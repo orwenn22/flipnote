@@ -1,7 +1,7 @@
 #include "Utils.h"
 
 #include <math.h>
-#include <SDL_ttf.h>
+#include <SDL3/SDL_ttf.h>
 
 #ifdef WIN32
 #include <windows.h>

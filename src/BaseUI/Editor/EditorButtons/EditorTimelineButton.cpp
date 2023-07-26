@@ -5,7 +5,7 @@
 #include "../../../Reusable/Tileset.h"
 #include "../FlipnoteEditor.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 EditorTimelineButton::EditorTimelineButton(
     FlipnoteEditor* editor,

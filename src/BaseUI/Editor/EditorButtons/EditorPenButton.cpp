@@ -1,6 +1,6 @@
 #include "EditorPenButton.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "../../../Core/Flipnote/Flipnote.h"
 #include "../../../Core/FlipnoteRessources.h"

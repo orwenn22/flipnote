@@ -1,6 +1,6 @@
 #include "DSThumbnail.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <stdio.h>
 
 SDL_Color thumbnailcolors[16] = {

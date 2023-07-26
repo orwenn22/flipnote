@@ -1,6 +1,6 @@
 #include "DeltaTime.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <stdio.h>
 
 float g_deltatime = 0;

@@ -21,7 +21,7 @@
 #include "FlipnoteDisplay.h"
 #include "FlipnoteTimeline.h"
 
-#include <SDL.h>    //FIXME : this is only included for SDL_abs
+#include <SDL3/SDL.h>    //FIXME : this is only included for SDL_abs
 #include <string>
 
 //#include "../../Reusable/gui/ChildContainer.h"

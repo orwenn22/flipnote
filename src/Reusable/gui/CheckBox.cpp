@@ -1,6 +1,6 @@
 #include "CheckBox.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "../Ressources.h"
 #include "../RunState.h"

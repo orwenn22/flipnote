@@ -1,6 +1,6 @@
 #include "Tileset.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 Tileset::Tileset(SDL_Texture* texture, int tilewidth, int tileheight) {
     m_texture = texture;

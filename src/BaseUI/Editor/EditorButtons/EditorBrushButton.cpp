@@ -1,6 +1,6 @@
 #include "EditorBrushButton.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "../../../Core/Flipnote/FlipnotePainter.h"
 #include "../../../Core/FlipnoteRessources.h"

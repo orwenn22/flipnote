@@ -1,7 +1,7 @@
 #include "RunState.h"
 
-#include <SDL.h>
-#include <SDL_keycode.h>
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_keycode.h>
 
 RunState* g_runstate = nullptr;
 

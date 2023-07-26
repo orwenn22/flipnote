@@ -1,7 +1,7 @@
 #include "FlipnoteRessources.h"
 
-#include <SDL_ttf.h>
-#include <SDL_image.h>
+#include <SDL3/SDL_ttf.h>
+#include <SDL3/SDL_image.h>
 
 #include <stdio.h>
 

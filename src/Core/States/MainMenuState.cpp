@@ -9,7 +9,7 @@
 #include "EditorState.h"
 #include "GalleryState.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 
 MainMenuState::MainMenuState() : SimpleState() {
