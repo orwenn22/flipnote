@@ -67,6 +67,9 @@ target_sources( Flipnote PRIVATE
     src/Reusable/Utils.cpp
 )
 
+set_property(TARGET Flipnote PROPERTY CXX_STANDARD 17)
+
+
 # SDL3::SDL3, SDL3_ttf::SDL3_ttf, SDL3_image::SDL3_image are defined in their respective CMakeList
 # registered by the add_library calls previously
 target_link_libraries(Flipnote SDL3::SDL3 SDL3_ttf::SDL3_ttf SDL3_image::SDL3_image)
