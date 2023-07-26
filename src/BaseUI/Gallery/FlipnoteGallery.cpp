@@ -17,6 +17,11 @@ FlipnoteGallery::FlipnoteGallery(std::string directory, State* parrentstate) {
     m_currentpageindex = 0;
     m_elementperpage = 6;
 
+
+    ///////////////////////////////
+    // Entry widgets
+
+    //FIXME : 6 entry per page hardcoded
     m_widgets->AddWidget(new GalleryEntry(this, 0, -130, -84, WidgetAllign_Center));
     m_widgets->AddWidget(new GalleryEntry(this, 1,  130, -84, WidgetAllign_Center));
     m_widgets->AddWidget(new GalleryEntry(this, 2, -130,   0, WidgetAllign_Center));
@@ -26,6 +31,9 @@ FlipnoteGallery::FlipnoteGallery(std::string directory, State* parrentstate) {
 
     m_pageinfo = new Label("Page count : " + std::to_string(GetPageCount()), g_ressources->font_ubuntumedium16, *g_ressources->col_green, 0, -200, WidgetAllign_Center);
     m_widgets->AddWidget(m_pageinfo);
+
+    ///////////////////////////////
+    // Arrows to switch page
 
     m_widgets->AddWidget(
         new Label(
@@ -47,6 +55,10 @@ FlipnoteGallery::FlipnoteGallery(std::string directory, State* parrentstate) {
         )
     );
 
+
+    ///////////////////////////////
+    // Reload the files
+
     ReloadFiles();
 }
 
@@ -65,23 +77,27 @@ void FlipnoteGallery::Render() {
 void FlipnoteGallery::ReloadFiles() {
     m_filenames.clear();
 
+    //check if cwd is not empty
     if(m_cwd.empty()) {
         printf("FlipnoteGallery::ReloadFiles : cwd invalid\n");
         return;
     }
 
+    //Iterate through all the files of cwd
     printf("FlipnoteGallery::ReloadFiles : listing files :\n");
     for(auto entry : std::filesystem::directory_iterator(m_cwd)) {
         std::string filename = entry.path().string();
-        //TODO : check if the file content is valid
+        //check if the file and its header is valid
         if(CheckFlipnoteFile(filename)) {
             printf("                             | %s\n", filename.c_str());
             m_filenames.push_back(filename);
         }
     }
 
+    //sort in alphabetical order
     std::sort(m_filenames.begin(), m_filenames.end());
 
+    //Set current page to 0 (first page)
     SetCurrentPage(0);
 }
 
@@ -98,12 +114,8 @@ std::string FlipnoteGallery::GetFileName(int index) {
     return m_filenames[index];
 }
 
-// 0 -> 0
-// 1 -> 1
-//  ....
-// 6 -> 1
-// 7 -> 2
 int FlipnoteGallery::GetPageCount() {
+    //-1 because if there are ${m_elementperpage} elements then there is 1 page
     return (m_filenames.size()-1)/m_elementperpage + 1;
 }
 
@@ -122,4 +134,9 @@ void FlipnoteGallery::SetCurrentPage(int index) {
 
 int FlipnoteGallery::ElementPerPage() {
     return m_elementperpage;
+}
+
+
+State* FlipnoteGallery::ParrentState() {
+    return m_state;
 }

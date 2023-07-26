@@ -12,6 +12,7 @@ class State {
     virtual void Render() = 0;
 
     void SetManager(StateManager* manager);
+    StateManager* GetManager();
 
     protected:
     StateManager* m_manager;
