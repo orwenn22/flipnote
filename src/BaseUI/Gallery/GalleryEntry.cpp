@@ -10,6 +10,7 @@
 #include "../../Reusable/RunState.h"
 #include "../../Reusable/State/State.h"
 #include "../../Reusable/State/StateManager.h"
+#include "../../Reusable/Tileset.h"
 
 
 GalleryEntry::GalleryEntry(FlipnoteGallery* gallery, int indexoffset, int x, int y, WidgetAllign allignment) 
@@ -66,15 +67,16 @@ void GalleryEntry::Render() {
 
     //If the m_textname is not loaded, don't render the button (only the outline)
     if(m_textname == nullptr) {
-        SDL_SetRenderDrawColor(g_runstate->renderer, 128, 128, 128, 255);
-        SDL_RenderRect(g_runstate->renderer, &dest);
+        //"blank" rectangle
+        SDL_SetTextureColorMod(g_ressources->txtr_rounded_rect_line, 128, 128, 128);
+        g_ressources->tileset_rounded_rect_line->DrawRectangle(g_runstate->renderer, &dest, g_ressources->rectdata_basic_rect);
         return;
     }
 
     //Render the rectangle
     SDL_Color c = *g_ressources->col_green;
-    SDL_SetRenderDrawColor(g_runstate->renderer, c.r, c.g, c.b, c.a);
-    SDL_RenderFillRect(g_runstate->renderer, &dest);
+    SDL_SetTextureColorMod(g_ressources->txtr_rounded_rect, c.r, c.g, c.b);
+    g_ressources->tileset_rounded_rect->DrawRectangle(g_runstate->renderer, &dest, g_ressources->rectdata_basic_rect);
 
     //Reajust the dest rect for the text
     dest.x += 5.0f;
