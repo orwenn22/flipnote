@@ -24,8 +24,11 @@ class Tileset {
 
     int XYToIndex(int tilex, int tiley);
 
+    //Draw a single tile of the tileset
+    //Use these if the tile needs to be at a different size on the target
     void DrawTile(SDL_Renderer* renderer, int tilenum, SDL_FRect* dest);
     void DrawTile(SDL_Renderer* renderer, int tilex, int tiley, SDL_FRect* dest);
+    //Use these if the tile have the same size on the target
     void DrawTile(SDL_Renderer* renderer, int tilenum, int destx, int desty);
     void DrawTile(SDL_Renderer* renderer, int tilex, int tiley, int destx, int desty);
 

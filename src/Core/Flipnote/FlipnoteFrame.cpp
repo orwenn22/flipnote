@@ -95,7 +95,7 @@ SDL_Texture* FlipnoteFrame::CopyToTexture(int w, int h) {
     int stepy = m_height/h;
 
     //Create the texture
-    SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_XRGB8888, SDL_TEXTUREACCESS_TARGET, w, h);
+    SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, w, h);
     SDL_SetRenderTarget(g_runstate->renderer, r);
 
     //Clear with white (all pixels are going to be written anyway)

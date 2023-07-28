@@ -80,8 +80,8 @@ void Tileset::DrawTile(SDL_Renderer* renderer, int tilex, int tiley, int destx, 
 
 
 void Tileset::DrawRectangle(SDL_Renderer* renderer, int topleftx, int toplefty, int bottomrightx, int bottomrighty, TilesetRectData* rectdata) {
-    float wwb = (float)(bottomrightx-topleftx - (m_tilewidth*2));   //WidthWithoutBorders
-    float hwb = (float)(bottomrighty-toplefty - (m_tileheight*2));  //HeightWithoutBorders
+    float wwb = (float)(bottomrightx-topleftx - (m_tilewidth*2));   //WidthWithoutBorders   (width without the 2 tiles at the edges)
+    float hwb = (float)(bottomrighty-toplefty - (m_tileheight*2));  //HeightWithoutBorders  (height without the 2 tiles at the edges)
 
     //Corners
     DrawTile(renderer, rectdata->topleftindex       , topleftx                  , toplefty);
@@ -107,8 +107,23 @@ void Tileset::DrawRectangle(SDL_Renderer* renderer, int topleftx, int toplefty, 
 
 
 void Tileset::DrawRectangle(SDL_Renderer* renderer, SDL_FRect* rect, TilesetRectData* rectdata) {
+    //We will call the other DrawRectangle with these values
     int topleftx, toplefty, bottomrightx, bottomrighty;
 
+    //if rect is null we need to fill the entire render target, like the other sdl drawing functions
+    if(rect == NULL) {
+        topleftx = 0;
+        toplefty = 0;
+
+        SDL_Texture* render_target = SDL_GetRenderTarget(renderer);
+        if(render_target == NULL) SDL_GetRenderOutputSize(renderer, &bottomrightx, &bottomrighty);              //no render target -> fill the window
+        else SDL_QueryTexture(render_target, NULL, NULL, &bottomrightx, &bottomrighty);     //render target -> fill the render target
+
+        DrawRectangle(renderer, topleftx, toplefty, bottomrightx, bottomrighty, rectdata);
+        return;
+    }
+
+    //handle negative width
     if(rect->w < 0) {
         topleftx = (int)(rect->x + rect->w);
         bottomrightx = (int)(rect->x);
@@ -118,6 +133,7 @@ void Tileset::DrawRectangle(SDL_Renderer* renderer, SDL_FRect* rect, TilesetRect
         bottomrightx = (int)(rect->x + rect->w);
     }
 
+    //handle negative height
     if(rect->h < 0) {
         toplefty = (int)(rect->y + rect->h);
         bottomrighty = (int)(rect->y);
@@ -128,5 +144,4 @@ void Tileset::DrawRectangle(SDL_Renderer* renderer, SDL_FRect* rect, TilesetRect
     }
 
     DrawRectangle(renderer, topleftx, toplefty, bottomrightx, bottomrighty, rectdata);
-
 }

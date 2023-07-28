@@ -2,11 +2,13 @@
 
 #include "../../Core/Flipnote/Flipnote.h"
 #include "../../Core/Flipnote/FlipnoteFrame.h"
+#include "../../Core/RoundCorner.h"
 #include "../../Core/FlipnoteRessources.h"
 #include "../../Reusable/DeltaTime.h"
 #include "../../Reusable/gui/ChildContainer.h"
 #include "../../Reusable/gui/IconButton.h"
 #include "../../Reusable/RunState.h"
+#include "../../Reusable/Tileset.h"
 #include "FlipnoteEditor.h"
 
 
@@ -271,8 +273,8 @@ void FlipnoteTimeline::RenderFrames() {
         if(i == m_editor->GetCurrentFrame()) {
             SDL_FRect recdest = {framesdest.x-4, framesdest.y-4, framesdest.w+8, framesdest.h+8};
             SDL_Color* c = g_ressources->col_orange;
-            SDL_SetRenderDrawColor(g_runstate->renderer, c->r, c->g, c->b, c->a);
-            SDL_RenderRect(g_runstate->renderer, &recdest);
+            SDL_SetTextureColorMod(g_ressources->txtr_rounded_rect_line, c->r, c->g, c->b);
+            g_ressources->tileset_rounded_rect_line->DrawRectangle(g_runstate->renderer, &recdest, g_ressources->rectdata_basic_rect);
         }
 
         framesdest.x += 148.0f; //skip to next frame
@@ -283,6 +285,7 @@ void FlipnoteTimeline::RenderFrames() {
 void FlipnoteTimeline::LoadAndRenderFrame(int index, SDL_FRect* dest) {
     if(m_framestextures[index] == NULL) {
         m_framestextures[index] = m_editor->GetFlipnote()->GetFrame(index)->CopyToTexture(128, 96);
+        RoundTextureCorner(m_framestextures[index]);
     }
     SDL_RenderFillRect(g_runstate->renderer, dest);
     SDL_RenderTexture(g_runstate->renderer, m_framestextures[index], NULL, dest);

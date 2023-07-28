@@ -40,6 +40,7 @@ target_sources( Flipnote PRIVATE
     src/Core/Flipnote/FlipnoteFrame.cpp
     src/Core/Flipnote/FlipnoteLayer.cpp
     src/Core/Flipnote/FlipnotePainter.cpp
+    src/Core/RoundCorner.cpp
     src/Core/States/EditorState.cpp
     src/Core/States/GalleryState.cpp
     src/Core/States/MainMenuState.cpp
