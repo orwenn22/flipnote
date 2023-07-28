@@ -2,11 +2,9 @@
 
 #include <math.h>
 #include <SDL3/SDL.h>
-#include <stdlib.h>
 #include <stdio.h>
 
 #include "../../Reusable/RunState.h"
-#include "../../Reusable/Utils.h"
 #include "FlipnoteLayer.h"
 #include "Flipnote.h"
 
@@ -87,7 +85,7 @@ SDL_Texture* FlipnoteFrame::CopyToTexture(bool transparent) {
 }
 
 
-SDL_Texture* FlipnoteFrame::CopyToTexture(int w, int h) {
+SDL_Texture* FlipnoteFrame::CopyToTexture(int w, int h, bool transparent) {
     SDL_Texture* previousrendertartget = SDL_GetRenderTarget(g_runstate->renderer);
 
     //TODO : these should be float ?
@@ -96,19 +94,24 @@ SDL_Texture* FlipnoteFrame::CopyToTexture(int w, int h) {
 
     //Create the texture
     SDL_Texture* r = SDL_CreateTexture(g_runstate->renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, w, h);
+    SDL_SetTextureBlendMode(r, SDL_BLENDMODE_BLEND);    //the texture can have transparency
     SDL_SetRenderTarget(g_runstate->renderer, r);
-
-    //Clear with white (all pixels are going to be written anyway)
-    SDL_SetRenderDrawColor(g_runstate->renderer, 255, 255, 255, 255);
-    SDL_RenderClear(g_runstate->renderer);
+    SDL_SetRenderDrawBlendMode(g_runstate->renderer, SDL_BLENDMODE_NONE);   //treat alpha value of pixels the same way as other colors
 
     //Get the palette from the flipnote
     SDL_Color* pal = m_flipnote->GetPalette();
+
+    //Clear with background color or transparency
+    SDL_SetRenderDrawColor(g_runstate->renderer, pal[0].r, pal[0].g, pal[0].b, 255*!transparent);
+    SDL_RenderClear(g_runstate->renderer);
 
     for(int y = 0; y < h; y++) {
         for(int x = 0; x < w; x++) {
             //Get the color index of the highest set pixel
             unsigned char p = GetPixel(x*stepx, y*stepy);
+
+            //skip blank pixel
+            if(p == 0) continue;
 
             //Draw the pixel on the texture with the color from the palette
             SDL_SetRenderDrawColor(g_runstate->renderer, pal[p].r, pal[p].g, pal[p].b, pal[p].a);
@@ -136,10 +139,10 @@ std::vector<SDL_Texture*> FlipnoteFrame::CopyToTextures() {
 
 
 int FlipnoteFrame::OverwriteTexture(SDL_Texture* texture, bool transparent) {
-    int w, h;
-    SDL_QueryTexture(texture, NULL, NULL, &w, &h);
-    if(w != m_width || h != m_height) {
-        return 1;   //not correct size
+    int w, h, access;
+    SDL_QueryTexture(texture, NULL, &access, &w, &h);
+    if(w != m_width || h != m_height || access != SDL_TEXTUREACCESS_TARGET) {
+        return 1;   //not correct size or access
     }
 
     SDL_Texture* previousrendertarget = SDL_GetRenderTarget(g_runstate->renderer);
@@ -170,7 +173,7 @@ int FlipnoteFrame::OverwriteTexture(SDL_Texture* texture, bool transparent) {
     //Draw all layers to the texture, from bottom to top
     int layer_count = m_layers.size();
     for(int i = 0; i < layer_count; i++) {
-        SDL_Texture* layer_texture = m_layers[i]->CopyToTexture(transparent == true || i != 0);    //the bottom layer don't have a transparent background if transparent = false
+        SDL_Texture* layer_texture = m_layers[i]->CopyToTexture(transparent || i != 0);    //the bottom layer don't have a transparent background if transparent = false
         SDL_RenderTexture(g_runstate->renderer, layer_texture, NULL, NULL);
         SDL_DestroyTexture(layer_texture);
     }

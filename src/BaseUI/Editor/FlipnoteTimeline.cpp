@@ -284,9 +284,11 @@ void FlipnoteTimeline::RenderFrames() {
 
 void FlipnoteTimeline::LoadAndRenderFrame(int index, SDL_FRect* dest) {
     if(m_framestextures[index] == NULL) {
+       // auto ms = SDL_GetTicks();
         m_framestextures[index] = m_editor->GetFlipnote()->GetFrame(index)->CopyToTexture(128, 96);
         RoundTextureCorner(m_framestextures[index]);
+        //printf("Time to load : %llu ms\n", SDL_GetTicks()-ms);
     }
-    SDL_RenderFillRect(g_runstate->renderer, dest);
+    //SDL_RenderFillRect(g_runstate->renderer, dest);
     SDL_RenderTexture(g_runstate->renderer, m_framestextures[index], NULL, dest);
 }

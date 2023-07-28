@@ -28,7 +28,7 @@ class FlipnoteFrame {
 
     //Same as above, but with a width and height for the target texture
     //There is no transparency, the background will always be the color at index 0 of the palette
-    SDL_Texture* CopyToTexture(int w, int h);
+    SDL_Texture* CopyToTexture(int w, int h, bool transparent = false);
 
     //Copy all layers (from bottom to top) to SDL_Textures and returns them in a vector
     //All pixel with color of index 0 are transparent.
