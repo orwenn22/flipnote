@@ -14,7 +14,7 @@ EditorState::EditorState(Flipnote* flipnote) : State() {
     m_topbar = new TopBar("Flipnote Editor", *g_ressources->col_orange, *g_ressources->col_white);
 
     m_flipnote = flipnote;
-    if(flipnote == nullptr) {   //if no flipnote is passed to the constructior
+    if(flipnote == nullptr) {   //if no flipnote is passed to the constructor
         printf("EditorState::EditorState : flipnote is nullptr, creating a new one\n");
         m_flipnote = new Flipnote(512, 384, 4); //hardcode 4 layers and res for now
     }
