@@ -6,6 +6,7 @@
 #include <string>
 
 class FlipnoteGallery;
+struct SDL_Color;
 struct SDL_Texture;
 
 class GalleryEntry: public ClickableWidget {
@@ -19,6 +20,9 @@ class GalleryEntry: public ClickableWidget {
     private:
     void ReloadContent();
 
+    void LoadPreview();
+    void UnloadContent();
+
     FlipnoteGallery* m_gallery;
     int m_currentpage;
     int m_indexoffset;
@@ -26,6 +30,7 @@ class GalleryEntry: public ClickableWidget {
     SDL_Texture* m_textname;
 
     std::string m_filepath;
+    SDL_Texture* m_previewtexture;      //256 x 192
 };
 
 #endif

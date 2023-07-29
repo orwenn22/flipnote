@@ -267,7 +267,7 @@ void Flipnote::Save(const char* filename) {
     printf("Flipnote::Save : Successfull !\n");
 }
 
-Flipnote* Flipnote::Load(const char* filename) {
+Flipnote* Flipnote::Load(const char* filename, bool onlyfirstframe) {
     FILE* infile = fopen(filename, "r");
     if(infile == NULL) return nullptr;
 
@@ -296,7 +296,7 @@ Flipnote* Flipnote::Load(const char* filename) {
         return nullptr;
     }
 
-    Flipnote* r = new Flipnote(w, h, infile);
+    Flipnote* r = new Flipnote(w, h, infile, onlyfirstframe);
     fclose(infile);
     printf("Flipnote::Load : Successful!\n");
     return r;
@@ -307,7 +307,7 @@ Flipnote* Flipnote::Load(const char* filename) {
 // PRIVATE
 
 //Called by Flipnote::Load
-Flipnote::Flipnote(int framewidth, int frameheight, FILE* infile) {
+Flipnote::Flipnote(int framewidth, int frameheight, FILE* infile, bool onlyfirstframe) {
     m_framewidth = framewidth;
     m_frameheight = frameheight;
 
@@ -338,7 +338,8 @@ Flipnote::Flipnote(int framewidth, int frameheight, FILE* infile) {
     }
     printf("\n");
 
-    //Load all frames
+    //Load one or all frames
+    if(onlyfirstframe) framecount = 1;
     for(unsigned int i =  0; i < framecount; i++) {
         m_frames.push_back(new FlipnoteFrame(this, framewidth, frameheight, infile));
     }

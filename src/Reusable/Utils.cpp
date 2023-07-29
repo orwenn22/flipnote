@@ -93,7 +93,6 @@ std::string GetCWD() {
     if(GetCurrentDirectoryA(1024, buf) > 0) {
         return std::string(buf);
     }
-
 #else
 	if(getcwd(buf, 1024) != NULL) {
 		return std::string(buf);

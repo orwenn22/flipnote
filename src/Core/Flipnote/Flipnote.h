@@ -78,12 +78,12 @@ class Flipnote {
     //Saving and loading
 
     void Save(const char* filename);
-    static Flipnote* Load(const char* filename);
+    static Flipnote* Load(const char* filename, bool onlyfirstframe = false);
 
 
     private:
     //called by Flipnote::Load
-    Flipnote(int framewidth, int frameheight, FILE* infile);
+    Flipnote(int framewidth, int frameheight, FILE* infile, bool onlyfirstframe);
 
 
     std::vector<FlipnoteFrame*> m_frames;

@@ -22,14 +22,14 @@ FlipnoteGallery::FlipnoteGallery(std::string directory, State* parrentstate) {
     // Entry widgets
 
     //FIXME : 6 entry per page hardcoded
-    m_widgets->AddWidget(new GalleryEntry(this, 0, -130, -84, WidgetAllign_Center));
-    m_widgets->AddWidget(new GalleryEntry(this, 1,  130, -84, WidgetAllign_Center));
-    m_widgets->AddWidget(new GalleryEntry(this, 2, -130,   0, WidgetAllign_Center));
-    m_widgets->AddWidget(new GalleryEntry(this, 3,  130,   0, WidgetAllign_Center));
-    m_widgets->AddWidget(new GalleryEntry(this, 4, -130,  84, WidgetAllign_Center));
-    m_widgets->AddWidget(new GalleryEntry(this, 5,  130,  84, WidgetAllign_Center));
+    m_widgets->AddWidget(new GalleryEntry(this, 0, -270, -108, WidgetAllign_Center));
+    m_widgets->AddWidget(new GalleryEntry(this, 1, 0, -108, WidgetAllign_Center));
+    m_widgets->AddWidget(new GalleryEntry(this, 2, 270,   -108, WidgetAllign_Center));
+    m_widgets->AddWidget(new GalleryEntry(this, 3,  -270,   108, WidgetAllign_Center));
+    m_widgets->AddWidget(new GalleryEntry(this, 4, 0,  108, WidgetAllign_Center));
+    m_widgets->AddWidget(new GalleryEntry(this, 5,  270,  108, WidgetAllign_Center));
 
-    m_pageinfo = new Label("Page count : " + std::to_string(GetPageCount()), g_ressources->font_ubuntumedium16, *g_ressources->col_green, 0, -200, WidgetAllign_Center);
+    m_pageinfo = new Label("Whatever", g_ressources->font_ubuntumedium16, *g_ressources->col_green, 0, -220, WidgetAllign_Center);
     m_widgets->AddWidget(m_pageinfo);
 
     ///////////////////////////////
@@ -38,7 +38,7 @@ FlipnoteGallery::FlipnoteGallery(std::string directory, State* parrentstate) {
     m_widgets->AddWidget(
         new Label(
             "<-", g_ressources->font_ubuntumedium24, *g_ressources->col_green, 
-            -300, 0, WidgetAllign_Center,
+            -450, 0, WidgetAllign_Center,
             [&]() {
                 SetCurrentPage(GetCurrentPage()-1);
             }
@@ -48,7 +48,7 @@ FlipnoteGallery::FlipnoteGallery(std::string directory, State* parrentstate) {
     m_widgets->AddWidget(
         new Label(
             "->", g_ressources->font_ubuntumedium24, *g_ressources->col_green, 
-            300, 0, WidgetAllign_Center,
+            450, 0, WidgetAllign_Center,
             [&]() {
                 SetCurrentPage(GetCurrentPage()+1);
             }

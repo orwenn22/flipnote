@@ -37,6 +37,10 @@ struct FlipnoteRessources : Ressources {
 
     TilesetRectData* rectdata_basic_rect;
 
+    //destRGB = srcRGB*0 + destRGB*1
+    //destA   = srcA*1   + destA*0
+    unsigned int blendmode_alphamask;
+
 
     
     FlipnoteRessources(SDL_Renderer* renderer);

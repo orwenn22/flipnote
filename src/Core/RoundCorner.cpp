@@ -18,7 +18,7 @@ void RoundTextureCorner(SDL_Texture* texture) {
 
     //Setup rounded corner texture correctly
     SDL_SetTextureColorMod(g_ressources->txtr_rounded_rect, 255, 255, 255); //white
-    SDL_SetTextureBlendMode(g_ressources->txtr_rounded_rect, SDL_BLENDMODE_MOD);
+    SDL_SetTextureBlendMode(g_ressources->txtr_rounded_rect, (SDL_BlendMode)g_ressources->blendmode_alphamask);
 
     //Begin drawing on the texture
     SDL_Texture* oldrendertarget = SDL_GetRenderTarget(g_runstate->renderer);
