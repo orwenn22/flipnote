@@ -11,6 +11,7 @@ class StateManager {
     void Update();
     void Render();
 
+    //If there is already a state, the state change will occure next time Update is called
     void SetState(State* state);
 
     private:

@@ -20,11 +20,7 @@ StateManager::~StateManager() {
 
 
 void StateManager::Update() {
-    if(m_state != nullptr)
-        m_state->Update();
-    
-    //switch to the new state (if there is one) only once m_state->Update is done
-    //FIXME (?) : do this before updating ?
+    //switch to the new state (if there is one)
     if(m_futurestate != nullptr) {
         printf("StateManager::Update : switching state\n");
         delete m_state;
@@ -32,6 +28,9 @@ void StateManager::Update() {
         m_state->SetManager(this);
         m_futurestate = nullptr;
     }
+
+    if(m_state != nullptr)
+        m_state->Update();
 }
 
 void StateManager::Render() {
@@ -45,7 +44,7 @@ void StateManager::SetState(State* state) {
 
     state->SetManager(this);
 
-    //This system is used to make sure current state finish its Update before switching to the new state
+    //This system is used to make sure current state finish its Update and Render before switching to the new state
     if(m_state == nullptr) {
         printf("StateManager::SetState : setting state\n");
         m_state = state;
