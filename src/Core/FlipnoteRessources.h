@@ -29,18 +29,6 @@ struct FlipnoteRessources : Ressources {
     SDL_Texture* txtr_icon_red_arrow;
     SDL_Texture* txtr_icon_yellow_arrow;
 
-    SDL_Texture* txtr_rounded_rect;
-    Tileset* tileset_rounded_rect;
-
-    SDL_Texture* txtr_rounded_rect_line;
-    Tileset* tileset_rounded_rect_line;
-
-    TilesetRectData* rectdata_basic_rect;
-
-    //destRGB = srcRGB*0 + destRGB*1
-    //destA   = srcA*1   + destA*0
-    unsigned int blendmode_alphamask;
-
 
     
     FlipnoteRessources(SDL_Renderer* renderer);

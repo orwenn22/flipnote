@@ -35,18 +35,6 @@ FlipnoteRessources::FlipnoteRessources(SDL_Renderer* renderer)
     txtr_button_layer_inactive = LoadImageAsTexture(renderer, "./res/button_layer_inactive.png");
     txtr_icon_red_arrow = LoadImageAsTexture(renderer, "./res/redarrow.png");
     txtr_icon_yellow_arrow = LoadImageAsTexture(renderer, "./res/yellowarrow.png");
-
-    txtr_rounded_rect = LoadImageAsTexture(renderer, "./res/rounded_rect.png");
-    tileset_rounded_rect = new Tileset(txtr_rounded_rect, 16, 16);
-
-    txtr_rounded_rect_line = LoadImageAsTexture(renderer, "./res/rounded_rect_line.png");
-    tileset_rounded_rect_line = new Tileset(txtr_rounded_rect_line, 16, 16);
-
-    rectdata_basic_rect = new TilesetRectData({0, 1, 2, 3, 4, 5, 6, 7, 8});
-
-    //destRGB = srcRGB*0 + destRGB*1
-    //destA   = srcA*1   + destA*0
-    blendmode_alphamask = SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ZERO, SDL_BLENDFACTOR_ONE, SDL_BLENDOPERATION_ADD, SDL_BLENDFACTOR_ONE, SDL_BLENDFACTOR_ZERO, SDL_BLENDOPERATION_ADD);
 }
 
 FlipnoteRessources::~FlipnoteRessources() {
@@ -72,14 +60,6 @@ FlipnoteRessources::~FlipnoteRessources() {
     SDL_DestroyTexture(txtr_button_layer_inactive);
     SDL_DestroyTexture(txtr_icon_red_arrow);
     SDL_DestroyTexture(txtr_icon_yellow_arrow);
-
-    delete tileset_rounded_rect;
-    SDL_DestroyTexture(txtr_rounded_rect);
-
-    delete tileset_rounded_rect_line;
-    SDL_DestroyTexture(txtr_rounded_rect_line);
-
-    delete rectdata_basic_rect;
 
     printf("FlipnoteRessources::~FlipnoteRessources : unloaded everything\n");
 }

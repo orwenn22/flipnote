@@ -43,9 +43,29 @@ Ressources::Ressources(SDL_Renderer* renderer) {
     rectdata_popupmenu = new TilesetRectData({21, 22, 23, 27, 28, 29, 33, 34, 35});
 
 
+    /////////////////////////////////////
+    //Colors
+
     col_orange = new SDL_Color({0xfb, 0x61, 0x01, 0xff});
     col_green =  new SDL_Color({0x82, 0xc3, 0x00, 0xff});
     col_white =  new SDL_Color({0xff, 0xff, 0xff, 0xff});
+
+
+    ///////////////////////////////////
+    //Rounded rectangle related stuff
+
+    txtr_rounded_rect = LoadImageAsTexture(renderer, "./res/rounded_rect.png");
+    tileset_rounded_rect = new Tileset(txtr_rounded_rect, 16, 16);
+
+    txtr_rounded_rect_line = LoadImageAsTexture(renderer, "./res/rounded_rect_line.png");
+    tileset_rounded_rect_line = new Tileset(txtr_rounded_rect_line, 16, 16);
+
+    rectdata_basic_rect = new TilesetRectData({0, 1, 2, 3, 4, 5, 6, 7, 8});
+
+
+    //destRGB = srcRGB*0 + destRGB*1
+    //destA   = srcA*1   + destA*0
+    blendmode_alphamask = SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ZERO, SDL_BLENDFACTOR_ONE, SDL_BLENDOPERATION_ADD, SDL_BLENDFACTOR_ONE, SDL_BLENDFACTOR_ZERO, SDL_BLENDOPERATION_ADD);
 }
 
 Ressources::~Ressources() {
@@ -62,9 +82,25 @@ Ressources::~Ressources() {
     delete tileset_popupmenu;
     delete rectdata_popupmenu;
 
+
+    /////////////////////////////////////
+    //Colors
+
     delete col_orange;
     delete col_green;
     delete col_white;
+
+
+    //////////////////////////////////////
+    //Rounded rectangle related stuff
+
+    delete tileset_rounded_rect;
+    SDL_DestroyTexture(txtr_rounded_rect);
+
+    delete tileset_rounded_rect_line;
+    SDL_DestroyTexture(txtr_rounded_rect_line);
+
+    delete rectdata_basic_rect;
 
     printf("Ressources::~Ressources : unloaded everything\n");
 }

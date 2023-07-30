@@ -25,9 +25,32 @@ struct Ressources {
     Tileset* tileset_popupmenu;
     TilesetRectData* rectdata_popupmenu;    //for Tileset->DrawRectangle
 
+
+    /////////////////////////////////////
+    //Colors
+
     SDL_Color* col_orange;
     SDL_Color* col_green;
     SDL_Color* col_white;
+
+    //////////////////////////////////////
+    //Rounded rectangle related stuff
+
+    SDL_Texture* txtr_rounded_rect;
+    Tileset* tileset_rounded_rect;
+
+    SDL_Texture* txtr_rounded_rect_line;
+    Tileset* tileset_rounded_rect_line;
+
+    TilesetRectData* rectdata_basic_rect;
+
+
+    ///////////////////////////////////////
+
+    //This blend mode is used as an "alpha mask", it will apply the src's alpha on the dest's alpha
+    //destRGB = srcRGB*0 + destRGB*1
+    //destA   = srcA*1   + destA*0
+    unsigned int blendmode_alphamask;
 
     Ressources(SDL_Renderer* renderer);
     virtual ~Ressources();
