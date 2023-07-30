@@ -48,8 +48,8 @@ struct Ressources {
     ///////////////////////////////////////
 
     //This blend mode is used as an "alpha mask", it will apply the src's alpha on the dest's alpha
-    //destRGB = srcRGB*0 + destRGB*1
-    //destA   = srcA*1   + destA*0
+    //destRGB = srcRGB*0   + destRGB*1   (keep exising colors of the destination)
+    //destA   = srcA*destA + destA*0     (apply the alpha of the source to the destination/target)
     unsigned int blendmode_alphamask;
 
     Ressources(SDL_Renderer* renderer);

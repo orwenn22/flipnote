@@ -63,9 +63,9 @@ Ressources::Ressources(SDL_Renderer* renderer) {
     rectdata_basic_rect = new TilesetRectData({0, 1, 2, 3, 4, 5, 6, 7, 8});
 
 
-    //destRGB = srcRGB*0 + destRGB*1
-    //destA   = srcA*1   + destA*0
-    blendmode_alphamask = SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ZERO, SDL_BLENDFACTOR_ONE, SDL_BLENDOPERATION_ADD, SDL_BLENDFACTOR_ONE, SDL_BLENDFACTOR_ZERO, SDL_BLENDOPERATION_ADD);
+    //destRGB = srcRGB*0   + destRGB*1
+    //destA   = srcA*destA + destA*0
+    blendmode_alphamask = SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ZERO, SDL_BLENDFACTOR_ONE, SDL_BLENDOPERATION_ADD, SDL_BLENDFACTOR_DST_ALPHA, SDL_BLENDFACTOR_ZERO, SDL_BLENDOPERATION_ADD);
 }
 
 Ressources::~Ressources() {
