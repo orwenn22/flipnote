@@ -9,6 +9,7 @@ class Flipnote;
 class FlipnoteDisplay;
 class FlipnoteFrame;
 class PopupMenu;
+class State;
 class WinWidgetContainer;
 
 struct SDL_Surface;
@@ -63,6 +64,9 @@ class FlipnoteEditor {
     void CloseTimeline();
     bool IsTimelineOpen();
 
+    void SetParentState(State* state);
+    State* GetParentState();
+
     //True if the user is using a drawing tool
     //It is set to true by m_display->UpdateMouseInput
     bool m_isdrawing;
@@ -91,6 +95,8 @@ class FlipnoteEditor {
     void UpdatePopupMenu();
     void UpdateTimeline();
 
+    void HandleEscapeKey();
+
     Flipnote* m_flipnote;
     FlipnoteDisplay* m_display;
     PopupMenu* m_popupmenu;
@@ -99,6 +105,8 @@ class FlipnoteEditor {
     WinWidgetContainer* m_editorbuttons;
     
     FlipnoteTimeline* m_timeline;
+
+    State* m_parentstate;
 
     //The current page of the flipnote being edited
     int m_page;

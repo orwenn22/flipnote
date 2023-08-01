@@ -20,6 +20,7 @@ EditorState::EditorState(Flipnote* flipnote) : State() {
     }
 
     m_editor = new FlipnoteEditor(m_flipnote);
+    m_editor->SetParentState(this);
 }
 
 EditorState::~EditorState() {

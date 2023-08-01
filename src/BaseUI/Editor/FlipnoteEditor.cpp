@@ -6,10 +6,13 @@
 #include "../../Core/Flipnote/FlipnoteFrame.h"
 #include "../../Core/Flipnote/FlipnotePainter.h"
 #include "../../Core/FlipnoteRessources.h"
+#include "../../Core/States/MainMenuState.h"
 #include "../../Reusable/DeltaTime.h"
 #include "../../Reusable/RunState.h"
 #include "../../Reusable/gui/IconButton.h"
 #include "../../Reusable/gui/PopupMenu.h"
+#include "../../Reusable/State/State.h"
+#include "../../Reusable/State/StateManager.h"
 #include "../../Reusable/gui/WinWidgetContainer.h"
 #include "../../Reusable/Utils.h"
 #include "EditorButtons/EditorBrushButton.h"
@@ -95,6 +98,8 @@ FlipnoteEditor::FlipnoteEditor(Flipnote* fn) {
     m_animationcooldown = 0.0f;
 
     m_targetlayer = 0;
+
+    m_parentstate = nullptr;
 
     m_display = new FlipnoteDisplay(this);
 
@@ -185,6 +190,10 @@ void FlipnoteEditor::Render() {
 
     if(g_runstate->IsKeyDown(SDLK_TAB)) {
         SDL_RenderTexture(g_runstate->renderer, CurrentFrame()->GetCachedTexture(), NULL, NULL);
+    }
+
+    if(g_runstate->IsKeyPressed(SDLK_ESCAPE)) {
+        HandleEscapeKey();
     }
 }
 
@@ -295,6 +304,15 @@ bool FlipnoteEditor::IsTimelineOpen() {
 }
 
 
+void FlipnoteEditor::SetParentState(State* state) {
+    if(state == nullptr) return;
+    m_parentstate = state;
+}
+
+State* FlipnoteEditor::GetParentState() {
+    return m_parentstate;
+}
+
 ///////////
 //Private
 
@@ -392,5 +410,25 @@ void FlipnoteEditor::UpdateTimeline() {
     if(g_runstate->leftclick && !m_timeline->IsMouseOvering() && !g_runstate->mouseused) {
         CloseTimeline();
         g_runstate->mouseused = true;
+    }
+}
+
+void FlipnoteEditor::HandleEscapeKey() {
+    if(m_popupmenu != nullptr) {    //popupmenu open
+        ClosePopupMenu();
+        return;
+    }
+
+    if(IsTimelineOpen()) {
+        CloseTimeline();
+        return;
+    }
+
+    if(m_parentstate != nullptr) {
+        printf("FlipnoteEditor::HandleEscapeKey : Returning to main menu\n");
+        m_parentstate->GetManager()->SetState(new MainMenuState());
+    }
+    else {
+        printf("FlipnoteEditor::HandleEscapeKey : The editor don't have a parent state, so we can't spawn the main menu :(\n");
     }
 }
