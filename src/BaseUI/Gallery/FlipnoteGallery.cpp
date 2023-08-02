@@ -6,8 +6,12 @@
 
 #include "../../Core/Flipnote/Flipnote.h"
 #include "../../Core/FlipnoteRessources.h"
+#include "../../Core/States/MainMenuState.h"
 #include "../../Reusable/gui/WinWidgetContainer.h"
 #include "../../Reusable/gui/Label.h"
+#include "../../Reusable/RunState.h"
+#include "../../Reusable/State/StateManager.h"
+#include "../../Reusable/State/State.h"
 #include "GalleryEntry.h"
 
 FlipnoteGallery::FlipnoteGallery(std::string directory, State* parrentstate) {
@@ -68,6 +72,10 @@ FlipnoteGallery::~FlipnoteGallery() {
 
 void FlipnoteGallery::Update() {
     m_widgets->Update();
+
+    if(g_runstate->IsKeyPressed(SDLK_ESCAPE) && m_state != nullptr) {
+        m_state->GetManager()->SetState(new MainMenuState);
+    }
 }
 void FlipnoteGallery::Render() {
     m_widgets->Render();

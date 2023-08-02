@@ -167,7 +167,7 @@ void GalleryEntry::UnloadContent() {
         m_textname = nullptr;
     }
 
-    //Unload the text texture if necessary
+    //Unload the preview texture if necessary
     if(m_previewtexture != nullptr) {
         SDL_DestroyTexture(m_previewtexture);
         m_previewtexture = nullptr;
