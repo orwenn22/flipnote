@@ -50,11 +50,13 @@ target_sources( Flipnote PRIVATE
     src/Reusable/gui/Background.cpp 
     src/Reusable/gui/CheckBox.cpp 
     src/Reusable/gui/ChildContainer.cpp 
-    src/Reusable/gui/ClickableWidget.cpp 
+    src/Reusable/gui/ClickableWidget.cpp
+    src/Reusable/gui/FullscreenPopup.cpp
     src/Reusable/gui/IconButton.cpp 
     src/Reusable/gui/Label.cpp 
     src/Reusable/gui/PopupMenuTop.cpp
     src/Reusable/gui/PopupMenu.cpp
+    src/Reusable/gui/TextField.cpp
     src/Reusable/gui/TopBar.cpp
     src/Reusable/gui/WidgetContainer.cpp
     src/Reusable/gui/Widget.cpp
