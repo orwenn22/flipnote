@@ -47,8 +47,9 @@ Ressources::Ressources(SDL_Renderer* renderer) {
     //Colors
 
     col_orange = new SDL_Color({0xfb, 0x61, 0x01, 0xff});
-    col_green =  new SDL_Color({0x82, 0xc3, 0x00, 0xff});
-    col_white =  new SDL_Color({0xff, 0xff, 0xff, 0xff});
+    col_red    = new SDL_Color({0xdd, 0x00, 0x00, 0xff});
+    col_green  = new SDL_Color({0x82, 0xc3, 0x00, 0xff});
+    col_white  = new SDL_Color({0xff, 0xff, 0xff, 0xff});
 
 
     ///////////////////////////////////
@@ -87,6 +88,7 @@ Ressources::~Ressources() {
     //Colors
 
     delete col_orange;
+    delete col_red;
     delete col_green;
     delete col_white;
 

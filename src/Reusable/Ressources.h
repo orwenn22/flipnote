@@ -30,6 +30,7 @@ struct Ressources {
     //Colors
 
     SDL_Color* col_orange;
+    SDL_Color* col_red;
     SDL_Color* col_green;
     SDL_Color* col_white;
 
