@@ -30,3 +30,14 @@ void SimpleState::AddComponant(GraphicalObject* componant) {
     if(componant == nullptr) return;
     m_componants.push_back(componant);
 }
+
+void SimpleState::RemoveComponant(GraphicalObject* componant) {
+    size_t comp_count = m_componants.size();
+    for(int i = 0; i < comp_count; i++) {
+        if(m_componants[i] == componant) {
+            delete componant;
+            m_componants.erase(m_componants.begin() + i);
+            return;
+        }
+    }
+}

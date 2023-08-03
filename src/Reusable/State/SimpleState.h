@@ -16,6 +16,7 @@ class SimpleState : public State {
     void Render();
 
     void AddComponant(GraphicalObject* componant);
+    void RemoveComponant(GraphicalObject* componant);
 
     private:
     std::vector<GraphicalObject*> m_componants;
