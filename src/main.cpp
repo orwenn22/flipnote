@@ -97,12 +97,6 @@ int main(int argc, const char* argv[]) {
 
         if(showdebugoverlay) RenderDebugOverlay(0, 0);
 
-#ifdef WIN32
-        SDL_SetRenderDrawColor(g_runstate->renderer, 255, 0, 0, 255);
-        SDL_FRect dest = {(float)g_runstate->mousex, (float)g_runstate->mousey, 3.0f, 3.0f};
-        SDL_RenderFillRect(g_runstate->renderer, &dest);
-#endif
-
         SDL_RenderPresent(renderer);
 
         //EndTimingFrame();       //for uncapped framerate
