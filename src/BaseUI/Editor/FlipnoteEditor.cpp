@@ -362,12 +362,17 @@ std::string FlipnoteEditor::GetFileName() {
 
 void FlipnoteEditor::Save() {
     if(m_filename.empty()) {
-        OpenFullscreenPopup(new FilenamePopup(this));
+        SaveAs();   //Ask for a file name
         return;
     }
 
     m_flipnote->Save(m_filename.c_str());
 }
+
+void FlipnoteEditor::SaveAs() {
+    OpenFullscreenPopup(new FilenamePopup(this));
+}
+
 
 ///////////
 //Private

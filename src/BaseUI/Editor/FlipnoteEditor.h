@@ -77,6 +77,7 @@ class FlipnoteEditor {
     void SetFileName(std::string name);
     std::string GetFileName();
     void Save();
+    void SaveAs();
 
     //True if the user is using a drawing tool
     //It is set to true by m_display->UpdateMouseInput

@@ -219,6 +219,10 @@ void Flipnote::Save(const char* filename) {
 
     //Save signature
     FILE* outfile = fopen(filename, "w");
+    if(outfile == nullptr) {    //If this is true this is most likely because filename is invalid (empty string, etc...)
+        printf("Flipnote::Save : failed to create output file :(\n");
+        return;
+    }
     fprintf(outfile, "Fnt");
 
     
