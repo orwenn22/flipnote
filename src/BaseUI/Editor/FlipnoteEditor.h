@@ -1,6 +1,8 @@
 #ifndef FLIPNOTEEDITOR_H
 #define FLIPNOTEEDITOR_H
 
+#include <string>
+
 #include "../../Core/Flipnote/PaintCondition.h"
 
 class EditorBrushButton;
@@ -8,6 +10,7 @@ class EditorPenButton;
 class Flipnote;
 class FlipnoteDisplay;
 class FlipnoteFrame;
+class FullscreenPopup;
 class PopupMenu;
 class State;
 class WinWidgetContainer;
@@ -24,7 +27,7 @@ int GetBrushCount();
 class FlipnoteEditor {
     public:
     //The FlipnoteEditor doesn't have ownership of fn, and must be deallocated manually AFTER destroying the FlipnoteEditor
-    FlipnoteEditor(Flipnote* fn);
+    FlipnoteEditor(Flipnote* fn, std::string filename = "");
     ~FlipnoteEditor();
 
     void Update();
@@ -64,8 +67,16 @@ class FlipnoteEditor {
     void CloseTimeline();
     bool IsTimelineOpen();
 
+    void OpenFullscreenPopup(FullscreenPopup* popup);
+    void CloseFullscreenPopup();
+    bool IsFullscreenPopupOpen();
+
     void SetParentState(State* state);
     State* GetParentState();
+
+    void SetFileName(std::string name);
+    std::string GetFileName();
+    void Save();
 
     //True if the user is using a drawing tool
     //It is set to true by m_display->UpdateMouseInput
@@ -95,16 +106,24 @@ class FlipnoteEditor {
     void UpdatePopupMenu();
     void UpdateTimeline();
 
+    void UpdateFullscreenPopup();
+
     void HandleEscapeKey();
 
+    std::string m_filename;
+
     Flipnote* m_flipnote;
+
+    //All ui layers (from bottom to top)
     FlipnoteDisplay* m_display;
-    PopupMenu* m_popupmenu;
-    
-    //Contains all the buttons of the "overlay" (color, brush...)
-    WinWidgetContainer* m_editorbuttons;
-    
     FlipnoteTimeline* m_timeline;
+    WinWidgetContainer* m_editorbuttons;    //Contains all the buttons of the "overlay" (color, brush...)
+    PopupMenu* m_popupmenu;
+    FullscreenPopup* m_fullscreenpopup;
+
+    bool m_fullscreenpopupneeddeletion;
+    bool m_fullscreenpopupneedreplacement;
+    FullscreenPopup* m_futurfullscreenpopup;
 
     State* m_parentstate;
 

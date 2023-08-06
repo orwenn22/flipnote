@@ -9,7 +9,7 @@
 #include <SDL3/SDL.h>
 
 
-EditorState::EditorState(Flipnote* flipnote) : State() {
+EditorState::EditorState(Flipnote* flipnote, std::string filename) : State() {
     m_background = new Background(g_ressources->txtr_bgtile);
     m_topbar = new TopBar("Flipnote Editor", *g_ressources->col_orange, *g_ressources->col_white);
 
@@ -19,7 +19,7 @@ EditorState::EditorState(Flipnote* flipnote) : State() {
         m_flipnote = new Flipnote(512, 384, 4); //hardcode 4 layers and res for now
     }
 
-    m_editor = new FlipnoteEditor(m_flipnote);
+    m_editor = new FlipnoteEditor(m_flipnote, filename);
     m_editor->SetParentState(this);
 }
 

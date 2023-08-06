@@ -73,7 +73,7 @@ int main(int argc, const char* argv[]) {
     }
 
     
-    if(flipnote != nullptr) state_manager->SetState(new EditorState(flipnote));
+    if(flipnote != nullptr) state_manager->SetState(new EditorState(flipnote, argv[1]));
     else state_manager->SetState(new MainMenuState());
     
 

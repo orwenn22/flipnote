@@ -9,6 +9,7 @@
 #include "../../Core/States/MainMenuState.h"
 #include "../../Reusable/DeltaTime.h"
 #include "../../Reusable/RunState.h"
+#include "../../Reusable/gui/FullscreenPopup.h"
 #include "../../Reusable/gui/IconButton.h"
 #include "../../Reusable/gui/PopupMenu.h"
 #include "../../Reusable/State/State.h"
@@ -23,6 +24,7 @@
 #include "EditorButtons/FrogMenuButton.h"
 #include "FlipnoteDisplay.h"
 #include "FlipnoteTimeline.h"
+#include "Popups/FilenamePopup.h"
 
 #include <SDL3/SDL.h>    //FIXME : this is only included for SDL_abs
 #include <string>
@@ -79,7 +81,8 @@ int GetBrushCount() { return brushcount; }
 //bool testbool = true;
 //bool testbool2 = true;
 
-FlipnoteEditor::FlipnoteEditor(Flipnote* fn) {
+FlipnoteEditor::FlipnoteEditor(Flipnote* fn, std::string filename) {
+    m_filename = filename;
     m_flipnote = fn;
     //m_flipnote->SetColor(0, {255, 0, 0, 255});
     
@@ -140,8 +143,13 @@ FlipnoteEditor::FlipnoteEditor(Flipnote* fn) {
     //cc->AddWidget(cc2);
 
 
-    m_popupmenu = NULL;
-    m_timeline = NULL;
+    m_popupmenu = nullptr;
+    m_timeline = nullptr;
+
+    m_fullscreenpopup = nullptr;
+    m_futurfullscreenpopup = nullptr;
+    m_fullscreenpopupneeddeletion = false;
+    m_fullscreenpopupneedreplacement = false;
 }
 
 FlipnoteEditor::~FlipnoteEditor() {
@@ -150,6 +158,7 @@ FlipnoteEditor::~FlipnoteEditor() {
 
     ClosePopupMenu();
     CloseTimeline();
+    CloseFullscreenPopup();
     delete m_editorbuttons;
     delete m_display;
 }
@@ -165,7 +174,8 @@ void FlipnoteEditor::Update() {
         UpdateAnimation();
     }
 
-    ////Update all ui elements
+    ////Update all ui elements from top to bottom
+    UpdateFullscreenPopup();
     UpdatePopupMenu();
     m_editorbuttons->Update();
     UpdateTimeline();
@@ -174,26 +184,30 @@ void FlipnoteEditor::Update() {
     //Draw to the canvas if the user is drawing
     UpdateDraw();
 
-    //TODO : replace this bu UI buttons
     if(g_runstate->IsKeyPressed(SDLK_UP)) m_targetlayer++;
     if(g_runstate->IsKeyPressed(SDLK_DOWN)) m_targetlayer--;
+
+    if(g_runstate->IsKeyPressed(SDLK_ESCAPE)) {
+        HandleEscapeKey();
+    }
+
+    if(g_runstate->IsKeyDown(SDLK_LCTRL) && g_runstate->IsKeyPressed(SDLK_s)) {
+        Save();
+    }
 }
 
 void FlipnoteEditor::Render() {
     m_display->Render();
-    if(m_timeline != NULL) m_timeline->Render();
+    if(m_timeline != nullptr) m_timeline->Render();
     m_editorbuttons->Render();
-    if(m_popupmenu != NULL) m_popupmenu->Render();
+    if(m_popupmenu != nullptr) m_popupmenu->Render();
+    if(m_fullscreenpopup != nullptr) m_fullscreenpopup->Render();
     
     //TODO : replace this bu UI buttons
     //RenderText((std::string("current layer : ") + std::to_string(m_targetlayer)).c_str(), 50, 50, g_ressources->font_ubuntumedium24, {0, 255, 0, 255});
 
     if(g_runstate->IsKeyDown(SDLK_TAB)) {
         SDL_RenderTexture(g_runstate->renderer, CurrentFrame()->GetCachedTexture(), NULL, NULL);
-    }
-
-    if(g_runstate->IsKeyPressed(SDLK_ESCAPE)) {
-        HandleEscapeKey();
     }
 }
 
@@ -275,32 +289,56 @@ void FlipnoteEditor::SetBrushSize(int newsize) {
 
 
 void FlipnoteEditor::OpenPopupMenu(PopupMenu* popupmenu) {
-    if(m_popupmenu != NULL) delete m_popupmenu;
+    if(m_popupmenu != nullptr) delete m_popupmenu;
     m_popupmenu = popupmenu;
 }
 
 void FlipnoteEditor::ClosePopupMenu() {
-    if(m_popupmenu != NULL) {
+    if(m_popupmenu != nullptr) {
         delete m_popupmenu;
-        m_popupmenu = NULL;
+        m_popupmenu = nullptr;
     }
 }
 
 
 void FlipnoteEditor::OpenTimeline() {
-    if(m_timeline != NULL) delete m_timeline;
+    if(m_timeline != nullptr) delete m_timeline;
     m_timeline = new FlipnoteTimeline(this);
 }
 
 void FlipnoteEditor::CloseTimeline() {
-    if(m_timeline != NULL) {
+    if(m_timeline != nullptr) {
         delete m_timeline;
-        m_timeline = NULL;
+        m_timeline = nullptr;
     }
 }
 
 bool FlipnoteEditor::IsTimelineOpen() {
-    return (m_timeline != NULL);
+    return (m_timeline != nullptr);
+}
+
+
+void FlipnoteEditor::OpenFullscreenPopup(FullscreenPopup* popup) {
+    if(m_fullscreenpopup != nullptr) {  //there is already a fullscreen popup
+        m_fullscreenpopupneedreplacement = true;
+
+        //if there is already a future fullscreen popup then replace it by the new one
+        if(m_futurfullscreenpopup != nullptr) delete m_futurfullscreenpopup;
+        m_futurfullscreenpopup = popup;
+    }
+    else {
+        m_fullscreenpopup = popup;
+    }
+}
+
+void FlipnoteEditor::CloseFullscreenPopup() {
+    if(m_fullscreenpopup != nullptr) {
+        m_fullscreenpopupneeddeletion = true;
+    }
+}
+
+bool FlipnoteEditor::IsFullscreenPopupOpen() {
+    return (m_fullscreenpopup != nullptr);
 }
 
 
@@ -311,6 +349,24 @@ void FlipnoteEditor::SetParentState(State* state) {
 
 State* FlipnoteEditor::GetParentState() {
     return m_parentstate;
+}
+
+
+void FlipnoteEditor::SetFileName(std::string name) {
+    m_filename = name;
+}
+
+std::string FlipnoteEditor::GetFileName() {
+    return m_filename;
+}
+
+void FlipnoteEditor::Save() {
+    if(m_filename.empty()) {
+        OpenFullscreenPopup(new FilenamePopup(this));
+        return;
+    }
+
+    m_flipnote->Save(m_filename.c_str());
 }
 
 ///////////
@@ -389,7 +445,7 @@ void FlipnoteEditor::UpdateAnimation() {
 
 void FlipnoteEditor::UpdatePopupMenu() {
     //Check if there is a popup menu open
-    if(m_popupmenu == NULL) return;
+    if(m_popupmenu == nullptr) return;
  
     m_popupmenu->Update();
         
@@ -402,7 +458,7 @@ void FlipnoteEditor::UpdatePopupMenu() {
 
 void FlipnoteEditor::UpdateTimeline() {
     //Check if the timeline is open
-    if(m_timeline == NULL) return;
+    if(m_timeline == nullptr) return;
 
     m_timeline->Update();
 
@@ -413,7 +469,33 @@ void FlipnoteEditor::UpdateTimeline() {
     }
 }
 
+
+void FlipnoteEditor::UpdateFullscreenPopup() {
+    if(m_fullscreenpopup != nullptr) m_fullscreenpopup->Update();
+
+    //Most of the time, the fullscreenpopup close itself.
+    //That's why we need to fully update it before destroying or replacing it.
+    if(m_fullscreenpopupneeddeletion) {
+        m_fullscreenpopupneeddeletion = false;
+        delete m_fullscreenpopup;
+        m_fullscreenpopup = nullptr;
+    }
+
+    if(m_fullscreenpopupneedreplacement) {
+        m_fullscreenpopupneedreplacement = false;
+        delete m_fullscreenpopup;
+        m_fullscreenpopup = m_futurfullscreenpopup;
+        m_futurfullscreenpopup = nullptr;
+    }
+}
+
+
 void FlipnoteEditor::HandleEscapeKey() {
+    if(m_fullscreenpopup != nullptr) {
+        CloseFullscreenPopup();
+        return;
+    }
+
     if(m_popupmenu != nullptr) {    //popupmenu open
         ClosePopupMenu();
         return;

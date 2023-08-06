@@ -32,6 +32,7 @@ target_sources( Flipnote PRIVATE
     src/BaseUI/Editor/FlipnoteTimeline.cpp
     src/BaseUI/Editor/Menu/MenuAligner.cpp
     src/BaseUI/Editor/PenMenu/ColorButton.cpp
+    src/BaseUI/Editor/Popups/FilenamePopup.cpp
     src/BaseUI/Gallery/FlipnoteGallery.cpp
     src/BaseUI/Gallery/GalleryEntry.cpp
     

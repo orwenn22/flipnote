@@ -1,6 +1,8 @@
 #ifndef EDITORSTATE_H
 #define EDITORSTATE_H
 
+#include <string>
+
 #include "../../Reusable/State/State.h"
 
 class Background;
@@ -10,7 +12,7 @@ class TopBar;
 
 class EditorState : public State {
     public:
-    EditorState(Flipnote* flipnote = nullptr);
+    EditorState(Flipnote* flipnote = nullptr, std::string filename = "");
     ~EditorState();
 
     void Update();

@@ -25,8 +25,10 @@ FrogMenuButton::FrogMenuButton(
 
         pm->AddWidget(new MenuAligner(this, 0, -10));
         pm->AddWidget(new Label("Frog Menu", g_reusableressources->font_ubuntumedium24, *g_reusableressources->col_orange, 5, 5, WidgetAllign_None));
-        
-        pm->AddWidget(new CheckBox(5, 32, m_editor->GetDisplay()->GetShowPreviousFramePreviewPtr(), "Show previous frame"));
+
+        pm->AddWidget(new Label("Save", g_reusableressources->font_ubuntumedium16, *g_reusableressources->col_orange, 5, 32, WidgetAllign_None, [&]() { m_editor->Save(); }));
+
+        pm->AddWidget(new CheckBox(5, 52, m_editor->GetDisplay()->GetShowPreviousFramePreviewPtr(), "Show previous frame"));
 
         pm->AddWidget(new Label("Animation speed", g_reusableressources->font_ubuntumedium16, *g_reusableressources->col_orange, 5, 38, WidgetAllign_Bottom));
         pm->AddWidget(new SpeedSetting(m_editor->GetFlipnote(), 5, 5, WidgetAllign_Bottom));

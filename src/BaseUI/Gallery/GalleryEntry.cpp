@@ -39,7 +39,7 @@ GalleryEntry::GalleryEntry(FlipnoteGallery* gallery, int indexoffset, int x, int
             if(flipnote == nullptr) return;     //check for fail
 
             //Put it in a new state and replace the gallery by this state
-            m_gallery->ParrentState()->GetManager()->SetState(new EditorState(flipnote));
+            m_gallery->ParrentState()->GetManager()->SetState(new EditorState(flipnote, m_filepath));
         }
         else {
             printf("   -> no path :(\n");
