@@ -7,15 +7,19 @@
 #include "../FlipnoteEditor.h"
 
 
-FilenamePopup::FilenamePopup(FlipnoteEditor *editor) : FullscreenPopup(500, 500) {
+FilenamePopup::FilenamePopup(FlipnoteEditor *editor) : FullscreenPopup(370, 150) {
     m_editor = editor;
     m_userinput = RemoveExtension(RemovePath(editor->GetFileName()));
 
-    AddWidget(new TextField(&m_userinput, 20, 20, 300));
+    AddWidget(new Label("Enter file name", g_ressources->font_ubuntumedium16, *g_ressources->col_orange, 20, 10));
+
+    AddWidget(new TextField(&m_userinput, 20, 40, 300));
+    AddWidget(new Label(".fnt", g_ressources->font_ubuntumedium16, *g_ressources->col_orange, 325, 43));
+
     AddWidget(
             new Label(
                     "Save", g_ressources->font_ubuntumedium16, *g_ressources->col_orange,
-                    20, 50, WidgetAllign_None,
+                    30, 120, WidgetAllign_None,
                     [&]() {
                         if(m_userinput.empty()) return;
 
